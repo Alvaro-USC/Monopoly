@@ -74,13 +74,14 @@ public class Menu {
 
     // Método para iniciar una partida: crea los jugadores y avatares.
     private void iniciarPartida() {
-        if (jugadores.size() > 1){
-            partidaIniciada  = true;
-            System.out.println("Partida iniciada.");
-        } else {
+        if (jugadores.size() < 2) {
             System.out.println("Se necesitan como mínimo 2 jugadores para iniciar la partida.");
+        } else if (jugadores.size() > 4) {
+            System.out.println("Máximo 4 jugadores permitidos.");
+        } else {
+            partidaIniciada = true;
+            System.out.println("Partida iniciada.");
         }
-
     }
 
     /*Método que interpreta el comando introducido y toma la acción correspondiente.
@@ -93,6 +94,11 @@ public class Menu {
         if (comando.toLowerCase().startsWith("crear jugador") && partes.length == 4) {
             String nombre = partes[2];
             String tipoAvatar = partes[3];
+
+            if (jugadores.size() >= 4) {
+                System.out.println("Máximo 4 jugadores permitidos.");
+                return;
+            }
 
             boolean used = false;
             for (Jugador j : jugadores) {
@@ -158,6 +164,7 @@ public class Menu {
                 forcedV2 = Integer.parseInt(vals[1]);
             }
             lanzarDados(forced, forcedV1, forcedV2);
+            System.out.println(tablero.toString());
 
         } else if (comando.toLowerCase().startsWith("comprar ") && partes.length == 2) {
             if (partidaIniciada) comprar(partes[1]);
@@ -180,7 +187,7 @@ public class Menu {
             System.out.println("Comando no reconocido.");
             System.out.println("Comandos disponibles:\n\tcrear jugador <nombre> <avatar>");
             System.out.println("\tjugador\n\tlistar jugadores\n\tlistar avatares\n\tdescribir jugador <nombre>\n\tdescribir avatar <nombre>");
-            System.out.println("\tdescribir <nombre>\n\tlanzar dados\n\tcomprar <casilla>\n\tsalir carcel\n\tlistar enventa\n\tacabar turno\n\tver tablero");
+            System.out.println("\tdescribir <nombre>\n\tlanzar dados\n\tcomprar <casilla>\n\tsalir carcel\n\tlistar enventa\n\tacabar turno\n\tver tablero\n\tcomandos <comandos.txt>");
         }
     }
 
