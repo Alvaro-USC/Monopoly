@@ -1,0 +1,5 @@
+crear jugador mic Coche
+crear jugador mac Sombrero
+iniciar partida
+lanzar dados
+ver tablero
