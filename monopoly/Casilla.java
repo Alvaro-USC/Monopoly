@@ -99,6 +99,7 @@ public class Casilla {
                 }
                 if (actual.getFortuna() < toPay) {
                     solv = false;
+                    System.out.println("No tienes suficiente dinero. Debes hipotecar una propiedad o declararte en bancarrota.");
                 } else {
                     actual.sumarFortuna(-toPay);
                     duenho.sumarFortuna(toPay);
