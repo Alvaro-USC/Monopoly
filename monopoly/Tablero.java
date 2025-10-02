@@ -69,7 +69,7 @@ public class Tablero {
 
         Casilla parking = encontrar_casilla("Parking"); // Compartido con oeste
         if (parking == null) {
-            parking = new Casilla("Parking", "Especial", 21, this.banca);
+            parking = new Casilla(CasillaEspecial.PARKING, "Especial", 21, this.banca);
             parking.setValor(0f);
         }
         lado.add(parking);
@@ -117,7 +117,7 @@ public class Tablero {
         solar17.setImpuesto(240000f);
         lado.add(solar17);
 
-        Casilla irCarcel = new Casilla("IrCarcel", "Especial", 31, this.banca);
+        Casilla irCarcel = new Casilla(CasillaEspecial.IR_CARCEL, "Especial", 31, this.banca);
         lado.add(irCarcel);
     }
 
@@ -125,7 +125,7 @@ public class Tablero {
     private void insertarLadoSur() {
         ArrayList<Casilla> lado = this.posiciones.get(0);
 
-        Casilla carcel = new Casilla("Carcel", "Especial", 11, this.banca);
+        Casilla carcel = new Casilla(CasillaEspecial.CARCEL, "Especial", 11, this.banca);
         lado.add(carcel);
 
         Casilla solar5 = new Casilla("Solar5", "Solar", 10, 1200000f, this.banca);
@@ -167,7 +167,7 @@ public class Tablero {
         solar1.setImpuesto(20000f);
         lado.add(solar1);
 
-        Casilla salida = new Casilla("Salida", "Especial", 1, this.banca);
+        Casilla salida = new Casilla(CasillaEspecial.SALIDA, "Especial", 1, this.banca);
         lado.add(salida);
     }
 
