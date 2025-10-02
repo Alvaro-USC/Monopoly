@@ -34,7 +34,7 @@ public class Jugador {
      */
     public Jugador(String nombre, String tipoAvatar, ArrayList<Avatar> avCreados) {
         this.nombre = nombre;
-        this.fortuna = 1_500_000f; // Valor inicial según Parte 1
+        this.fortuna = 15_000_000f; // Valor inicial según Parte 1
         this.enCarcel = false;
         this.tiradasCarcel = 0;
         this.propiedades = new ArrayList<>();
