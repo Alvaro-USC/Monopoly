@@ -74,7 +74,3 @@ A continuación, se describe cada archivo del proyecto, su ubicación y qué hac
   - Constructor: Inicializa, muestra bienvenida, procesa archivo de comandos si proporcionado, o inicia modo interactivo con Scanner.
   - Métodos: `iniciarPartida`, `analizarComando` (procesa comandos como crear jugador, lanzar dados, etc.), `descJugador`, `descAvatar`, `descCasilla`, `lanzarDados` (maneja tiradas, movimientos, evaluaciones), `comprar`, `salirCarcel`, `listarVenta`, `listarJugadores`, `listarAvatares`, `acabarTurno`.
   - Uso: Gestiona la interacción con el usuario, comandos y estado del juego.
-
-### Notas finales
-- Este README.md se basa en el código actual. Para más detalles, consulta el PDF del proyecto.
-- Si necesitas agregar secciones como "Dependencias" o "Contribuciones", dímelo.
