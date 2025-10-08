@@ -180,7 +180,7 @@ public class Menu {
             else System.out.println("No se ha iniciado la partida. Use el comando: iniciar partida o lanzar dados");
         } else if (comando.equalsIgnoreCase("ver tablero")) {
             System.out.println(tablero.toString());
-        } else if (comando.toLowerCase().startsWith("comandos")) {
+        } else if (comando.toLowerCase().startsWith("comandos") &&  partes.length == 2) {
             ComandoArchivo comandoArchivo = new ComandoArchivo(this, partes[1]);
             comandoArchivo.procesarComandos();
         } else {
