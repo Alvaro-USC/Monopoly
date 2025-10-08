@@ -69,55 +69,54 @@ public class Tablero {
 
         Casilla parking = encontrar_casilla("Parking"); // Compartido con oeste
         if (parking == null) {
-            parking = new Casilla(CasillaEspecial.PARKING, "Especial", 21, this.banca);
-            parking.setValor(0f);
+            parking = new Parking(21, this.banca);
         }
         lado.add(parking);
 
-        Casilla solar12 = new Casilla("Solar12", "Solar", 22, 2200000f, this.banca);
+        Solar solar12 = new Solar("Solar12", 22, 2200000f, this.banca);
         solar12.setHipoteca(1100000f);
         solar12.setImpuesto(180000f);
         lado.add(solar12);
 
-        Casilla suerte2 = new Casilla("Suerte", "Suerte", 23, this.banca);
+        Suerte suerte2 = new Suerte(23, this.banca);
         lado.add(suerte2);
 
-        Casilla solar13 = new Casilla("Solar13", "Solar", 24, 2200000f, this.banca);
+        Solar solar13 = new Solar("Solar13", 24, 2200000f, this.banca);
         solar13.setHipoteca(1100000f);
         solar13.setImpuesto(180000f);
         lado.add(solar13);
 
-        Casilla solar14 = new Casilla("Solar14", "Solar", 25, 2400000f, this.banca);
+        Solar solar14 = new Solar("Solar14", 25, 2400000f, this.banca);
         solar14.setHipoteca(1200000f);
         solar14.setImpuesto(200000f);
         lado.add(solar14);
 
-        Casilla trans3 = new Casilla("Trans3", "Transporte", 26, Valor.VALOR_TRANSP_SERV, this.banca);
+        Transporte trans3 = new Transporte("Trans3", 26, Valor.VALOR_TRANSP_SERV, this.banca);
         trans3.setImpuesto(Valor.ALQUILER_TRANSP);
         trans3.setHipoteca(0f);
         lado.add(trans3);
 
-        Casilla solar15 = new Casilla("Solar15", "Solar", 27, 2600000f, this.banca);
+        Solar solar15 = new Solar("Solar15", 27, 2600000f, this.banca);
         solar15.setHipoteca(1300000f);
         solar15.setImpuesto(220000f);
         lado.add(solar15);
 
-        Casilla solar16 = new Casilla("Solar16", "Solar", 28, 2600000f, this.banca);
+        Solar solar16 = new Solar("Solar16", 28, 2600000f, this.banca);
         solar16.setHipoteca(1300000f);
         solar16.setImpuesto(220000f);
         lado.add(solar16);
 
-        Casilla serv2 = new Casilla("Serv2", "Servicios", 29, Valor.VALOR_TRANSP_SERV, this.banca);
+        Servicio serv2 = new Servicio("Serv2", 29, Valor.VALOR_TRANSP_SERV, this.banca);
         serv2.setHipoteca(0f);
         serv2.setImpuesto(0f);
         lado.add(serv2);
 
-        Casilla solar17 = new Casilla("Solar17", "Solar", 30, 2800000f, this.banca);
+        Solar solar17 = new Solar("Solar17", 30, 2800000f, this.banca);
         solar17.setHipoteca(1400000f);
         solar17.setImpuesto(240000f);
         lado.add(solar17);
 
-        Casilla irCarcel = new Casilla(CasillaEspecial.IR_CARCEL, "Especial", 31, this.banca);
+        IrCarcel irCarcel = new IrCarcel(31, this.banca);
         lado.add(irCarcel);
     }
 
@@ -125,49 +124,49 @@ public class Tablero {
     private void insertarLadoSur() {
         ArrayList<Casilla> lado = this.posiciones.get(0);
 
-        Casilla carcel = new Casilla(CasillaEspecial.CARCEL, "Especial", 11, this.banca);
+        Carcel carcel = new Carcel(11, this.banca);
         lado.add(carcel);
 
-        Casilla solar5 = new Casilla("Solar5", "Solar", 10, 1200000f, this.banca);
+        Solar solar5 = new Solar("Solar5", 10, 1200000f, this.banca);
         solar5.setHipoteca(600000f);
         solar5.setImpuesto(80000f);
         lado.add(solar5);
 
-        Casilla solar4 = new Casilla("Solar4", "Solar", 9, 1000000f, this.banca);
+        Solar solar4 = new Solar("Solar4", 9, 1000000f, this.banca);
         solar4.setHipoteca(500000f);
         solar4.setImpuesto(60000f);
         lado.add(solar4);
 
-        Casilla suerte1 = new Casilla("Suerte", "Suerte", 8, this.banca);
+        Suerte suerte1 = new Suerte(8, this.banca);
         lado.add(suerte1);
 
-        Casilla solar3 = new Casilla("Solar3", "Solar", 7, 1000000f, this.banca);
+        Solar solar3 = new Solar("Solar3", 7, 1000000f, this.banca);
         solar3.setHipoteca(500000f);
         solar3.setImpuesto(60000f);
         lado.add(solar3);
 
-        Casilla trans1 = new Casilla("Trans1", "Transporte", 6, Valor.VALOR_TRANSP_SERV, this.banca);
+        Transporte trans1 = new Transporte("Trans1", 6, Valor.VALOR_TRANSP_SERV, this.banca);
         trans1.setImpuesto(Valor.ALQUILER_TRANSP);
         trans1.setHipoteca(0f);
         lado.add(trans1);
 
-        Casilla imp1 = new Casilla("Imp1", "Impuesto", 5, Valor.IMPUESTO, this.banca);
+        Impuesto imp1 = new Impuesto("Imp1", 5, Valor.IMPUESTO, this.banca);
         lado.add(imp1);
 
-        Casilla solar2 = new Casilla("Solar2", "Solar", 4, 600000f, this.banca);
+        Solar solar2 = new Solar("Solar2", 4, 600000f, this.banca);
         solar2.setHipoteca(300000f);
         solar2.setImpuesto(40000f);
         lado.add(solar2);
 
-        Casilla caja1 = new Casilla("Caja", "CajaComunidad", 3, this.banca);
+        CajaComunidad caja1 = new CajaComunidad(3, this.banca);
         lado.add(caja1);
 
-        Casilla solar1 = new Casilla("Solar1", "Solar", 2, 600000f, this.banca);
+        Solar solar1 = new Solar("Solar1", 2, 600000f, this.banca);
         solar1.setHipoteca(300000f);
         solar1.setImpuesto(20000f);
         lado.add(solar1);
 
-        Casilla salida = new Casilla(CasillaEspecial.SALIDA, "Especial", 1, this.banca);
+        Salida salida = new Salida(1, this.banca);
         lado.add(salida);
     }
 
@@ -178,51 +177,50 @@ public class Tablero {
         Casilla carcel = encontrar_casilla("Carcel"); // Compartido
         lado.add(carcel);
 
-        Casilla solar6 = new Casilla("Solar6", "Solar", 12, 1400000f, this.banca);
+        Solar solar6 = new Solar("Solar6", 12, 1400000f, this.banca);
         solar6.setHipoteca(700000f);
         solar6.setImpuesto(100000f);
         lado.add(solar6);
 
-        Casilla serv1 = new Casilla("Serv1", "Servicios", 13, Valor.VALOR_TRANSP_SERV, this.banca);
+        Servicio serv1 = new Servicio("Serv1", 13, Valor.VALOR_TRANSP_SERV, this.banca);
         serv1.setHipoteca(0f);
         serv1.setImpuesto(0f);
         lado.add(serv1);
 
-        Casilla solar7 = new Casilla("Solar7", "Solar", 14, 1400000f, this.banca);
+        Solar solar7 = new Solar("Solar7", 14, 1400000f, this.banca);
         solar7.setHipoteca(700000f);
         solar7.setImpuesto(100000f);
         lado.add(solar7);
 
-        Casilla solar8 = new Casilla("Solar8", "Solar", 15, 1600000f, this.banca);
+        Solar solar8 = new Solar("Solar8", 15, 1600000f, this.banca);
         solar8.setHipoteca(800000f);
         solar8.setImpuesto(120000f);
         lado.add(solar8);
 
-        Casilla trans2 = new Casilla("Trans2", "Transporte", 16, Valor.VALOR_TRANSP_SERV, this.banca);
+        Transporte trans2 = new Transporte("Trans2", 16, Valor.VALOR_TRANSP_SERV, this.banca);
         trans2.setImpuesto(Valor.ALQUILER_TRANSP);
         trans2.setHipoteca(0f);
         lado.add(trans2);
 
-        Casilla solar9 = new Casilla("Solar9", "Solar", 17, 1800000f, this.banca);
+        Solar solar9 = new Solar("Solar9", 17, 1800000f, this.banca);
         solar9.setHipoteca(900000f);
         solar9.setImpuesto(140000f);
         lado.add(solar9);
 
-        Casilla caja2 = new Casilla("Caja", "CajaComunidad", 18, this.banca);
+        CajaComunidad caja2 = new CajaComunidad(18, this.banca);
         lado.add(caja2);
 
-        Casilla solar10 = new Casilla("Solar10", "Solar", 19, 1800000f, this.banca);
+        Solar solar10 = new Solar("Solar10", 19, 1800000f, this.banca);
         solar10.setHipoteca(900000f);
         solar10.setImpuesto(140000f);
         lado.add(solar10);
 
-        Casilla solar11 = new Casilla("Solar11", "Solar", 20, 2200000f, this.banca);
+        Solar solar11 = new Solar("Solar11", 20, 2200000f, this.banca);
         solar11.setHipoteca(1000000f);
         solar11.setImpuesto(160000f);
         lado.add(solar11);
 
-        Casilla parking = new Casilla("Parking", "Especial", 21, this.banca);
-        parking.setValor(0f);
+        Parking parking = new Parking(21, this.banca);
         lado.add(parking);
     }
 
@@ -233,41 +231,41 @@ public class Tablero {
         Casilla irCarcel = encontrar_casilla("IrCarcel"); // Compartido con norte
         lado.add(irCarcel);
 
-        Casilla solar18 = new Casilla("Solar18", "Solar", 32, 3000000f, this.banca);
+        Solar solar18 = new Solar("Solar18", 32, 3000000f, this.banca);
         solar18.setHipoteca(1500000f);
         solar18.setImpuesto(260000f);
         lado.add(solar18);
 
-        Casilla solar19 = new Casilla("Solar19", "Solar", 33, 3000000f, this.banca);
+        Solar solar19 = new Solar("Solar19", 33, 3000000f, this.banca);
         solar19.setHipoteca(1500000f);
         solar19.setImpuesto(260000f);
         lado.add(solar19);
 
-        Casilla caja3 = new Casilla("Caja", "CajaComunidad", 34, this.banca);
+        CajaComunidad caja3 = new CajaComunidad(34, this.banca);
         lado.add(caja3);
 
-        Casilla solar20 = new Casilla("Solar20", "Solar", 35, 3200000f, this.banca);
+        Solar solar20 = new Solar("Solar20", 35, 3200000f, this.banca);
         solar20.setHipoteca(1600000f);
         solar20.setImpuesto(280000f);
         lado.add(solar20);
 
-        Casilla trans4 = new Casilla("Trans4", "Transporte", 36, Valor.VALOR_TRANSP_SERV, this.banca);
+        Transporte trans4 = new Transporte("Trans4", 36, Valor.VALOR_TRANSP_SERV, this.banca);
         trans4.setImpuesto(Valor.ALQUILER_TRANSP);
         trans4.setHipoteca(0f);
         lado.add(trans4);
 
-        Casilla suerte3 = new Casilla("Suerte", "Suerte", 37, this.banca);
+        Suerte suerte3 = new Suerte(37, this.banca);
         lado.add(suerte3);
 
-        Casilla solar21 = new Casilla("Solar21", "Solar", 38, 3500000f, this.banca);
+        Solar solar21 = new Solar("Solar21", 38, 3500000f, this.banca);
         solar21.setHipoteca(1750000f);
         solar21.setImpuesto(350000f);
         lado.add(solar21);
 
-        Casilla imp2 = new Casilla("Imp2", "Impuesto", 39, Valor.IMPUESTO, this.banca);
+        Impuesto imp2 = new Impuesto("Imp2", 39, Valor.IMPUESTO, this.banca);
         lado.add(imp2);
 
-        Casilla solar22 = new Casilla("Solar22", "Solar", 40, 4000000f, this.banca);
+        Solar solar22 = new Solar("Solar22", 40, 4000000f, this.banca);
         solar22.setHipoteca(2000000f);
         solar22.setImpuesto(500000f);
         lado.add(solar22);
