@@ -126,7 +126,7 @@ public class Menu {
                         System.out.println("Error: No se encontró la casilla Salida.");
                     }
                 } else {
-                    System.out.println("No se creó el jugador. Avatar " + tipoAvatar + " no es válido. Use Coche, Esfinge, Sombrero o Pelota.");
+                    System.out.println("No se creó el jugador. Avatar " + tipoAvatar + " no es válido. Use Coche \uD83D\uDE97, Esfinge \uD83D\uDED5, Sombrero \uD83C\uDFA9 o Pelota ⚽.");
                 }
 
             } else {
