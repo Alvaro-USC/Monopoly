@@ -84,6 +84,52 @@ public class Menu {
         }
     }
 
+
+
+// Assuming this is inside a class, e.g., Monopoly or similar, with existing fields like ArrayList<Jugador> jugadores, ArrayList<Avatar> avatares, Tablero tablero, Jugador banca
+
+    // Add a Scanner if not already present
+    private Scanner scanner = new Scanner(System.in);
+
+    // New method to create player
+    private void crearJugador(String nombre, String tipoAvatar) {
+        if (jugadores.size() >= 4) {
+            System.out.println("Máximo 4 jugadores permitidos.");
+            return;
+        }
+
+        boolean used = false;
+        for (Jugador j : jugadores) {
+            if (j.getNombre().equals(nombre)) {
+                used = true;
+                break;
+            }
+        }
+
+        if (nombre.equalsIgnoreCase(banca.getNombre())) used = true;
+
+        if (!used) {
+            Jugador nuevoJugador = new Jugador(nombre, tipoAvatar, avatares);
+
+            if (nuevoJugador.getAvatar() != null) {
+                Casilla salida = tablero.encontrar_casilla("Salida");
+                if (salida != null) {
+                    nuevoJugador.getAvatar().setLugar(salida);
+                    salida.anhadirAvatar(nuevoJugador.getAvatar());
+                    jugadores.add(nuevoJugador);
+                    avatares.add(nuevoJugador.getAvatar());
+                    System.out.println("Jugador " + nombre + " creado con avatar " + tipoAvatar + " (ID: " + nuevoJugador.getAvatar().getId() + ").");
+                } else {
+                    System.out.println("Error: No se encontró la casilla Salida.");
+                }
+            } else {
+                System.out.println("No se creó el jugador. Avatar " + tipoAvatar + " no es válido. Use Coche \uD83D\uDE97, Esfinge \uD83D\uDED5, Sombrero \uD83C\uDFA9 o Pelota ⚽.");
+            }
+        } else {
+            System.out.println("Nombre ya usado.");
+        }
+    }
+
     /*Método que interpreta el comando introducido y toma la acción correspondiente.
      * Parámetro: cadena de caracteres (el comando).
      */
@@ -91,47 +137,16 @@ public class Menu {
         String[] partes = comando.split("\\s+");
         if (partes.length == 0) return;
 
-        if (comando.toLowerCase().startsWith("crear jugador") && partes.length == 4) {
+        if (comando.toLowerCase().startsWith("crear jugador") && partes.length == 2) {
+            System.out.println("Introduce el nombre del jugador:");
+            String nombre = scanner.nextLine().trim();
+            System.out.println("Introduce el tipo de avatar (Coche \uD83D\uDE97, Esfinge \uD83D\uDED5, Sombrero \uD83C\uDFA9 o Pelota ⚽):");
+            String tipoAvatar = scanner.nextLine().trim();
+            crearJugador(nombre, tipoAvatar);
+        } else if (comando.toLowerCase().startsWith("crear jugador") && partes.length == 4) {
             String nombre = partes[2];
             String tipoAvatar = partes[3];
-
-            if (jugadores.size() >= 4) {
-                System.out.println("Máximo 4 jugadores permitidos.");
-                return;
-            }
-
-            boolean used = false;
-            for (Jugador j : jugadores) {
-                if (j.getNombre().equals(nombre)) {
-                    used = true;
-                    break;
-                }
-            }
-
-            if (nombre.equalsIgnoreCase(banca.getNombre().toLowerCase())) used = true;
-
-            if (!used) {
-                Casilla inicio = tablero.encontrar_casilla("Salida");
-                Jugador nuevoJugador = new Jugador(nombre, tipoAvatar, avatares);
-
-                if (nuevoJugador.getAvatar() != null) {
-                    Casilla salida = tablero.encontrar_casilla("Salida");
-                    if (salida != null) {
-                        nuevoJugador.getAvatar().setLugar(salida);
-                        salida.anhadirAvatar(nuevoJugador.getAvatar());
-                        jugadores.add(nuevoJugador);
-                        avatares.add(nuevoJugador.getAvatar());
-                        System.out.println("Jugador " + nombre + " creado con avatar " + tipoAvatar + " (ID: " + nuevoJugador.getAvatar().getId() + ").");
-                    } else {
-                        System.out.println("Error: No se encontró la casilla Salida.");
-                    }
-                } else {
-                    System.out.println("No se creó el jugador. Avatar " + tipoAvatar + " no es válido. Use Coche \uD83D\uDE97, Esfinge \uD83D\uDED5, Sombrero \uD83C\uDFA9 o Pelota ⚽.");
-                }
-
-            } else {
-                System.out.println("Nombre ya usado.");
-            }
+            crearJugador(nombre, tipoAvatar);
         } else if (comando.equalsIgnoreCase("jugador")) {
             if (partidaIniciada) {
                 Jugador curr = jugadores.get(turno);
