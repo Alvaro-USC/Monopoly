@@ -84,14 +84,10 @@ public class Menu {
         }
     }
 
-
-
-// Assuming this is inside a class, e.g., Monopoly or similar, with existing fields like ArrayList<Jugador> jugadores, ArrayList<Avatar> avatares, Tablero tablero, Jugador banca
-
-    // Add a Scanner if not already present
+    // Añadir un Scanner
     private Scanner scanner = new Scanner(System.in);
 
-    // New method to create player
+    // Nuevo método para crear al jugador
     private void crearJugador(String nombre, String tipoAvatar) {
         if (jugadores.size() >= 4) {
             System.out.println("Máximo 4 jugadores permitidos.");
@@ -276,7 +272,8 @@ public class Menu {
             v2 = dado2.hacerTirada();
         }
         int tirada = v1 + v2;
-        String msg = "El avatar " + current.getAvatar().getId() + " avanza " + tirada + " posiciones, desde " + current.getAvatar().getLugar().getNombre();
+        String msg = "El avatar " + current.getAvatar().getId() + " avanza " + tirada + " (" + v1 + ", " + v2 + ") posiciones, desde " + current.getAvatar().getLugar().getNombre();
+        tirado = true;
 
         if (current.isEnCarcel()) {
             if (current.getTiradasCarcel() < 3) {
@@ -306,6 +303,7 @@ public class Menu {
                 }
             }
             acabarTurno();
+            return; // Así evitamos que se acabe turno dos veces
         } else {
             current.getAvatar().moverAvatar(tablero.getPosiciones(), tirada);
             String destino = current.getAvatar().getLugar().getNombre();
@@ -315,16 +313,18 @@ public class Menu {
             if (!solvente) {
                 System.out.println("El jugador no es solvente. Debes hipotecar o declarar bancarrota.");
                 acabarTurno();
+                return; // Así evitamos que se acabe turno dos veces
             } else if (destino.equalsIgnoreCase("Carcel")) { // Verificar si aterrizó en Cárcel
                 current.encarcelar(tablero.getPosiciones());
                 System.out.println("Has aterrizado en Carcel. Estás encarcelado.");
                 acabarTurno();
+                return; // Así evitamos que se acabe turno dos veces
             } else if (destino.equalsIgnoreCase("IrCarcel")) {
                 current.encarcelar(tablero.getPosiciones());
                 System.out.println("Has caído en IrCarcel. Vas directo a Carcel.");
                 acabarTurno();
+                return; // Así evitamos que se acabe turno dos veces
             }
-            tirado = true;
 
             if (v1 == v2) { // Incrementar lanzamientos solo si son dobles
                 lanzamientos++;
@@ -334,9 +334,11 @@ public class Menu {
                     System.out.println("Tres dobles, vas a la cárcel.");
                     lanzamientos = 0;
                     acabarTurno();
+                    return; // Así evitamos que se acabe turno dos veces
                 }
             } else if (solvente) {
                 acabarTurno(); // Cambiar turno si no hay dobles y es solvente
+                return; // Así evitamos que se acabe turno dos veces
             }
         }
     }
@@ -350,7 +352,7 @@ public class Menu {
         if (c != null && c.equals(current.getAvatar().getLugar())) {
             c.comprarCasilla(current, banca);
         } else {
-            System.out.println("No estás en esa casilla.");
+            System.out.println("No estás en la casilla " + nombre + " estás en " + current.getAvatar().getLugar().getNombre());
         }
     }
 

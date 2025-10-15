@@ -287,11 +287,8 @@ public class Tablero {
         for (Casilla c : posiciones.get(2)) {
             String rep = c.representacionColoreada();
             nChars = 0;
-
-            for (char z : rep.toCharArray()) {
-                nChars++;
-            }
-
+            String resultado = rep.replaceAll("\u001B\\[\\d+m", "");
+            nChars = resultado.length();
             if (contador == 0) {
                 for (int i = 0; i < 9 - nChars; i++) {
                     rep += " ";
@@ -320,9 +317,8 @@ public class Tablero {
 
             nChars = 0;
 
-            for (char z : leftRep.toCharArray()) {
-                nChars++;
-            }
+            String resultado = leftRep.replaceAll("\u001B\\[\\d+m", "");
+            nChars = resultado.length();
 
             if (nChars < 9) {
                 for (int j = 0; j < 9 - nChars; j++) {
@@ -331,15 +327,15 @@ public class Tablero {
             } else if (i < 7)
             {
                 if (!leftRep.contains("&")) leftRep += "   ";
+
             } else {
                 if (!leftRep.contains("&")) leftRep += "  ";
+
             }
 
 
-            nChars = 0;
-            for (char z : rightRep.toCharArray()) {
-                nChars++;
-            }
+            resultado = rightRep.replaceAll("\u001B\\[\\d+m", "");
+            nChars = resultado.length();
             if (nChars < 8)
             {
                 for (int j = 0; j < 8 - nChars; j++)
@@ -348,6 +344,7 @@ public class Tablero {
                 }
             } else {
                 if (!rightRep.contains("&")) rightRep += " ";
+
             }
 
             sb.append("┃").append(leftRep).append("┃").append("                                                                       ┃").append(rightRep).append("┃\n");
@@ -363,10 +360,8 @@ public class Tablero {
         contador = 0;
         for (Casilla c : posiciones.get(0)) {
             String rep = c.representacionColoreada();
-            nChars = 0;
-            for (char z : rep.toCharArray()) {
-                nChars++;
-            }
+            String resultado = rep.replaceAll("\u001B\\[\\d+m", "");
+            nChars = resultado.length();
 
             if (contador == 0) {
                 for (int i = 0; i < 9 - nChars; i++) {
