@@ -40,6 +40,8 @@ public class Menu {
             ComandoArchivo comandoArchivo = new ComandoArchivo(this, archivoComandos);
             comandoArchivo.procesarComandos();
         }
+
+        iniciarBucleComandos();
     }
     public Menu() {
         jugadores = new ArrayList<>();
@@ -56,7 +58,11 @@ public class Menu {
         // Mensaje de bienvenida
         System.out.println("Bienvenido a MonopolyETSE. Introduce un comando (ejemplo: 'crear jugador <nombre> <tipoAvatar>' o 'salir' para terminar).");
 
-        // Iniciar el bucle de comandos
+        iniciarBucleComandos();
+    }
+
+    // Método que contiene el bucle de comandos
+    private void iniciarBucleComandos() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             if (!jugadores.isEmpty() && partidaIniciada) {
@@ -71,6 +77,7 @@ public class Menu {
         }
         scanner.close(); // Cerrar el Scanner al salir
     }
+
 
     // Método para iniciar una partida: crea los jugadores y avatares.
     private void iniciarPartida() {
