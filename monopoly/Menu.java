@@ -2,6 +2,7 @@ package monopoly;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.text.Normalizer;
 import partida.*;
 
 public class Menu {
@@ -137,6 +138,7 @@ public class Menu {
      * Parámetro: cadena de caracteres (el comando).
      */
     public void analizarComando(String comando) {
+        comando = Normalizer.normalize(comando, Normalizer.Form.NFD).replaceAll("[\\p{InCombiningDiacriticalMarks}]+", "");
         String[] partes = comando.split("\\s+");
         if (partes.length == 0) return;
 
@@ -425,3 +427,4 @@ public class Menu {
     }
 
 }
+
