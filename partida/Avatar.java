@@ -71,7 +71,10 @@ public class Avatar {
         if (currentPos + valorTirada > 40) {
             this.jugador.sumarFortuna(Valor.SUMA_VUELTA);
             this.jugador.setVueltas(this.jugador.getVueltas() + 1);
+            // registrar en estadísticas globales
+            monopoly.StatsTracker.getInstance().registrarPasoSalida(this.jugador, Valor.SUMA_VUELTA);
         }
+
         Casilla newLugar = null;
         for (ArrayList<Casilla> lado : casillas) {
             for (Casilla c : lado) {

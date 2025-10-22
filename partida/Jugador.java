@@ -15,6 +15,7 @@ public class Jugador {
     private int tiradasCarcel; //Cuando está en la carcel, contará las tiradas sin éxito que ha hecho allí para intentar salir (se usa para limitar el numero de intentos).
     private int vueltas; //Cuenta las vueltas dadas al tablero.
     private ArrayList<Casilla> propiedades; //Propiedades que posee el jugador.
+    private PlayerStats estadisticas; // nuevas estadísticas por jugador
 
     //Constructor vacío. Se usará para crear la banca.
     public Jugador() {
@@ -25,6 +26,7 @@ public class Jugador {
         this.tiradasCarcel = 0;
         this.vueltas = 0;
         this.gastos = 0;
+        this.estadisticas = new PlayerStats();
     }
 
     /*Constructor principal. Requiere parámetros:
@@ -44,6 +46,7 @@ public class Jugador {
         } catch (IllegalArgumentException e) {
             this.avatar = null; // No se crea el jugador si el avatar no es válido
         }
+        this.estadisticas = new PlayerStats();
     }
 
     // Método para generar un ID único (ejemplo simple)
@@ -108,4 +111,5 @@ public class Jugador {
     public float getFortuna() { return fortuna; }
     public float getGastos() { return gastos; }
     public ArrayList<Casilla> getPropiedades() { return propiedades; }
+    public PlayerStats getEstadisticas() { return estadisticas; }
 }
