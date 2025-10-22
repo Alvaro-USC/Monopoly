@@ -19,7 +19,7 @@ public class Servicio extends Casilla {
             } else {
                 actual.sumarFortuna(-toPay);
                 getDuenho().sumarFortuna(toPay);
-                System.out.println("Se han pagado " + toPay + " € de alquiler.");
+                System.out.println("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");
             }
         }
         return solv;
@@ -33,7 +33,7 @@ public class Servicio extends Casilla {
                 banca.sumarFortuna(getValor());
                 setDuenho(solicitante);
                 solicitante.anhadirPropiedad(this);
-                System.out.println("El jugador " + solicitante.getNombre() + " compra la casilla " + getNombre() + " por " + getValor() + "€. Su fortuna actual es " + solicitante.getFortuna() + "€.");
+                System.out.println("El jugador " + solicitante.getNombre() + " compra la casilla " + getNombre() + " por " + Valor.formatear(getValor()) + "€. Su fortuna actual es " + Valor.formatear(solicitante.getFortuna()) + "€.");
             } else {
                 System.out.println("No tienes suficiente dinero para comprar esta casilla.");
             }
@@ -44,13 +44,13 @@ public class Servicio extends Casilla {
 
     @Override
     public String infoCasilla() {
-        String info = "{ \n tipo: " + getTipo() + ", \n propietario: " + getDuenho().getNombre() + ", \n valor: " + getValor() + "\n}";
+        String info = "{ \n tipo: " + getTipo() + ", \n propietario: " + getDuenho().getNombre() + ", \n valor: " + Valor.formatear(getValor()) + "\n}";
         return info;
     }
 
     @Override
     public String casEnVenta() {
-        return "{ \n tipo: " + getTipo() + ", \n valor: " + getValor() + "\n}";
+        return "{\n nombre: " + this.getNombre() +  "\n tipo: " + getTipo() + ", \n valor: " + Valor.formatear(getValor()) + "\n}";
     }
 
     @Override

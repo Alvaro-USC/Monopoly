@@ -90,4 +90,9 @@ class Grupo {
                 return Valor.RESET;
         }
     }
+
+    public ArrayList<Casilla> getMiembros()
+    {
+        return miembros;
+    }
 }

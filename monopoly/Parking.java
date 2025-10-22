@@ -14,7 +14,7 @@ public class Parking extends Casilla {
         float bote = getValor();
         actual.sumarFortuna(bote);
         setValor(0);
-        System.out.println("El jugador recibe " + bote + "€.");
+        System.out.println("El jugador recibe " + Valor.formatear(bote) + "€.");
         return true;
     }
 

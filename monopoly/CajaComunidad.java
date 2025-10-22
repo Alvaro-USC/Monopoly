@@ -13,6 +13,7 @@ public class CajaComunidad extends Casilla {
         return true;
     }
 
+
     @Override
     public void comprarCasilla(Jugador solicitante, Jugador banca) {
         System.out.println("Esta casilla no se puede comprar.");

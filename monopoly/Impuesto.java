@@ -18,7 +18,7 @@ public class Impuesto extends Casilla {
             actual.sumarFortuna(-toPay);
             Casilla parking = getTablero().encontrar_casilla("Parking");
             parking.sumarValor(toPay);
-            System.out.println("El jugador paga " + toPay + "€ que se depositan en el Parking.");
+            System.out.println("El jugador paga " + Valor.formatear(toPay) + "€ que se depositan en el Parking.");
         }
         return solv;
     }
@@ -30,7 +30,7 @@ public class Impuesto extends Casilla {
 
     @Override
     public String infoCasilla() {
-        String info = "{ \n tipo: " + getTipo() + ", \n apagar: " + getImpuesto() + "\n}";
+        String info = "{ \n tipo: " + getTipo() + ", \n apagar: " + Valor.formatear(getImpuesto()) + "\n}";
         return info;
     }
 
