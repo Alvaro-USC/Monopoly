@@ -21,7 +21,7 @@ public class Carcel extends Casilla {
     @Override
     public String infoCasilla() {
         String info = "{ \n tipo: " + getTipo();
-        info += ", \n salir: 500.000";
+        info += ", \n salir: 500.000"; // Cantidad a pagar para salir de la cárcel
         String jugs = "";
         for (Avatar a : getAvatares()) {
             jugs += "[" + a.getJugador().getNombre() + "," + a.getJugador().getTiradasCarcel() + "] ";
