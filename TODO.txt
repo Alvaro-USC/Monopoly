@@ -1,6 +1,3 @@
-hay que corregir el comando "listar edificios <color>" para que al final se añade un texto
-en el que se indique que el SolarN se pueden aún construir N unidades de X e Y.
-
 Arreglar lo de las estadísticas del jugador
 
 La hipoteca siempre es la mitad, en el Solar11 también, corregirlo
