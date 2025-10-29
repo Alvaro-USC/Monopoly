@@ -5,6 +5,10 @@ import java.util.Locale;
 
 public class Valor {
 
+    // la clase Valor es una clase de utilidad estática, un contenedor de datos, no se debe instanciar
+    private Valor() {
+        throw new IllegalStateException("Clase de utilidad. No instanciar.");
+    }
     private static final NumberFormat FORMATO_MILES;
 
     static {
