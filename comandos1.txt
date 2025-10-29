@@ -1,0 +1,56 @@
+crear jugador Ana Coche
+crear jugador Luis Sombrero
+iniciar partida
+lanzar dados 2+0
+comprar Solar1
+acabar turno
+lanzar dados 5+1
+comprar Solar3
+acabar turno
+# Forzar caer en Suerte: usa tirada que te lleve a la casilla de suerte (8 o 23 o 37 según tablero)
+lanzar dados 5+2
+acabar turno
+edificar piscina
+edificar casa
+lanzar dados 4+4
+acabar turno
+# Edificar
+comprar Solar5
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar hotel
+edificar hotel
+edificar hotel
+edificar hotel
+edificar piscina
+edificar piscina
+edificar pista_deporte
+edificar pista_deporte
+acabar turno
+lanzar dados 2+1
+edificar piscina
+acabar turno
+# Hipoteca
+#hipotecar Solar5
+#vender casa Solar5 10
+#hipotecar Solar5
+#deshipotecar Solar5
+# Estadísticas
+estadisticas
+estadisticas Ana
+listar jugadores
+listar edificios
+listar edificios azul
+describir jugador Ana
+describir Carcel
+describir Solar5
+vender piscina Solar5 10
+vender casa Solar5 2
+describir jugador Ana
