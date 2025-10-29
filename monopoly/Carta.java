@@ -40,9 +40,11 @@ public class Carta {
      */
     public void ejecutar(Jugador actual, Tablero tablero, ArrayList<Jugador> todosJugadores) {
         System.out.println("Carta: " + descripcion);
-        switch (accion) {
+        switch (accion)
+        {
             case MOVER_A:
-                if (cantidad < 0) {
+                if (cantidad < 0)
+                {
                     // movimiento relativo (retroceder)
                     int retroceso = (int) Math.abs(cantidad);
                     ArrayList<ArrayList<Casilla>> lados = tablero.getPosiciones();
@@ -59,7 +61,35 @@ public class Carta {
                     System.out.println("Retrocedes " + retroceso + " casillas hasta " + destinoRetro.getNombre() + ".");
                     StatsTracker.getInstance().registrarVisita(destinoRetro);
                     destinoRetro.evaluarCasilla(actual, tablero.getBanca(), 0);
+                } else if (cantidad > 40) { // TRUCO: Se está pasando en cantidad el valor de cobro de transporte, no una casilla de desplazamiento
+                    int movimiento = 1;
+                    ArrayList<ArrayList<Casilla>> lados = tablero.getPosiciones();
+                    ArrayList<Casilla> todas = new ArrayList<>();
+                    for (ArrayList<Casilla> lado : lados) todas.addAll(lado);
+
+                    Casilla actualCasilla = actual.getAvatar().getLugar();
+                    int posActual = todas.indexOf(actualCasilla);
+                    int posDestino = (posActual + movimiento + todas.size()) % todas.size();
+                    Casilla destinoMov = todas.get(posDestino);
+                    actual.getAvatar().setLugar(destinoMov);
+
+                    if (!destinoMov.getNombre().contains(destino)) {
+                        for (int i = 0; (i < todas.size()) && (!destinoMov.getNombre().contains("Trans")); i++) {
+                            actualCasilla = actual.getAvatar().getLugar();
+                            posActual = todas.indexOf(actualCasilla);
+                            posDestino = (posActual + movimiento + todas.size()) % todas.size();
+                            destinoMov = todas.get(posDestino);
+                            actual.getAvatar().setLugar(destinoMov);
+
+                        }
+                    }
+
+                    destinoMov.anhadirAvatar(actual.getAvatar());
+                    System.out.println("Te mueves " + destinoMov + " casillas hasta " + destinoMov.getNombre() + ".");
+                    StatsTracker.getInstance().registrarVisita(destinoMov);
+                    destinoMov.evaluarCasilla(actual, tablero.getBanca(), (int)cantidad);
                 } else {
+                    boolean pasoPorSalida = false;
                     // movimiento absoluto
                     Casilla destinoCasilla = tablero.encontrar_casilla(destino);
                     if (destinoCasilla == null) {
@@ -67,11 +97,23 @@ public class Carta {
                         return;
                     }
                     Casilla lugarAnterior = actual.getAvatar().getLugar();
-                    if (lugarAnterior != null) lugarAnterior.eliminarAvatar(actual.getAvatar());
+                    if (lugarAnterior != null) {
+                        if (lugarAnterior.getPosicion() > destinoCasilla.getPosicion()) {
+                            pasoPorSalida = true;
+                        }
+                        lugarAnterior.eliminarAvatar(actual.getAvatar());
+                    }
                     actual.getAvatar().setLugar(destinoCasilla);
                     destinoCasilla.anhadirAvatar(actual.getAvatar());
                     System.out.println("Avanzas hasta " + destinoCasilla.getNombre() + ".");
                     destinoCasilla.evaluarCasilla(actual, tablero.getBanca(), 0);
+                    if (pasoPorSalida && !destino.equalsIgnoreCase("Solar1"))
+                    {
+                        actual.sumarFortuna(Valor.SUMA_VUELTA);
+                        actual.setVueltas(actual.getVueltas() + 1);
+                        StatsTracker.getInstance().registrarPasoSalida(actual, Valor.SUMA_VUELTA);
+
+                    }
                     StatsTracker.getInstance().registrarVisita(destinoCasilla);
                 }
                 break;
