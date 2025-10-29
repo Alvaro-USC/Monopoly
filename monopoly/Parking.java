@@ -15,12 +15,13 @@ public class Parking extends Casilla {
         actual.sumarFortuna(bote);
         setValor(0);
         System.out.println("El jugador recibe " + Valor.formatear(bote) + "€.");
+        monopoly.StatsTracker.getInstance().registrarPremioBote(actual, bote);
         return true;
     }
 
     @Override
     public void comprarCasilla(Jugador solicitante, Jugador banca) {
-        System.out.println("Esta casilla no se puede comprar.");
+        System.out.println("Esta casilla no se puede comprar, es de " + getDuenho().getNombre());
     }
 
     @Override
@@ -42,16 +43,4 @@ public class Parking extends Casilla {
         return "";
     }
 
-    @Override
-    public String representacionColoreada() {
-        String rep = getNombre();
-        if (!getAvatares().isEmpty()) {
-            String avatars = "&";
-            for (Avatar a : getAvatares()) {
-                avatars += a.getId();
-            }
-            rep += avatars;
-        }
-        return rep;
-    }
 }

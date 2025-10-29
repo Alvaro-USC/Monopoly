@@ -30,6 +30,9 @@ public class Solar extends Casilla {
                 actual.sumarFortuna(-toPay);
                 getDuenho().sumarFortuna(toPay);
                 System.out.println("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");
+                StatsTracker.getInstance().registrarPagoAlquiler(actual, toPay);
+                StatsTracker.getInstance().registrarCobroAlquiler(getDuenho(), toPay);
+                StatsTracker.getInstance().registrarAlquiler(this, toPay);
             }
         }
         return solv;
@@ -121,27 +124,6 @@ public class Solar extends Casilla {
     public String casEnVenta() {
         String g = (getGrupo() != null ? " grupo: " + getGrupo().getColorGrupo() + "," : "");
         return "{\n nombre: " + this.getNombre() +  "\n tipo: " + getTipo() + "," + g + " \n valor: " + getValor() + "\n}";
-    }
-
-    @Override
-    public String representacionColoreada() {
-        String rep = getNombre();
-        String color = "";
-        if (getGrupo() != null) {
-            color = getGrupo().getAnsiColor();
-            rep = color + rep;
-        }
-        if (!getAvatares().isEmpty()) {
-            String avatars = "&";
-            for (Avatar a : getAvatares()) {
-                avatars += a.getId();
-            }
-            rep += color + avatars;
-        }
-        if (!color.isEmpty()) {
-            rep += Valor.RESET;
-        }
-        return rep;
     }
 
     public boolean isHipotecada() { return hipotecada; }

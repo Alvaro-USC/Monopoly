@@ -20,8 +20,11 @@ public class Servicio extends Casilla {
                 actual.sumarFortuna(-toPay);
                 getDuenho().sumarFortuna(toPay);
                 System.out.println("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");
+                StatsTracker.getInstance().registrarPagoAlquiler(actual, toPay);
+                StatsTracker.getInstance().registrarCobroAlquiler(getDuenho(), toPay);
+                StatsTracker.getInstance().registrarAlquiler(this, toPay);
             }
-        }
+        } else System.out.println("El dueño de esta casilla es " + getDuenho().getNombre() + ", se puede comprar.");
         return solv;
     }
 
@@ -51,18 +54,5 @@ public class Servicio extends Casilla {
     @Override
     public String casEnVenta() {
         return "{\n nombre: " + this.getNombre() +  "\n tipo: " + getTipo() + ", \n valor: " + Valor.formatear(getValor()) + "\n}";
-    }
-
-    @Override
-    public String representacionColoreada() {
-        String rep = getNombre();
-        if (!getAvatares().isEmpty()) {
-            String avatars = "&";
-            for (Avatar a : getAvatares()) {
-                avatars += a.getId();
-            }
-            rep += avatars;
-        }
-        return rep;
     }
 }

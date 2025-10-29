@@ -13,6 +13,9 @@ public class Transporte extends Casilla {
         boolean solv = true;
         if (!getDuenho().equals(banca) && !getDuenho().equals(actual)) {
             float toPay = getImpuesto();
+
+            if (tirada == Valor.ALQUILER_TRANSP * 2) toPay = tirada; // Usamos el arg tirada en Carta.java para enviar la cantidad a pagar en transporte
+
             if (actual.getFortuna() < toPay) {
                 solv = false;
                 System.out.println("No tienes suficiente dinero. Debes hipotecar una propiedad o declararte en bancarrota.");
@@ -20,8 +23,11 @@ public class Transporte extends Casilla {
                 actual.sumarFortuna(-toPay);
                 getDuenho().sumarFortuna(toPay);
                 System.out.println("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");
+                StatsTracker.getInstance().registrarPagoAlquiler(actual, toPay);
+                StatsTracker.getInstance().registrarCobroAlquiler(getDuenho(), toPay);
+                StatsTracker.getInstance().registrarAlquiler(this, toPay);
             }
-        }
+        } else System.out.println("El dueño de esta casilla de transporte es " + getDuenho().getNombre() + " se puede comprar.");
         return solv;
     }
 
@@ -38,7 +44,7 @@ public class Transporte extends Casilla {
                 System.out.println("No tienes suficiente dinero para comprar esta casilla.");
             }
         } else {
-            System.out.println("Esta casilla no se puede comprar.");
+            System.out.println("Esta casilla no se puede comprar, es de " + getDuenho().getNombre());
         }
     }
 
@@ -53,16 +59,4 @@ public class Transporte extends Casilla {
         return "{\n nombre: " + this.getNombre() +  "\n tipo: " + getTipo() + ", \n valor: " + Valor.formatear(getValor()) + "\n}";
     }
 
-    @Override
-    public String representacionColoreada() {
-        String rep = getNombre();
-        if (!getAvatares().isEmpty()) {
-            String avatars = "&";
-            for (Avatar a : getAvatares()) {
-                avatars += a.getId();
-            }
-            rep += avatars;
-        }
-        return rep;
-    }
 }

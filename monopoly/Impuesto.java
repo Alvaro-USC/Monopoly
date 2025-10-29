@@ -19,6 +19,7 @@ public class Impuesto extends Casilla {
             Casilla parking = getTablero().encontrar_casilla("Parking");
             parking.sumarValor(toPay);
             System.out.println("El jugador paga " + Valor.formatear(toPay) + "€ que se depositan en el Parking.");
+            monopoly.StatsTracker.getInstance().registrarPagoImpuesto(actual, toPay);
         }
         return solv;
     }
@@ -39,16 +40,4 @@ public class Impuesto extends Casilla {
         return "";
     }
 
-    @Override
-    public String representacionColoreada() {
-        String rep = getNombre();
-        if (!getAvatares().isEmpty()) {
-            String avatars = "&";
-            for (Avatar a : getAvatares()) {
-                avatars += a.getId();
-            }
-            rep += avatars;
-        }
-        return rep;
-    }
 }

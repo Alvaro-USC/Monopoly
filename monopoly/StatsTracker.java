@@ -106,7 +106,9 @@ public class StatsTracker {
         sb.append("  pagoTasasEImpuestos: ").append(Valor.formatear(s.getPagoTasasEImpuestos())).append(",\n");
         sb.append("  pagoDeAlquileres: ").append(Valor.formatear(s.getPagoDeAlquileres())).append(",\n");
         sb.append("  cobroDeAlquileres: ").append(Valor.formatear(s.getCobroDeAlquileres())).append(",\n");
-        sb.append("  pasarPorSalida: ").append(Valor.formatear(s.getPasarPorSalida())).append(",\n");
+        sb.append("  pasarPorSalida: ").append(Valor.formatear(s.getPasarPorSalida())).append(" (")
+                .append(Valor.formatear(s.getPasarPorSalida() / Valor.SUMA_VUELTA))
+                .append(" vuelta(s))").append(",\n");
         sb.append("  premiosBote: ").append(Valor.formatear(s.getPremiosBote())).append(",\n");
         sb.append("  vecesEnLaCarcel: ").append(Valor.formatear(s.getVecesEnLaCarcel())).append("\n");
         sb.append("}");

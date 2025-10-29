@@ -30,16 +30,4 @@ public class Suerte extends Casilla {
         return "";
     }
 
-    @Override
-    public String representacionColoreada() {
-        String rep = getNombre();
-        if (!getAvatares().isEmpty()) {
-            String avatars = "&";
-            for (Avatar a : getAvatares()) {
-                avatars += a.getId();
-            }
-            rep += avatars;
-        }
-        return rep;
-    }
 }
