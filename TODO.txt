@@ -7,3 +7,9 @@ En el enunciado se especifica:
 Por lo que no se le puede dejar lanzar dados, o acabar turno, hasta que no hipoteque y pague como debe.
 Habría como que bloquear los comandos que se pueden meter para que solo pueda hipotecar, e ir comprobando si a medida que hipoteca
 cuando llega a tener el mínimo necesario para hacer el pago que debe.
+
+Refactorizar Menu.java, hay que leer bien el Menu.java qué clases y funciones primogénitas nos dieron, porque esas no se pueden tocar.
+El resto sí, la idea es dejar en Menu.java esas esenciales puestas por los profesores, y crear una clase Comando.java que solo tenga
+la función ejecutar, y después, en una carpeta Comandos, metemos las clases que creamos para cada comando que implementamos en la forma
+de una clase cada una. Así aplicamos la POO, donde cada clase tiene una única responsabilidad, en vez de tener la God Class Menu.java de
+más de un millar de líneas.
