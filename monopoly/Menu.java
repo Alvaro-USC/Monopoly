@@ -154,12 +154,9 @@ public class Menu {
      */
     public void analizarComando(String comando) {
         comando = Normalizer.normalize(comando, Normalizer.Form.NFD).replaceAll("[\\p{InCombiningDiacriticalMarks}]+", "");
-        CmdsHistory.add(comando);
-        String[] partes = comando.split("\\s+");
 
-        if (partes.length == 0) return;
-
-        if (comando.equalsIgnoreCase("guardar cmd")) {
+        if (comando.equalsIgnoreCase("guardar cmds"))
+        {
             try {
                 // Abrir el archivo "comandos_.txt" en modo de sobreescritura (borra todo antes de escribir)
                 FileWriter writer = new FileWriter("comandos_.txt", false);
@@ -177,7 +174,10 @@ public class Menu {
                 System.out.println("Error al guardar los comandos: " + e.getMessage());
             }
         }
+        else CmdsHistory.add(comando);
+        String[] partes = comando.split("\\s+");
 
+        if (partes.length == 0) return;
 
         if (comando.toLowerCase().startsWith("crear jugador") && partes.length == 2) {
             System.out.println("Introduce el nombre del jugador:");
