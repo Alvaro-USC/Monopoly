@@ -1,11 +1,14 @@
-Arreglar lo de las estadísticas del jugador
+hay que corregir el comando "listar edificios <color>" para que al final se añade un texto
+en el que se indique que el SolarN se pueden aún construir N unidades de X e Y. 👍👌
 
-La hipoteca siempre es la mitad, en el Solar11 también, corregirlo
+Arreglar lo de las estadísticas del jugador👍👌
 
-Añadir la séptima carta, son 7 y no 6
+La hipoteca siempre es la mitad, en el Solar11 también, corregirlo👍👌
 
-En Cartas implementar lo de moverse a la primera ocurrencia de Transporte
+Añadir la séptima carta, son 7 y no 6👍👌
 
-Cuando estás en la casilla Suerte o Caja se imprime el avatar en todas las variantes de esas casilla, no en la que realmente estás
+En Cartas implementar lo de moverse a la primera ocurrencia de Transporte👍👌
 
-Las 5 primeras de la carta Suerte funcionan correctamente
+Cuando estás en la casilla Suerte o Caja se imprime el avatar en todas las variantes de esas casilla, no en la que realmente estás👍👌
+
+Las 5 primeras de la carta Suerte funcionan correctamente👍👌
