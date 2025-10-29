@@ -44,6 +44,8 @@ public class Solar extends Casilla {
                 setDuenho(solicitante);
                 solicitante.anhadirPropiedad(this);
                 System.out.println("El jugador " + solicitante.getNombre() + " compra la casilla " + getNombre() + " por " + Valor.formatear(getValor()) + "€. Su fortuna actual es " + Valor.formatear(solicitante.getFortuna()) + "€.");
+                StatsTracker.getInstance().asegurarJugador(solicitante);
+                StatsTracker.getInstance().byPlayer.get(solicitante.getNombre()).addDineroInvertido(getValor());
             } else {
                 System.out.println("No tienes suficiente dinero para comprar esta casilla.");
             }

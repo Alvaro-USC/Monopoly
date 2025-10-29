@@ -18,12 +18,15 @@ public class StatsTracker {
     private final Map<String, Float> rentCollected = new HashMap<>();
     // alquiler recolectado por grupo (color)
     private final Map<String, Float> rentByGroup = new HashMap<>();
-    // estadísticas por jugador (referencia por nombre)
-    private final Map<String, PlayerStats> byPlayer = new HashMap<>();
     // vueltas por jugador
     private final Map<String, Integer> laps = new HashMap<>();
+    private ArrayList<Jugador> jugadores = new ArrayList<>();
 
-    private StatsTracker() {}
+    // estadísticas por jugador (referencia por nombre)
+    public final Map<String, PlayerStats> byPlayer = new HashMap<>();
+
+    private StatsTracker() {
+    }
 
     public static StatsTracker getInstance() {
         if (instance == null) instance = new StatsTracker();
@@ -91,7 +94,10 @@ public class StatsTracker {
 
     // Reportes
 
-    public String reporteJugador(String nombre) {
+    public String reporteJugador(String nombre, ArrayList<Jugador> jugadores) {
+        for (Jugador j : jugadores) {
+            asegurarJugador(j);
+        }
         if (!byPlayer.containsKey(nombre)) return "No hay estadísticas para " + nombre;
         PlayerStats s = byPlayer.get(nombre);
         StringBuilder sb = new StringBuilder();

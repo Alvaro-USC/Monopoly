@@ -1,7 +1,8 @@
 package monopoly;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 import java.text.Normalizer;
 import java.util.stream.Collectors;
 import partida.*;
@@ -24,6 +25,7 @@ public class Menu {
     private MazoCartas mazoCaja;
     private StatsTracker stats;
 
+    private ArrayList<String> CmdsHistory = new ArrayList<>();
 
     public Menu(String archivoComandos) {
         jugadores = new ArrayList<>();
@@ -152,9 +154,30 @@ public class Menu {
      */
     public void analizarComando(String comando) {
         comando = Normalizer.normalize(comando, Normalizer.Form.NFD).replaceAll("[\\p{InCombiningDiacriticalMarks}]+", "");
+        CmdsHistory.add(comando);
         String[] partes = comando.split("\\s+");
 
         if (partes.length == 0) return;
+
+        if (comando.equalsIgnoreCase("guardar cmd")) {
+            try {
+                // Abrir el archivo "comandos_.txt" en modo de sobreescritura (borra todo antes de escribir)
+                FileWriter writer = new FileWriter("comandos_.txt", false);
+
+                // Iterar sobre el ArrayList CmdsHistory y escribir cada comando en una línea
+                for (String cmd : CmdsHistory) {
+                    writer.write(cmd + System.lineSeparator());
+                }
+
+                // Cerrar el writer
+                writer.close();
+
+                System.out.println("Comandos guardados correctamente en comandos_.txt");
+            } catch (IOException e) {
+                System.out.println("Error al guardar los comandos: " + e.getMessage());
+            }
+        }
+
 
         if (comando.toLowerCase().startsWith("crear jugador") && partes.length == 2) {
             System.out.println("Introduce el nombre del jugador:");
@@ -242,7 +265,7 @@ public class Menu {
             } else
             {
                 String nombre = parts[1];
-                System.out.println(stats.reporteJugador(nombre));
+                System.out.println(stats.reporteJugador(nombre, jugadores));
             }
         } else {
             System.out.println("Comando no reconocido.");
@@ -342,7 +365,7 @@ public class Menu {
     private void lanzarDados(boolean forced, int fv1, int fv2) {
         if (jugadores.isEmpty()) return;
         Jugador current = jugadores.get(turno);
-        if (tirado && !forced) {
+        if (tirado) {
             System.out.println("Ya has tirado este turno. Debes acabar el turno con 'acabar turno'");
             return;
         }
@@ -413,6 +436,7 @@ public class Menu {
             } else if (destino.equalsIgnoreCase("IrCarcel")) {
                 current.encarcelar(tablero.getPosiciones());
                 System.out.println("Has caído en IrCarcel. Vas directo a Carcel.");
+                StatsTracker.getInstance().registrarEncarcelamiento(current);
             }
 
             if (v1 == v2) { // Incrementar lanzamientos solo si son dobles
@@ -659,6 +683,9 @@ public class Menu {
         solar.addEdificio(nuevo);
         current.sumarFortuna(-coste);
         current.getEstadisticas().addDineroInvertido(coste);
+        StatsTracker.getInstance().asegurarJugador(current);
+        StatsTracker.getInstance().byPlayer.get(current.getNombre()).addDineroInvertido(coste);
+
 
         System.out.println("Se ha edificado un " + tipo + " en " + solar.getNombre() +
                 ". La fortuna de " + current.getNombre() + " se reduce en " + Valor.formatear(coste) + "€.");
@@ -669,7 +696,7 @@ public class Menu {
         Casilla c = tablero.encontrar_casilla(nombreCasilla);
 
         if (!(c instanceof Solar)) {
-            System.out.println("Solo se pueden hipotecar solares.");
+            System.out.println("Solo se pueden hipotecar Solares.");
             return;
         }
 
@@ -693,6 +720,7 @@ public class Menu {
         float cantidad = s.getValor() / 2;
         s.setHipotecada(true);
         current.sumarFortuna(cantidad);
+
 
         System.out.println("Se hipoteca " + nombreCasilla + " por " + Valor.formatear(cantidad) + "€.");
     }
@@ -768,6 +796,8 @@ public class Menu {
         float total = vender * precioVenta;
         s.eliminarEdificios(tipo, vender);
         current.sumarFortuna(total);
+        StatsTracker.getInstance().asegurarJugador(current);
+        StatsTracker.getInstance().byPlayer.get(current.getNombre()).addDineroInvertido(-total);
 
         System.out.println("Vendidas " + vender + " " + tipo + "(s) en " + nombreCasilla + " por " + Valor.formatear(total) + "€.");
     }
@@ -791,26 +821,29 @@ public class Menu {
                 if (filtrado && !grupo.equalsIgnoreCase(grupoFiltro)) continue;
 
                 encontrados = true;
-                // Recopilar edificios por tipo
-                java.util.List<String> casas = new ArrayList<>();
-                java.util.List<String> hoteles = new ArrayList<>();
-                java.util.List<String> piscinas = new ArrayList<>();
-                java.util.List<String> pistas = new ArrayList<>();
 
+                // Inicializamos el mapa con los tipos de edificio y contador 0
+                Map<String, Integer> contadorEdificios = new HashMap<>();
+                contadorEdificios.put("casa", 0);
+                contadorEdificios.put("hotel", 0);
+                contadorEdificios.put("piscina", 0);
+                contadorEdificios.put("pista_deporte", 0);
+
+                // Contamos los edificios existentes
                 for (Edificio e : s.getEdificios()) {
-                    switch (e.getTipo().toLowerCase()) {
-                        case "casa": casas.add(e.getId()); break;
-                        case "hotel": hoteles.add(e.getId()); break;
-                        case "piscina": piscinas.add(e.getId()); break;
-                        case "pista_deporte": pistas.add(e.getId()); break;
+                    String tipo = e.getTipo().toLowerCase();
+                    if (contadorEdificios.containsKey(tipo)) {
+                        contadorEdificios.put(tipo, contadorEdificios.get(tipo) + 1);
                     }
                 }
 
-                String casasTxt = casas.isEmpty() ? "-" : casas.toString();
-                String hotelesTxt = hoteles.isEmpty() ? "-" : hoteles.toString();
-                String piscinasTxt = piscinas.isEmpty() ? "-" : piscinas.toString();
-                String pistasTxt = pistas.isEmpty() ? "-" : pistas.toString();
+                // Generamos los textos (si el contador es 0 mostramos "-")
+                String casasTxt = contadorEdificios.get("casa") == 0 ? "-" : String.valueOf(contadorEdificios.get("casa"));
+                String hotelesTxt = contadorEdificios.get("hotel") == 0 ? "-" : String.valueOf(contadorEdificios.get("hotel"));
+                String piscinasTxt = contadorEdificios.get("piscina") == 0 ? "-" : String.valueOf(contadorEdificios.get("piscina"));
+                String pistasTxt = contadorEdificios.get("pista_deporte") == 0 ? "-" : String.valueOf(contadorEdificios.get("pista_deporte"));
 
+                // Mostrar la información del solar
                 System.out.println("{");
                 System.out.println("  propiedad: " + s.getNombre() + ",");
                 System.out.println("  hoteles: " + hotelesTxt + ",");
@@ -819,6 +852,33 @@ public class Menu {
                 System.out.println("  pista_deporte: " + pistasTxt + ",");
                 System.out.println("  alquiler: " + Valor.formatear(s.getImpuesto()));
                 System.out.println("}");
+
+                // Calcular y mostrar cuántos edificios faltan por construir
+                int casasFaltan = 4 - contadorEdificios.get("casa");
+                int hotelesFaltan = 1 - contadorEdificios.get("hotel");
+                int piscinasFaltan = 1 - contadorEdificios.get("piscina");
+                int pistasFaltan = 1 - contadorEdificios.get("pista_deporte");
+
+                StringBuilder faltan = new StringBuilder();
+
+                if (casasFaltan > 0)
+                    faltan.append(casasFaltan).append(" casa(s), ");
+                if (hotelesFaltan > 0)
+                    faltan.append(hotelesFaltan).append(" hotel(es), ");
+                if (piscinasFaltan > 0)
+                    faltan.append(piscinasFaltan).append(" piscina(s), ");
+                if (pistasFaltan > 0)
+                    faltan.append(pistasFaltan).append(" pista(s) de deporte, ");
+
+                // Si se añadió algo, eliminamos la última coma y espacio
+                if (faltan.length() > 0) {
+                    // Quita la coma y espacio final
+                    faltan.setLength(faltan.length() - 2);
+                    System.out.println("En el solar '" + s.getNombre() + "' faltan por construir: " + faltan);
+                } else {
+                    System.out.println("En el solar '" + s.getNombre() + "' no falta ningún edificio por construir.");
+                }
+
             }
         }
 
