@@ -123,5 +123,14 @@ public class Avatar {
     public TipoAvatar getTipo() { return tipo; }
     public Jugador getJugador() { return jugador; }
     public Casilla getLugar() { return lugar; }
-    public void setLugar(Casilla lugar) { this.lugar = lugar; }
+    public void setLugar(Casilla newLugar) {
+        Casilla casillaAntigua = this.lugar;
+        if (casillaAntigua != null) {
+            casillaAntigua.eliminarAvatar(this);
+        }
+        if (newLugar != null) {
+            newLugar.anhadirAvatar(this);
+        }
+        this.lugar = newLugar;
+    }
 }
