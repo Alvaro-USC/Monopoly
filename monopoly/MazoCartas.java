@@ -31,6 +31,9 @@ public class MazoCartas {
                 Carta.TipoAccion.MOVER_A, -3f, null)); // retroceder: movimiento negativo
         cartas.add(new Carta(6, "Te multan por usar el móvil mientras conduces. Paga 150.000€.",
                 Carta.TipoAccion.PAGAR, 150_000f, null));
+        cartas.add(new Carta(7, "Avanza hasta la casilla de transporte más cercana. Si no tiene dueño, puedes comprarla. Si tiene dueño,\n" +
+                "paga al dueño el doble de la operación indicada",
+                Carta.TipoAccion.MOVER_A, Valor.ALQUILER_TRANSP * 2, "Trans"));
     }
 
     private void crearMazoCaja() {
