@@ -13,3 +13,5 @@ El resto sí, la idea es dejar en Menu.java esas esenciales puestas por los prof
 la función ejecutar, y después, en una carpeta Comandos, metemos las clases que creamos para cada comando que implementamos en la forma
 de una clase cada una. Así aplicamos la POO, donde cada clase tiene una única responsabilidad, en vez de tener la God Class Menu.java de
 más de un millar de líneas.
+
+Cambiar el nombre inglés de muchos métodos y variables para que sea coherente con el resto del código.
