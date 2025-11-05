@@ -99,6 +99,13 @@ public class Jugador {
         carcel.anhadirAvatar(this.avatar);
     }
 
+    // Método para retornar todas las propiedades a la banca
+    public void declararBancarrota(Jugador banca) {
+        for (Casilla casilla : propiedades) {
+            casilla.setDuenho(banca);
+        }
+    }
+
     // Getters y setters adicionales
     public boolean isEnCarcel() { return enCarcel; }
     public void setEnCarcel(boolean enCarcel) { this.enCarcel = enCarcel; }

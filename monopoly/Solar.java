@@ -164,4 +164,15 @@ public class Solar extends Casilla {
     {
         return idSolar;
     }
+
+    public int getCantidadEdificioTipo(String tipo) {
+        int contador = 0;
+
+        for (Edificio edificio : edificios) {
+            if (edificio.getTipo().equals(tipo)) {
+                contador++;
+            }
+        }
+        return contador;
+    }
 }

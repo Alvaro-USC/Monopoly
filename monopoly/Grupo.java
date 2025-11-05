@@ -95,4 +95,71 @@ class Grupo {
     {
         return miembros;
     }
+
+    public String getDescripcionGrupo() {
+        String r = new String();
+
+        for (Casilla casilla : miembros) {
+            if (casilla instanceof Solar s) {
+                if (!s.getEdificios().isEmpty()) {
+                    r += "{\n";
+                    r += " propiedad: " + casilla.getNombre();
+                    r += "\n hoteles: ";
+                    if (s.getCantidadEdificioTipo("hotel") > 0) {
+                        for (Edificio edificio : s.getEdificios()) {
+                            if (edificio.getTipo().equals("hotel")) {
+                                r += "[ " + edificio.getId() + " ]";
+                            }
+                        }
+                    }
+                    else {
+                        r += "-";
+                    }
+
+                    r += "\n casas: ";
+                    if (s.getCantidadEdificioTipo("casa") > 0) {
+                        r += "[";
+                        for (Edificio edificio : s.getEdificios()) {
+                            if (edificio.getTipo().equals("casa")) {
+                                r += edificio.getId() + " ";
+                            }
+                        }
+                        r += "]";
+                    }
+                    else {
+                        r += "-";
+                    }
+
+                    r += "\n piscinas: ";
+                    if (s.getCantidadEdificioTipo("piscinas") > 0) {
+                        for (Edificio edificio : s.getEdificios()) {
+                            if (edificio.getTipo().equals("piscinas")) {
+                                r += "[ " + edificio.getId() + " ]";
+                            }
+                        }
+                    }
+                    else {
+                        r += "-";
+                    }
+
+                    r += "\n pistasDeDeporte: ";
+                    if (s.getCantidadEdificioTipo("pista_deporte") > 0) {
+                        for (Edificio edificio : s.getEdificios()) {
+                            if (edificio.getTipo().equals("pista_deporte")) {
+                                r += "[ " + edificio.getId() + " ]";
+                            }
+                        }
+                    }
+                    else {
+                        r += "-";
+                    }
+                    
+                    r += "\n alquiler: " + casilla.getValor() + casilla.getAlquileres() + "\n}";
+                }
+                r += "\n";
+            }
+        }
+
+        return r;
+    }
 }
