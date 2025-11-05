@@ -1,10 +1,13 @@
 package monopoly;
 
-import partida.*;
+import partida.Avatar;
+import partida.Jugador;
+
 import java.util.ArrayList;
 
-public class Casilla {
+public abstract class Casilla {
 
+    private final ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
     //Atributos:
     private String tipo; //Tipo de casilla (Solar, Especial, Transporte, Servicios, Comunidad, Suerte y Impuesto).
     private String nombre; //Nombre de la casilla
@@ -14,7 +17,6 @@ public class Casilla {
     private Grupo grupo; //Grupo al que pertenece la casilla (si es solar).
     private float impuesto; //Cantidad a pagar por caer en la casilla: el alquiler en solares/servicios/transportes o impuestos.
     private float hipoteca; //Valor otorgado por hipotecar una casilla
-    private ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
     private Tablero tablero; // Referencia al tablero
 
     //Constructores:
@@ -72,8 +74,27 @@ public class Casilla {
     }
 
     //Método utilizado para eliminar un avatar del array de avatares en casilla.
-    public void eliminarAvatar(Avatar av) {
-        avatares.remove(av);
+    public void eliminarAvatar(Avatar av) {avatares.remove(av);}
+
+    protected boolean procesarPago(Jugador actual, float toPay) {
+        boolean solv = true; // Asumimos solvencia inicial
+
+        if (actual.getFortuna() < toPay) {
+            solv = false;
+            System.out.println("No tienes suficiente dinero. Debes hipotecar una propiedad o declararte en bancarrota.\nVas a estar en negativo.");
+        }
+
+        actual.sumarFortuna(-toPay);
+        getDuenho().sumarFortuna(toPay);
+
+        System.out.println("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");
+
+        // 'this' se refiere a la instancia de la subclase (Solar, Transporte, etc.)
+        StatsTracker.getInstance().registrarPagoAlquiler(actual, toPay);
+        StatsTracker.getInstance().registrarCobroAlquiler(getDuenho(), toPay);
+        StatsTracker.getInstance().registrarAlquiler(this, toPay);
+
+        return solv;
     }
 
     /*Método para evaluar qué hacer en una casilla concreta. Parámetros:
@@ -82,92 +103,12 @@ public class Casilla {
      * - El valor de la tirada: para determinar impuesto a pagar en casillas de servicios.
      * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
      * en caso de no cumplirlas.*/
-    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
-        boolean solv = true;
-        if (tipo.equals("Solar") || tipo.equals("Transporte") || tipo.equals("Servicios")) {
-            if (!duenho.equals(banca) && !duenho.equals(actual)) {
-                float toPay = 0;
-                if (tipo.equals("Solar")) {
-                    toPay = impuesto;
-                    if (grupo != null && grupo.esDuenhoGrupo(this.duenho)) {
-                        toPay *= 2;
-                    }
-                } else if (tipo.equals("Transporte")) {
-                    toPay = impuesto; // En parte 1, alquiler fijo
-                } else if (tipo.equals("Servicios")) {
-                    toPay = 4 * tirada * Valor.FACTOR_SERVICIO; // En parte 1, siempre x4
-                }
-                if (actual.getFortuna() < toPay) {
-                    solv = false;
-                    System.out.println("No tienes suficiente dinero. Debes hipotecar una propiedad o declararte en bancarrota.");
-                } else {
-                    actual.sumarFortuna(-toPay);
-                    duenho.sumarFortuna(toPay);
-                    System.out.println("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");
-                    // estadísticas
-                    monopoly.StatsTracker st = monopoly.StatsTracker.getInstance();
-                    st.registrarVisita(this);
-                    st.registrarAlquiler(this, toPay);
-                    st.registrarPagoAlquiler(actual, toPay);
-                    st.registrarCobroAlquiler(duenho, toPay);
-                }
-            }
-        } else if (tipo.equals("Impuesto")) {
-            float toPay = impuesto;
-            if (actual.getFortuna() < toPay) {
-                solv = false;
-            } else {
-                actual.sumarFortuna(-toPay);
-                Casilla parking = tablero.encontrar_casilla("Parking");
-                parking.sumarValor(toPay);
-                System.out.println("El jugador paga " + Valor.formatear(toPay) + "€ que se depositan en el Parking.");
-                monopoly.StatsTracker.getInstance().registrarPagoImpuesto(actual, toPay);
-            }
-        } else if (tipo.equals("Especial")) {
-            if (nombre.equals("Parking")) {
-                float bote = valor;
-                actual.sumarFortuna(bote);
-                valor = 0;
-                System.out.println("El jugador recibe " + Valor.formatear(bote) + "€.");
-                monopoly.StatsTracker.getInstance().registrarPremioBote(actual, bote);
-            } else if (nombre.equals("IrCarcel")) {
-                Casilla carcel = tablero.encontrar_casilla("Carcel");
-                if (carcel == null) {
-                    System.out.println("Error: No se encontró la casilla Carcel.");
-                } else {
-                    Casilla lugarAnterior = actual.getAvatar().getLugar(); // Guardar la casilla anterior
-                    if (lugarAnterior != null) {
-                        lugarAnterior.eliminarAvatar(actual.getAvatar()); // Eliminar de la casilla anterior
-                    }
-                    actual.getAvatar().setLugar(carcel);
-                    carcel.anhadirAvatar(actual.getAvatar());
-                    actual.setEnCarcel(true);
-                    actual.setTiradasCarcel(0);
-                    System.out.println("El avatar se coloca en la casilla de Carcel.");
-                }
-            }
-        } // Suerte y Comunidad sin acción en parte 1
-        return solv;
-    }
+    public abstract boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada);
 
     /*Método usado para comprar una casilla determinada. Parámetros:
      * - Jugador que solicita la compra de la casilla.
      * - Banca del monopoly (es el dueño de las casillas no compradas aún).*/
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {
-        if (duenho.equals(banca) && (tipo.equals("Solar") || tipo.equals("Transporte") || tipo.equals("Servicios"))) {
-            if (solicitante.getFortuna() >= valor) {
-                solicitante.sumarFortuna(-valor);
-                banca.sumarFortuna(valor);
-                duenho = solicitante;
-                solicitante.anhadirPropiedad(this);
-                System.out.println("El jugador " + solicitante.getNombre() + " compra la casilla " + nombre + " por " + Valor.formatear(valor) + "€. Su fortuna actual es " + Valor.formatear(solicitante.getFortuna()) + "€.");
-            } else {
-                System.out.println("No tienes suficiente dinero para comprar esta casilla.");
-            }
-        } else {
-            System.out.println("Esta casilla no se puede comprar.");
-        }
-    }
+    public abstract void comprarCasilla(Jugador solicitante, Jugador banca);
 
     /*Método para añadir valor a una casilla. Utilidad:
      * - Sumar valor a la casilla de parking.
@@ -177,36 +118,33 @@ public class Casilla {
         this.valor += suma;
     }
 
-    // Nuevo método para establecer el valor directamente
-    public void setValor(float valor) {
-        this.valor = valor;
-    }
-
     /*Método para mostrar información sobre una casilla.
      * Devuelve una cadena con información específica de cada tipo de casilla.*/
     public String infoCasilla() {
         String info = "{ \n tipo: " + tipo;
-        if (tipo.equals("Solar")) {
-            info += ", \n grupo: " + (grupo != null ? grupo.getColorGrupo() : "") + ", \n propietario: " + duenho.getNombre() + ", \n valor: " + Valor.formatear(valor) + ", \n alquiler: " + Valor.formatear(impuesto);
+        switch (tipo) {
+            case "Solar" ->
+                    info += ", \n grupo: " + (grupo != null ? grupo.getColorGrupo() : "") + ", \n propietario: " + duenho.getNombre() + ", \n valor: " + Valor.formatear(valor) + ", \n alquiler: " + Valor.formatear(impuesto);
+
             // Añadir valores de edificios en futuras partes
-        } else if (tipo.equals("Impuesto")) {
-            info += ", \n apagar: " + Valor.formatear(impuesto);
-        } else if (tipo.equals("Especial")) {
-            if (nombre.equals("Parking")) {
-                info += ", \n bote: " + Valor.formatear(valor);
-                String jugs = "";
-                for (Avatar a : avatares) {
-                    jugs += a.getJugador().getNombre() + ", ";
+            case "Impuesto" -> info += ", \n apagar: " + Valor.formatear(impuesto);
+            case "Especial" -> {
+                if (nombre.equals("Parking")) {
+                    info += ", \n bote: " + Valor.formatear(valor);
+                    StringBuilder jugs = new StringBuilder();
+                    for (Avatar a : avatares) {
+                        jugs.append(a.getJugador().getNombre()).append(", ");
+                    }
+                    if (jugs.toString().endsWith(", ")) jugs = new StringBuilder(jugs.substring(0, jugs.length() - 2));
+                    info += ", \n jugadores: [" + jugs + "]";
+                } else if (nombre.equals("Carcel")) {
+                    info += ", \n salir: 500.000";
+                    StringBuilder jugs = new StringBuilder();
+                    for (Avatar a : avatares) {
+                        jugs.append("[").append(a.getJugador().getNombre()).append(",").append(a.getJugador().getTiradasCarcel()).append("] ");
+                    }
+                    info += ", \n jugadores: " + jugs;
                 }
-                if (jugs.endsWith(", ")) jugs = jugs.substring(0, jugs.length() - 2);
-                info += ", \n jugadores: [" + jugs + "]";
-            } else if (nombre.equals("Carcel")) {
-                info += ", \n salir: 500.000";
-                String jugs = "";
-                for (Avatar a : avatares) {
-                    jugs += "[" + a.getJugador().getNombre() + "," + a.getJugador().getTiradasCarcel() + "] ";
-                }
-                info += ", \n jugadores: " + jugs;
             }
         }
         info += "\n}";
@@ -229,12 +167,7 @@ public class Casilla {
             String g = "";
             String colorGr = (grupo != null ? grupo.getColorGrupo() : "");
 
-            if (!colorGr.equals(grupoBuscado))
-            {
-                g = "";
-            }
-            else
-            {
+            if (colorGr.equals(grupoBuscado)) {
                 g += (grupo != null ? " \ngrupo: " + colorGr : "");
                 return "{ \n nombre: " + this.getNombre() + "\n tipo: " + tipo + "," + g + " \n valor: " + Valor.formatear(valor) + "\n}";
             }
@@ -243,7 +176,6 @@ public class Casilla {
     }
 
     public String representacionColoreada() {
-        int WIDTH = 9;
         String rep = nombre;
         String color = ""; // Color por defecto (sin color)
         // Aplicar color si es un solar y tiene grupo
@@ -252,9 +184,9 @@ public class Casilla {
             rep = color + rep; // + Valor.RESET;
         }
         if (!avatares.isEmpty()) {
-            String avatars = "&";
+            StringBuilder avatars = new StringBuilder("&");
             for (Avatar a : avatares) {
-                avatars += a.getId();
+                avatars.append(a.getId());
             }
             rep += color + avatars;
         }
@@ -267,20 +199,39 @@ public class Casilla {
     }
 
     // Getters y setters adicionales
-    public String getNombre() { return nombre; }
-    public String getTipo() { return tipo; }
-    public float getValor() { return valor; }
-    public int getPosicion() { return posicion; }
-    public Jugador getDuenho() { return duenho; }
-    public void setDuenho(Jugador duenho) { this.duenho = duenho; }
-    public Grupo getGrupo() { return grupo; }
-    public void setGrupo(Grupo grupo) { this.grupo = grupo; }
-    public float getImpuesto() { return impuesto; }
-    public void setImpuesto(float impuesto) { this.impuesto = impuesto; }
-    public float getHipoteca() { return hipoteca; }
-    public void setHipoteca(float hipoteca) { this.hipoteca = hipoteca; }
-    public ArrayList<Avatar> getAvatares() { return avatares; }
-    public Tablero getTablero() { return tablero; }
-    public void setTablero(Tablero tablero) { this.tablero = tablero; }
+    public String getNombre() {return nombre;}
+
+    public String getTipo() {return tipo;}
+
+    public float getValor() {return valor;}
+
+    // Nuevo método para establecer el valor directamente
+    public void setValor(float valor) {
+        this.valor = valor;
+    }
+
+    public int getPosicion() {return posicion;}
+
+    public Jugador getDuenho() {return duenho;}
+
+    public void setDuenho(Jugador duenho) {this.duenho = duenho;}
+
+    public Grupo getGrupo() {return grupo;}
+
+    public void setGrupo(Grupo grupo) {this.grupo = grupo;}
+
+    public float getImpuesto() {return impuesto;}
+
+    public void setImpuesto(float impuesto) {this.impuesto = impuesto;}
+
+    public float getHipoteca() {return hipoteca;}
+
+    public void setHipoteca(float hipoteca) {this.hipoteca = hipoteca;}
+
+    public ArrayList<Avatar> getAvatares() {return avatares;}
+
+    public Tablero getTablero() {return tablero;}
+
+    public void setTablero(Tablero tablero) {this.tablero = tablero;}
 }
 
