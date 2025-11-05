@@ -1,25 +1,19 @@
 package partida;
 
-import monopoly.*;
+import monopoly.Casilla;
+import monopoly.Valor;
 
 import java.util.ArrayList;
 
 public class Avatar {
     // Enumeración de avatares válidos
     public enum TipoAvatar {
-        COCHE("Coche"),
-        ESFINGE("Esfinge"),
-        SOMBRERO("Sombrero"),
-        PELOTA("Pelota");
+        COCHE("Coche"), ESFINGE("Esfinge"), SOMBRERO("Sombrero"), PELOTA("Pelota");
 
         private final String nombre;
 
         TipoAvatar(String nombre) {
             this.nombre = nombre;
-        }
-
-        public String getNombre() {
-            return nombre;
         }
 
         // Método para obtener TipoAvatar a partir del nombre
@@ -31,16 +25,18 @@ public class Avatar {
             }
             return null;
         }
+
+        public String getNombre() {
+            return nombre;
+        }
     }
     //Atributos
     private String id; //Identificador: una letra generada aleatoriamente.
     private TipoAvatar tipo; //Sombrero, Esfinge, Pelota, Coche
     private Jugador jugador; //Un jugador al que pertenece ese avatar.
     private Casilla lugar; //Los avatares se sitúan en casillas del tablero.
-
     //Constructor vacío
-    public Avatar() {
-    }
+    public Avatar() {}
 
     /*Constructor principal. Requiere éstos parámetros:
      * Tipo del avatar, jugador al que pertenece, lugar en el que estará ubicado, y un arraylist con los
@@ -118,11 +114,34 @@ public class Avatar {
         this.id = candidate;
     }
 
+    public String getDescripcionDetallada() {
+
+        // Determinar el nombre de la casilla (manejando el caso nulo/Salida)
+        String casillaActual;
+        if (this.lugar == null) {
+            casillaActual = "Salida";
+        } else {
+            casillaActual = this.lugar.getNombre();
+        }
+
+        // Obtener el nombre del tipo (del Enum)
+        String tipoAvatarStr = this.tipo.getNombre();
+
+        // Obtener el nombre del jugador
+        String nombreJugador = this.jugador.getNombre();
+
+        return "{\n" + "  id: " + this.id + ",\n" + "  tipo: " + tipoAvatarStr + ",\n" + "  jugador: " + nombreJugador + ",\n" + "  casilla: " + casillaActual + "\n" + "}";
+    }
+
     // Getters
-    public String getId() { return id; }
-    public TipoAvatar getTipo() { return tipo; }
-    public Jugador getJugador() { return jugador; }
-    public Casilla getLugar() { return lugar; }
+    public String getId() {return id;}
+
+    public TipoAvatar getTipo() {return tipo;}
+
+    public Jugador getJugador() {return jugador;}
+
+    public Casilla getLugar() {return lugar;}
+
     public void setLugar(Casilla newLugar) {
         Casilla casillaAntigua = this.lugar;
         if (casillaAntigua != null) {
