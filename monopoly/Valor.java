@@ -3,11 +3,12 @@ package monopoly;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class Valor {
+public final class Valor {
 
     // la clase Valor es una clase de utilidad estática, un contenedor de datos, no se debe instanciar
+    // ES UN SINGLETON
     private Valor() {
-        throw new IllegalStateException("Clase de utilidad. No instanciar.");
+        throw new IllegalStateException("Singleton. Clase de utilidad. No instanciar.");
     }
     private static final NumberFormat FORMATO_MILES;
 
@@ -93,7 +94,7 @@ public class Valor {
     };
 
     // Columna: [0=casa, 1=hotel, 2=piscina, 3=pistaDeporte]
-    // La suma del alquiler del solar es ALQUILER_BASE + (suma de estos valores por edificio) [cite: 54]
+    // La suma del alquiler del solar es ALQUILER_BASE + (suma de estos valores por edificio)
     public static final float[][] ALQUILER_EDIFICIOS = {
             {400_000f, 2_500_000f, 500_000f, 500_000f}, // Solar1
             {800_000f, 4_500_000f, 900_000f, 900_000f}, // Solar2
