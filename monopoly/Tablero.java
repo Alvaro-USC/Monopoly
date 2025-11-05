@@ -1,16 +1,15 @@
 package monopoly;
 
-import partida.*;
+import partida.Jugador;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Tablero {
     // Atributos.
-    private ArrayList<ArrayList<Casilla>> posiciones; // Posiciones del tablero: se define como un arraylist de arraylists de casillas (uno por cada lado del tablero).
-    private HashMap<String, Grupo> grupos; // Grupos del tablero, almacenados como un HashMap con clave String (será el nombre del grupo como "marron").
-    private Jugador banca; // Un jugador que será la banca.
+    private final ArrayList<ArrayList<Casilla>> posiciones; // Posiciones del tablero: se define como un arraylist de arraylists de casillas (uno por cada lado del tablero).
+    private final HashMap<String, Grupo> grupos; // Grupos del tablero, almacenados como un HashMap con clave String (será el nombre del grupo como "marron").
+    private final Jugador banca; // Un jugador que será la banca.
 
     // Constructor: únicamente le pasamos el jugador banca (que se creará desde el menú).
     public Tablero(Jugador banca) {
@@ -23,21 +22,92 @@ public class Tablero {
         this.generarCasillas();
     }
 
-    // Método para crear todas las casillas del tablero. Formado a su vez por cuatro métodos (1/lado).
     private void generarCasillas() {
-        this.insertarLadoSur();
-        this.insertarLadoOeste();
-        this.insertarLadoNorte();
-        this.insertarLadoEste();
+        // Obtener las listas de los lados (para legibilidad) ---
+        ArrayList<Casilla> ladoSur = this.posiciones.get(0);
+        ArrayList<Casilla> ladoOeste = this.posiciones.get(1);
+        ArrayList<Casilla> ladoNorte = this.posiciones.get(2);
+        ArrayList<Casilla> ladoEste = this.posiciones.get(3);
 
-        // Asignar tableros a casillas
+        // Crear las 4 esquinas primero (rompe dependencias)
+        Casilla salida = new Salida(1, this.banca);
+        Casilla carcel = new Carcel(11, this.banca);
+        Casilla parking = new Parking(21, this.banca);
+        Casilla irCarcel = new IrCarcel(31, this.banca);
+
+        // Poblar LADO SUR (Pos 11 a 1, Solares 0-4)
+        // Se añaden en orden inverso para que 'Salida' sea la última (índice 10)
+        ladoSur.add(carcel); // 11
+        ladoSur.add(new Solar("Solar5", 10, Valor.PRECIO_SOLAR[4], this.banca, Valor.HIPOTECA_SOLAR[4], Valor.ALQUILER_BASE[4]));
+        ladoSur.add(new Solar("Solar4", 9, Valor.PRECIO_SOLAR[3], this.banca, Valor.HIPOTECA_SOLAR[3], Valor.ALQUILER_BASE[3]));
+        ladoSur.add(new Suerte(8, this.banca));
+        ladoSur.add(new Solar("Solar3", 7, Valor.PRECIO_SOLAR[2], this.banca, Valor.HIPOTECA_SOLAR[2], Valor.ALQUILER_BASE[2]));
+        ladoSur.add(new Transporte("Trans1", 6, Valor.VALOR_TRANSP_SERV, this.banca));
+        ladoSur.add(new Impuesto("Imp1", 5, Valor.IMPUESTO, this.banca));
+        ladoSur.add(new Solar("Solar2", 4, Valor.PRECIO_SOLAR[1], this.banca, Valor.HIPOTECA_SOLAR[1], Valor.ALQUILER_BASE[1]));
+        ladoSur.add(new CajaComunidad(3, this.banca));
+        ladoSur.add(new Solar("Solar1", 2, Valor.PRECIO_SOLAR[0], this.banca, Valor.HIPOTECA_SOLAR[0], Valor.ALQUILER_BASE[0]));
+        ladoSur.add(salida); // 1
+
+        // Poblar LADO OESTE (Pos 11 a 21, Solares 5-10)
+        ladoOeste.add(carcel); // 11 (compartida)
+        ladoOeste.add(new Solar("Solar6", 12, Valor.PRECIO_SOLAR[5], this.banca, Valor.HIPOTECA_SOLAR[5], Valor.ALQUILER_BASE[5]));
+        ladoOeste.add(new Servicio("Serv1", 13, Valor.VALOR_TRANSP_SERV, this.banca));
+        ladoOeste.add(new Solar("Solar7", 14, Valor.PRECIO_SOLAR[6], this.banca, Valor.HIPOTECA_SOLAR[6], Valor.ALQUILER_BASE[6]));
+        ladoOeste.add(new Solar("Solar8", 15, Valor.PRECIO_SOLAR[7], this.banca, Valor.HIPOTECA_SOLAR[7], Valor.ALQUILER_BASE[7]));
+        ladoOeste.add(new Transporte("Trans2", 16, Valor.VALOR_TRANSP_SERV, this.banca));
+        ladoOeste.add(new Solar("Solar9", 17, Valor.PRECIO_SOLAR[8], this.banca, Valor.HIPOTECA_SOLAR[8], Valor.ALQUILER_BASE[8]));
+        ladoOeste.add(new CajaComunidad(18, this.banca));
+        ladoOeste.add(new Solar("Solar10", 19, Valor.PRECIO_SOLAR[9], this.banca, Valor.HIPOTECA_SOLAR[9], Valor.ALQUILER_BASE[9]));
+        ladoOeste.add(new Solar("Solar11", 20, Valor.PRECIO_SOLAR[10], this.banca, Valor.HIPOTECA_SOLAR[10], Valor.ALQUILER_BASE[10]));
+        ladoOeste.add(parking); // 21
+
+        // Poblar LADO NORTE (Pos 21 a 31, Solares 11-16)
+        ladoNorte.add(parking); // 21 (compartida)
+        ladoNorte.add(new Solar("Solar12", 22, Valor.PRECIO_SOLAR[11], this.banca, Valor.HIPOTECA_SOLAR[11], Valor.ALQUILER_BASE[11]));
+        ladoNorte.add(new Suerte(23, this.banca));
+        ladoNorte.add(new Solar("Solar13", 24, Valor.PRECIO_SOLAR[12], this.banca, Valor.HIPOTECA_SOLAR[12], Valor.ALQUILER_BASE[12]));
+        ladoNorte.add(new Solar("Solar14", 25, Valor.PRECIO_SOLAR[13], this.banca, Valor.HIPOTECA_SOLAR[13], Valor.ALQUILER_BASE[13]));
+        ladoNorte.add(new Transporte("Trans3", 26, Valor.VALOR_TRANSP_SERV, this.banca));
+        ladoNorte.add(new Solar("Solar15", 27, Valor.PRECIO_SOLAR[14], this.banca, Valor.HIPOTECA_SOLAR[14], Valor.ALQUILER_BASE[14]));
+        ladoNorte.add(new Solar("Solar16", 28, Valor.PRECIO_SOLAR[15], this.banca, Valor.HIPOTECA_SOLAR[15], Valor.ALQUILER_BASE[15]));
+        ladoNorte.add(new Servicio("Serv2", 29, Valor.VALOR_TRANSP_SERV, this.banca));
+        ladoNorte.add(new Solar("Solar17", 30, Valor.PRECIO_SOLAR[16], this.banca, Valor.HIPOTECA_SOLAR[16], Valor.ALQUILER_BASE[16]));
+        ladoNorte.add(irCarcel); // 31
+
+        // Poblar LADO ESTE (Pos 31 a 1, Solares 17-21)
+        ladoEste.add(irCarcel); // 31 (compartida)
+        ladoEste.add(new Solar("Solar18", 32, Valor.PRECIO_SOLAR[17], this.banca, Valor.HIPOTECA_SOLAR[17], Valor.ALQUILER_BASE[17]));
+        ladoEste.add(new Solar("Solar19", 33, Valor.PRECIO_SOLAR[18], this.banca, Valor.HIPOTECA_SOLAR[18], Valor.ALQUILER_BASE[18]));
+        ladoEste.add(new CajaComunidad(34, this.banca));
+        ladoEste.add(new Solar("Solar20", 35, Valor.PRECIO_SOLAR[19], this.banca, Valor.HIPOTECA_SOLAR[19], Valor.ALQUILER_BASE[19]));
+        ladoEste.add(new Transporte("Trans4", 36, Valor.VALOR_TRANSP_SERV, this.banca));
+        ladoEste.add(new Suerte(37, this.banca));
+        ladoEste.add(new Solar("Solar21", 38, Valor.PRECIO_SOLAR[20], this.banca, Valor.HIPOTECA_SOLAR[20], Valor.ALQUILER_BASE[20]));
+        ladoEste.add(new Impuesto("Imp2", 39, Valor.IMPUESTO, this.banca));
+        ladoEste.add(new Solar("Solar22", 40, Valor.PRECIO_SOLAR[21], this.banca, Valor.HIPOTECA_SOLAR[21], Valor.ALQUILER_BASE[21]));
+        ladoEste.add(salida); // 1 (compartida)
+
+        // Asignar tableros a casillas y configurar Transportes/Servicios
+        // Este bucle es crucial.
         for (ArrayList<Casilla> lado : posiciones) {
             for (Casilla c : lado) {
                 c.setTablero(this);
+
+                // Configuración adicional que no se podía hacer en el constructor
+                if (c instanceof Transporte) {
+                    c.setImpuesto(Valor.ALQUILER_TRANSP);
+                    c.setHipoteca(Valor.VALOR_TRANSP_SERV / 2); // Hipoteca es la mitad
+                }
+                if (c instanceof Servicio) {
+                    c.setHipoteca(Valor.VALOR_TRANSP_SERV / 2); // Hipoteca es la mitad
+                    c.setImpuesto(0f); // Se calcula dinámicamente
+                }
             }
         }
 
         // Crear grupos
+        // Esta lógica funciona perfectamente ahora que todas las casillas están creadas.
         Grupo gMarron = new Grupo(encontrar_casilla("Solar1"), encontrar_casilla("Solar2"), "marron");
         grupos.put("marron", gMarron);
 
@@ -63,217 +133,6 @@ public class Tablero {
         grupos.put("azul", gAzul);
     }
 
-    // Método para insertar las casillas del lado norte.
-    private void insertarLadoNorte() {
-        ArrayList<Casilla> lado = this.posiciones.get(2);
-
-        Casilla parking = encontrar_casilla("Parking"); // Compartido con oeste
-        if (parking == null) {
-            parking = new Parking(21, this.banca);
-        }
-        lado.add(parking);
-
-        Solar solar12 = new Solar("Solar12", 22, 2200000f, this.banca);
-        solar12.setHipoteca(1100000f);
-        solar12.setImpuesto(180000f);
-        lado.add(solar12);
-
-        Suerte suerte2 = new Suerte(23, this.banca);
-        lado.add(suerte2);
-
-        Solar solar13 = new Solar("Solar13", 24, 2200000f, this.banca);
-        solar13.setHipoteca(1100000f);
-        solar13.setImpuesto(180000f);
-        lado.add(solar13);
-
-        Solar solar14 = new Solar("Solar14", 25, 2400000f, this.banca);
-        solar14.setHipoteca(1200000f);
-        solar14.setImpuesto(200000f);
-        lado.add(solar14);
-
-        Transporte trans3 = new Transporte("Trans3", 26, Valor.VALOR_TRANSP_SERV, this.banca);
-        trans3.setImpuesto(Valor.ALQUILER_TRANSP);
-        trans3.setHipoteca(0f);
-        lado.add(trans3);
-
-        Solar solar15 = new Solar("Solar15", 27, 2600000f, this.banca);
-        solar15.setHipoteca(1300000f);
-        solar15.setImpuesto(220000f);
-        lado.add(solar15);
-
-        Solar solar16 = new Solar("Solar16", 28, 2600000f, this.banca);
-        solar16.setHipoteca(1300000f);
-        solar16.setImpuesto(220000f);
-        lado.add(solar16);
-
-        Servicio serv2 = new Servicio("Serv2", 29, Valor.VALOR_TRANSP_SERV, this.banca);
-        serv2.setHipoteca(0f);
-        serv2.setImpuesto(0f);
-        lado.add(serv2);
-
-        Solar solar17 = new Solar("Solar17", 30, 2800000f, this.banca);
-        solar17.setHipoteca(1400000f);
-        solar17.setImpuesto(240000f);
-        lado.add(solar17);
-
-        IrCarcel irCarcel = new IrCarcel(31, this.banca);
-        lado.add(irCarcel);
-    }
-
-    // Método para insertar las casillas del lado sur.
-    private void insertarLadoSur() {
-        ArrayList<Casilla> lado = this.posiciones.get(0);
-
-        Carcel carcel = new Carcel(11, this.banca);
-        lado.add(carcel);
-
-        Solar solar5 = new Solar("Solar5", 10, 1200000f, this.banca);
-        solar5.setHipoteca(600000f);
-        solar5.setImpuesto(80000f);
-        lado.add(solar5);
-
-        Solar solar4 = new Solar("Solar4", 9, 1000000f, this.banca);
-        solar4.setHipoteca(500000f);
-        solar4.setImpuesto(60000f);
-        lado.add(solar4);
-
-        Suerte suerte1 = new Suerte(8, this.banca);
-        lado.add(suerte1);
-
-        Solar solar3 = new Solar("Solar3", 7, 1000000f, this.banca);
-        solar3.setHipoteca(500000f);
-        solar3.setImpuesto(60000f);
-        lado.add(solar3);
-
-        Transporte trans1 = new Transporte("Trans1", 6, Valor.VALOR_TRANSP_SERV, this.banca);
-        trans1.setImpuesto(Valor.ALQUILER_TRANSP);
-        trans1.setHipoteca(0f);
-        lado.add(trans1);
-
-        Impuesto imp1 = new Impuesto("Imp1", 5, Valor.IMPUESTO, this.banca);
-        lado.add(imp1);
-
-        Solar solar2 = new Solar("Solar2", 4, 600000f, this.banca);
-        solar2.setHipoteca(300000f);
-        solar2.setImpuesto(40000f);
-        lado.add(solar2);
-
-        CajaComunidad caja1 = new CajaComunidad(3, this.banca);
-        lado.add(caja1);
-
-        Solar solar1 = new Solar("Solar1", 2, 600000f, this.banca);
-        solar1.setHipoteca(300000f);
-        solar1.setImpuesto(20000f);
-        lado.add(solar1);
-
-        Salida salida = new Salida(1, this.banca);
-        lado.add(salida);
-    }
-
-    // Método que inserta casillas del lado oeste.
-    private void insertarLadoOeste() {
-        ArrayList<Casilla> lado = this.posiciones.get(1);
-
-        Casilla carcel = encontrar_casilla("Carcel"); // Compartido
-        lado.add(carcel);
-
-        Solar solar6 = new Solar("Solar6", 12, 1400000f, this.banca);
-        solar6.setHipoteca(700000f);
-        solar6.setImpuesto(100000f);
-        lado.add(solar6);
-
-        Servicio serv1 = new Servicio("Serv1", 13, Valor.VALOR_TRANSP_SERV, this.banca);
-        serv1.setHipoteca(0f);
-        serv1.setImpuesto(0f);
-        lado.add(serv1);
-
-        Solar solar7 = new Solar("Solar7", 14, 1400000f, this.banca);
-        solar7.setHipoteca(700000f);
-        solar7.setImpuesto(100000f);
-        lado.add(solar7);
-
-        Solar solar8 = new Solar("Solar8", 15, 1600000f, this.banca);
-        solar8.setHipoteca(800000f);
-        solar8.setImpuesto(120000f);
-        lado.add(solar8);
-
-        Transporte trans2 = new Transporte("Trans2", 16, Valor.VALOR_TRANSP_SERV, this.banca);
-        trans2.setImpuesto(Valor.ALQUILER_TRANSP);
-        trans2.setHipoteca(0f);
-        lado.add(trans2);
-
-        Solar solar9 = new Solar("Solar9", 17, 1800000f, this.banca);
-        solar9.setHipoteca(900000f);
-        solar9.setImpuesto(140000f);
-        lado.add(solar9);
-
-        CajaComunidad caja2 = new CajaComunidad(18, this.banca);
-        lado.add(caja2);
-
-        Solar solar10 = new Solar("Solar10", 19, 1800000f, this.banca);
-        solar10.setHipoteca(900000f);
-        solar10.setImpuesto(140000f);
-        lado.add(solar10);
-
-        Solar solar11 = new Solar("Solar11", 20, 2200000f, this.banca);
-        solar11.setHipoteca(1000000f);
-        solar11.setImpuesto(160000f);
-        lado.add(solar11);
-
-        Parking parking = new Parking(21, this.banca);
-        lado.add(parking);
-    }
-
-    // Método que inserta las casillas del lado este.
-    private void insertarLadoEste() {
-        ArrayList<Casilla> lado = this.posiciones.get(3);
-
-        Casilla irCarcel = encontrar_casilla("IrCarcel"); // Compartido con norte
-        lado.add(irCarcel);
-
-        Solar solar18 = new Solar("Solar18", 32, 3000000f, this.banca);
-        solar18.setHipoteca(1500000f);
-        solar18.setImpuesto(260000f);
-        lado.add(solar18);
-
-        Solar solar19 = new Solar("Solar19", 33, 3000000f, this.banca);
-        solar19.setHipoteca(1500000f);
-        solar19.setImpuesto(260000f);
-        lado.add(solar19);
-
-        CajaComunidad caja3 = new CajaComunidad(34, this.banca);
-        lado.add(caja3);
-
-        Solar solar20 = new Solar("Solar20", 35, 3200000f, this.banca);
-        solar20.setHipoteca(1600000f);
-        solar20.setImpuesto(280000f);
-        lado.add(solar20);
-
-        Transporte trans4 = new Transporte("Trans4", 36, Valor.VALOR_TRANSP_SERV, this.banca);
-        trans4.setImpuesto(Valor.ALQUILER_TRANSP);
-        trans4.setHipoteca(0f);
-        lado.add(trans4);
-
-        Suerte suerte3 = new Suerte(37, this.banca);
-        lado.add(suerte3);
-
-        Solar solar21 = new Solar("Solar21", 38, 3500000f, this.banca);
-        solar21.setHipoteca(1750000f);
-        solar21.setImpuesto(350000f);
-        lado.add(solar21);
-
-        Impuesto imp2 = new Impuesto("Imp2", 39, Valor.IMPUESTO, this.banca);
-        lado.add(imp2);
-
-        Solar solar22 = new Solar("Solar22", 40, 4000000f, this.banca);
-        solar22.setHipoteca(2000000f);
-        solar22.setImpuesto(500000f);
-        lado.add(solar22);
-
-        Casilla salida = encontrar_casilla("Salida"); // Compartido con sur
-        lado.add(salida);
-    }
-
     // Para imprimir el tablero, modificamos el método toString().
     @Override
     public String toString() {
@@ -283,19 +142,18 @@ public class Tablero {
         sb.append("┎─────────┰───────┰───────┰───────┰───────┰───────┰───────┰───────┰───────┰───────┰────────┒");
         sb.append("\n");
         int contador = 0;
-        int nChars = 0;
+        int nChars;
         for (Casilla c : posiciones.get(2)) {
-            String rep = c.representacionColoreada();
-            nChars = 0;
-            String resultado = rep.replaceAll("\u001B\\[\\d+m", "");
+            StringBuilder rep = new StringBuilder(c.representacionColoreada());
+            String resultado = rep.toString().replaceAll("\u001B\\[\\d+m", "");
             nChars = resultado.length();
             if (contador == 0) {
                 for (int i = 0; i < 9 - nChars; i++) {
-                    rep += " ";
+                    rep.append(" ");
                 }
             } else if (contador > 0) {
                 for (int i = 0; i < 7 - nChars; i++) {
-                    rep += " ";
+                    rep.append(" ");
                 }
             }
 
@@ -308,42 +166,36 @@ public class Tablero {
         // Líneas medias
         for (int i = 9; i >= 1; i--) {
             Casilla left = posiciones.get(1).get(i);
-            String leftRep = left.representacionColoreada();
+            StringBuilder leftRep = new StringBuilder(left.representacionColoreada());
 
             Casilla right = posiciones.get(3).get(10 - i);
-            String rightRep = right.representacionColoreada();
+            StringBuilder rightRep = new StringBuilder(right.representacionColoreada());
 
 
-
-            nChars = 0;
-
-            String resultado = leftRep.replaceAll("\u001B\\[\\d+m", "");
+            String resultado = leftRep.toString().replaceAll("\u001B\\[\\d+m", "");
             nChars = resultado.length();
 
             if (nChars < 9) {
                 for (int j = 0; j < 9 - nChars; j++) {
-                    leftRep += " ";
+                    leftRep.append(" ");
                 }
-            } else if (i < 7)
-            {
-                if (!leftRep.contains("&")) leftRep += "   ";
+            } else if (i < 7) {
+                if (!leftRep.toString().contains("&")) leftRep.append("   ");
 
             } else {
-                if (!leftRep.contains("&")) leftRep += "  ";
+                if (!leftRep.toString().contains("&")) leftRep.append("  ");
 
             }
 
 
-            resultado = rightRep.replaceAll("\u001B\\[\\d+m", "");
+            resultado = rightRep.toString().replaceAll("\u001B\\[\\d+m", "");
             nChars = resultado.length();
-            if (nChars < 8)
-            {
-                for (int j = 0; j < 8 - nChars; j++)
-                {
-                    rightRep += " ";
+            if (nChars < 8) {
+                for (int j = 0; j < 8 - nChars; j++) {
+                    rightRep.append(" ");
                 }
             } else {
-                if (!rightRep.contains("&")) rightRep += " ";
+                if (!rightRep.toString().contains("&")) rightRep.append(" ");
 
             }
 
@@ -358,28 +210,26 @@ public class Tablero {
         sb.append("┠─────────╂───────┰───────┰───────┰───────┰───────┰───────┰───────┰───────┰───────╂────────┨");
         sb.append("\n");
         contador = 0;
-        for (Casilla c : posiciones.get(0)) {
-            String rep = c.representacionColoreada();
-            String resultado = rep.replaceAll("\u001B\\[\\d+m", "");
+        for (Casilla c : posiciones.getFirst()) {
+            StringBuilder rep = new StringBuilder(c.representacionColoreada());
+            String resultado = rep.toString().replaceAll("\u001B\\[\\d+m", "");
             nChars = resultado.length();
 
             if (contador == 0) {
                 for (int i = 0; i < 9 - nChars; i++) {
-                    rep += " ";
+                    rep.append(" ");
                 }
             } else if (contador > 0) {
-                if (nChars < 7)
-                {
-                    for (int i = 0; i < 7 - nChars; i++)
-                    {
-                        rep += " ";
+                if (nChars < 7) {
+                    for (int i = 0; i < 7 - nChars; i++) {
+                        rep.append(" ");
                     }
                 } else {
-                    if (!rep.contains("&")) rep += " ";
+                    if (!rep.toString().contains("&")) rep.append(" ");
                 }
             }
 
-            if (contador > 9) rep += " ";
+            if (contador > 9) rep.append(" ");
 
             sb.append("┃").append(rep);
             contador++;
