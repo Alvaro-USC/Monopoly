@@ -1,4 +1,3 @@
-
 package partida;
 
 public class Dado {
