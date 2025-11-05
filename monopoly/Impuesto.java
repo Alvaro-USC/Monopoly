@@ -1,7 +1,6 @@
 package monopoly;
 
-import partida.*;
-import java.util.ArrayList;
+import partida.Jugador;
 
 public class Impuesto extends Casilla {
     public Impuesto(String nombre, int posicion, float impuesto, Jugador duenho) {
@@ -14,26 +13,21 @@ public class Impuesto extends Casilla {
         float toPay = getImpuesto();
         if (actual.getFortuna() < toPay) {
             solv = false;
-        } else {
-            actual.sumarFortuna(-toPay);
-            Casilla parking = getTablero().encontrar_casilla("Parking");
-            parking.sumarValor(toPay);
-            System.out.println("El jugador paga " + Valor.formatear(toPay) + "€ que se depositan en el Parking.");
-            monopoly.StatsTracker.getInstance().registrarPagoImpuesto(actual, toPay);
+            System.out.println("No eres solvente, vas a estar en negativo.");
         }
+        actual.sumarFortuna(-toPay);
+        Casilla parking = getTablero().encontrar_casilla("Parking");
+        parking.sumarValor(toPay);
+        System.out.println("El jugador paga " + Valor.formatear(toPay) + "€ en impuestos, que se depositan en el Parking.");
+        monopoly.StatsTracker.getInstance().registrarPagoImpuesto(actual, toPay);
         return solv;
     }
 
     @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {
-        System.out.println("Esta casilla no se puede comprar.");
-    }
+    public void comprarCasilla(Jugador solicitante, Jugador banca) {System.out.println("Esta casilla no se puede comprar.");}
 
     @Override
-    public String infoCasilla() {
-        String info = "{ \n tipo: " + getTipo() + ", \n apagar: " + Valor.formatear(getImpuesto()) + "\n}";
-        return info;
-    }
+    public String infoCasilla() {return "{ \n tipo: " + getTipo() + ", \n apagar: " + Valor.formatear(getImpuesto()) + "\n}";}
 
     @Override
     public String casEnVenta() {
