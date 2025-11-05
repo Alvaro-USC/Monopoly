@@ -1,9 +1,11 @@
 package monopoly;
 
-import partida.*;
+import partida.Jugador;
+import partida.PlayerStats;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
 
 /**
  * Singleton responsable de recoger estadísticas globales y por casilla/grupo.
@@ -11,7 +13,8 @@ import java.util.ArrayList;
 public class StatsTracker {
 
     private static StatsTracker instance = null;
-
+    // estadísticas por jugador (referencia por nombre)
+    public final Map<String, PlayerStats> byPlayer = new HashMap<>();
     // visitas por casilla (clave: nombre casilla)
     private final Map<String, Integer> visits = new HashMap<>();
     // alquiler recolectado por casilla
@@ -20,10 +23,7 @@ public class StatsTracker {
     private final Map<String, Float> rentByGroup = new HashMap<>();
     // vueltas por jugador
     private final Map<String, Integer> laps = new HashMap<>();
-    private ArrayList<Jugador> jugadores = new ArrayList<>();
-
-    // estadísticas por jugador (referencia por nombre)
-    public final Map<String, PlayerStats> byPlayer = new HashMap<>();
+    private final ArrayList<Jugador> jugadores = new ArrayList<>();
 
     private StatsTracker() {
     }
@@ -31,6 +31,26 @@ public class StatsTracker {
     public static StatsTracker getInstance() {
         if (instance == null) instance = new StatsTracker();
         return instance;
+    }
+
+    private static String getJugadorEnCabeza(ArrayList<Jugador> jugadores) {
+        String jugadorEnCabeza = null;
+        float maxFortuna = Float.NEGATIVE_INFINITY;
+        for (Jugador j : jugadores) {
+            float total = j.getFortuna();
+            // sumar valor de propiedades y edificios (usamos getValor() de Casilla y coste de Edificio aproximado)
+            for (Casilla c : j.getPropiedades()) {
+                total += c.getValor();
+                if (c instanceof Solar s) {
+                    for (Edificio ed : s.getEdificios()) total += ed.getCoste();
+                }
+            }
+            if (total > maxFortuna) {
+                maxFortuna = total;
+                jugadorEnCabeza = j.getNombre();
+            }
+        }
+        return jugadorEnCabeza;
     }
 
     public void asegurarJugador(Jugador j) {
@@ -87,12 +107,12 @@ public class StatsTracker {
         laps.put(jugador.getNombre(), laps.getOrDefault(jugador.getNombre(), 0) + 1);
     }
 
+    // Reportes
+
     public void registrarEncarcelamiento(Jugador jugador) {
         asegurarJugador(jugador);
         byPlayer.get(jugador.getNombre()).addVezEnCarcel();
     }
-
-    // Reportes
 
     public String reporteJugador(String nombre, ArrayList<Jugador> jugadores) {
         for (Jugador j : jugadores) {
@@ -100,46 +120,34 @@ public class StatsTracker {
         }
         if (!byPlayer.containsKey(nombre)) return "No hay estadísticas para " + nombre;
         PlayerStats s = byPlayer.get(nombre);
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        sb.append("  dineroInvertido: ").append(Valor.formatear(s.getDineroInvertido())).append(",\n");
-        sb.append("  pagoTasasEImpuestos: ").append(Valor.formatear(s.getPagoTasasEImpuestos())).append(",\n");
-        sb.append("  pagoDeAlquileres: ").append(Valor.formatear(s.getPagoDeAlquileres())).append(",\n");
-        sb.append("  cobroDeAlquileres: ").append(Valor.formatear(s.getCobroDeAlquileres())).append(",\n");
-        sb.append("  pasarPorSalida: ").append(Valor.formatear(s.getPasarPorSalida())).append(" (")
-                .append(Valor.formatear(s.getPasarPorSalida() / Valor.SUMA_VUELTA))
-                .append(" vuelta(s))").append(",\n");
-        sb.append("  premiosBote: ").append(Valor.formatear(s.getPremiosBote())).append(",\n");
-        sb.append("  vecesEnLaCarcel: ").append(Valor.formatear(s.getVecesEnLaCarcel())).append("\n");
-        sb.append("}");
-        return sb.toString();
+        return "{\n" + "  dineroInvertido: " + Valor.formatear(s.getDineroInvertido()) + ",\n" + "  pagoTasasEImpuestos: " + Valor.formatear(s.getPagoTasasEImpuestos()) + ",\n" + "  pagoDeAlquileres: " + Valor.formatear(s.getPagoDeAlquileres()) + ",\n" + "  cobroDeAlquileres: " + Valor.formatear(s.getCobroDeAlquileres()) + ",\n" + "  pasarPorSalida: " + Valor.formatear(s.getPasarPorSalida()) + " (" + Valor.formatear(s.getPasarPorSalida() / Valor.SUMA_VUELTA) + " vuelta(s))" + ",\n" + "  premiosBote: " + Valor.formatear(s.getPremiosBote()) + ",\n" + "  vecesEnLaCarcel: " + Valor.formatear(s.getVecesEnLaCarcel()) + "\n" + "}";
     }
 
     public String reporteGlobal(ArrayList<Jugador> jugadores, Tablero tablero) {
-        // casilla mas visitada
+        // casilla más visitada
         String casillaMasVisitada = null;
         int maxVisitas = -1;
-        for (Map.Entry<String,Integer> e : visits.entrySet()) {
+        for (Map.Entry<String, Integer> e : visits.entrySet()) {
             if (e.getValue() > maxVisitas) {
                 maxVisitas = e.getValue();
                 casillaMasVisitada = e.getKey();
             }
         }
 
-        // casilla mas rentable
+        // casilla más rentable
         String casillaMasRentable = null;
         float maxRent = -1f;
-        for (Map.Entry<String,Float> e : rentCollected.entrySet()) {
+        for (Map.Entry<String, Float> e : rentCollected.entrySet()) {
             if (e.getValue() > maxRent) {
                 maxRent = e.getValue();
                 casillaMasRentable = e.getKey();
             }
         }
 
-        // grupo mas rentable
+        // grupo más rentable
         String grupoMasRentable = null;
         float maxGrupo = -1f;
-        for (Map.Entry<String,Float> e : rentByGroup.entrySet()) {
+        for (Map.Entry<String, Float> e : rentByGroup.entrySet()) {
             if (e.getValue() > maxGrupo) {
                 maxGrupo = e.getValue();
                 grupoMasRentable = e.getKey();
@@ -158,32 +166,8 @@ public class StatsTracker {
         }
 
         // jugador en cabeza (fortuna total = fortuna líquido + propiedades + edificios)
-        String jugadorEnCabeza = null;
-        float maxFortuna = Float.NEGATIVE_INFINITY;
-        for (Jugador j : jugadores) {
-            float total = j.getFortuna();
-            // sumar valor de propiedades y edificios (usamos getValor() de Casilla y coste de Edificio aproximado)
-            for (Casilla c : j.getPropiedades()) {
-                total += c.getValor();
-                if (c instanceof Solar) {
-                    Solar s = (Solar) c;
-                    for (Edificio ed : s.getEdificios()) total += ed.getCoste();
-                }
-            }
-            if (total > maxFortuna) {
-                maxFortuna = total;
-                jugadorEnCabeza = j.getNombre();
-            }
-        }
+        String jugadorEnCabeza = getJugadorEnCabeza(jugadores);
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        sb.append("  casillaMasRentable: ").append(casillaMasRentable).append(",\n");
-        sb.append("  grupoMasRentable: ").append(grupoMasRentable).append(",\n");
-        sb.append("  casillaMasFrecuentada: ").append(casillaMasVisitada).append(",\n");
-        sb.append("  jugadorMasVueltas: ").append(jugadorMasVueltas).append(",\n");
-        sb.append("  jugadorEnCabeza: ").append(jugadorEnCabeza).append("\n");
-        sb.append("}");
-        return sb.toString();
+        return "{\n" + "  casillaMasRentable: " + casillaMasRentable + ",\n" + "  grupoMasRentable: " + grupoMasRentable + ",\n" + "  casillaMasFrecuentada: " + casillaMasVisitada + ",\n" + "  jugadorMasVueltas: " + jugadorMasVueltas + ",\n" + "  jugadorEnCabeza: " + jugadorEnCabeza + "\n" + "}";
     }
 }
