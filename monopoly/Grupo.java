@@ -1,12 +1,13 @@
 package monopoly;
 
-import partida.*;
+import partida.Jugador;
+
 import java.util.ArrayList;
 
 class Grupo {
 
     //Atributos
-    private ArrayList<Casilla> miembros; //Casillas miembros del grupo.
+    private final ArrayList<Casilla> miembros; //Casillas miembros del grupo.
     private String colorGrupo; //Nombre del color del grupo (e.g., "rosa")
     private int numCasillas; //Número de casillas del grupo.
 
@@ -69,30 +70,75 @@ class Grupo {
     }
 
     public String getAnsiColor() {
-        switch (colorGrupo) {
-            case "marron":
-                return Valor.YELLOW;
-            case "celeste":
-                return Valor.CYAN;
-            case "rosa":
-                return Valor.PURPLE;
-            case "naranja":
-                return Valor.YELLOW;
-            case "rojo":
-                return Valor.RED;
-            case "amarillo":
-                return Valor.YELLOW;
-            case "verde":
-                return Valor.GREEN;
-            case "azul":
-                return Valor.BLUE;
-            default:
-                return Valor.RESET;
-        }
+        return switch (colorGrupo) {
+            case "marron", "naranja", "amarillo" -> Valor.YELLOW;
+            case "celeste" -> Valor.CYAN;
+            case "rosa" -> Valor.PURPLE;
+            case "rojo" -> Valor.RED;
+            case "verde" -> Valor.GREEN;
+            case "azul" -> Valor.BLUE;
+            default -> Valor.RESET;
+        };
     }
 
-    public ArrayList<Casilla> getMiembros()
-    {
+    public ArrayList<Casilla> getMiembros() {
         return miembros;
+    }
+
+    public String getDescripcionGrupo() {
+        StringBuilder r = new StringBuilder();
+        for (Casilla casilla : miembros) {
+            if (casilla instanceof Solar s) {
+                r.append("{\n");
+                r.append(" propiedad: ").append(s.getNombre());
+                r.append("\n hoteles: ");
+                if (s.getCantidadEdificioTipo("hotel") > 0) {
+                    for (Edificio edificio : s.getEdificios()) {
+                        if (edificio.getTipo().equals("hotel")) {
+                            r.append("[ ").append(edificio.getId()).append(" ]");
+                        }
+                    }
+                } else {
+                    r.append("-");
+                }
+                r.append("\n casas: ");
+                if (s.getCantidadEdificioTipo("casa") > 0) {
+                    r.append("[");
+                    for (Edificio edificio : s.getEdificios()) {
+                        if (edificio.getTipo().equals("casa")) {
+                            r.append(edificio.getId()).append(" ");
+                        }
+                    }
+                    r.append("]");
+                } else {
+                    r.append("-");
+                }
+                r.append("\n piscinas: ");
+                if (s.getCantidadEdificioTipo("piscinas") > 0) {
+                    for (Edificio edificio : s.getEdificios()) {
+                        if (edificio.getTipo().equals("piscinas")) {
+                            r.append("[ ").append(edificio.getId()).append(" ]");
+                        }
+                    }
+                } else {
+                    r.append("-");
+                }
+                r.append("\n pistasDeDeporte: ");
+                if (s.getCantidadEdificioTipo("pista_deporte") > 0) {
+                    for (Edificio edificio : s.getEdificios()) {
+                        if (edificio.getTipo().equals("pista_deporte")) {
+                            r.append("[ ").append(edificio.getId()).append(" ]");
+                        }
+                    }
+                } else {
+                    r.append("-");
+                }
+                r.append("\n alquiler: ").append(Valor.formatear(s.calcularSumaTotalAlquileres())).append("\n}");
+                r.append("\n");
+                r.append(s.getEdificiosFaltantesDescripcion());
+                r.append("\n");
+            }
+        }
+        return r.toString();
     }
 }
