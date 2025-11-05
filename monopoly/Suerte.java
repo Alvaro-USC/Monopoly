@@ -1,7 +1,6 @@
 package monopoly;
 
-import partida.*;
-import java.util.ArrayList;
+import partida.Jugador;
 
 public class Suerte extends Casilla {
     public Suerte(int posicion, Jugador duenho) {
@@ -13,17 +12,11 @@ public class Suerte extends Casilla {
         return true;
     }
 
+    @Override
+    public void comprarCasilla(Jugador solicitante, Jugador banca) {System.out.println("Esta casilla no se puede comprar.");}
 
     @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {
-        System.out.println("Esta casilla no se puede comprar.");
-    }
-
-    @Override
-    public String infoCasilla() {
-        String info = "{ \n tipo: " + getTipo() + "\n}";
-        return info;
-    }
+    public String infoCasilla() {return "{ \n tipo: " + getTipo() + "\n}";}
 
     @Override
     public String casEnVenta() {
