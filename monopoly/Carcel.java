@@ -1,7 +1,7 @@
 package monopoly;
 
-import partida.*;
-import java.util.ArrayList;
+import partida.Avatar;
+import partida.Jugador;
 
 public class Carcel extends Casilla {
     public Carcel(int posicion, Jugador duenho) {
@@ -14,17 +14,15 @@ public class Carcel extends Casilla {
     }
 
     @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {
-        System.out.println("Esta casilla no se puede comprar.");
-    }
+    public void comprarCasilla(Jugador solicitante, Jugador banca) {System.out.println("Esta casilla no se puede comprar.");}
 
     @Override
     public String infoCasilla() {
         String info = "{ \n tipo: " + getTipo();
         info += ", \n salir: 500.000"; // Cantidad a pagar para salir de cárcel
-        String jugs = "";
+        StringBuilder jugs = new StringBuilder();
         for (Avatar a : getAvatares()) {
-            jugs += "[" + a.getJugador().getNombre() + "," + a.getJugador().getTiradasCarcel() + "] ";
+            jugs.append("[").append(a.getJugador().getNombre()).append(",").append(a.getJugador().getTiradasCarcel()).append("] ");
         }
         info += ", \n jugadores: " + jugs;
         info += "\n}";
