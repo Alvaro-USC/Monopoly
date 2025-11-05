@@ -1,7 +1,7 @@
 package monopoly;
 
-import partida.*;
-import java.util.ArrayList;
+import partida.Avatar;
+import partida.Jugador;
 
 public class Parking extends Casilla {
     public Parking(int posicion, Jugador duenho) {
@@ -28,11 +28,11 @@ public class Parking extends Casilla {
     public String infoCasilla() {
         String info = "{ \n tipo: " + getTipo();
         info += ", \n bote: " + getValor();
-        String jugs = "";
+        StringBuilder jugs = new StringBuilder();
         for (Avatar a : getAvatares()) {
-            jugs += a.getJugador().getNombre() + ", ";
+            jugs.append(a.getJugador().getNombre()).append(", ");
         }
-        if (jugs.endsWith(", ")) jugs = jugs.substring(0, jugs.length() - 2);
+        if (jugs.toString().endsWith(", ")) jugs = new StringBuilder(jugs.substring(0, jugs.length() - 2));
         info += ", \n jugadores: [" + jugs + "]";
         info += "\n}";
         return info;
