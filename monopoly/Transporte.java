@@ -1,62 +1,33 @@
 package monopoly;
 
-import partida.*;
-import java.util.ArrayList;
+import partida.Jugador;
 
-public class Transporte extends Casilla {
+public class Transporte extends PropiedadComprable {
     public Transporte(String nombre, int posicion, float valor, Jugador duenho) {
         super(nombre, "Transporte", posicion, valor, duenho);
     }
 
     @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
-        boolean solv = true;
-        if (!getDuenho().equals(banca) && !getDuenho().equals(actual)) {
-            float toPay = getImpuesto();
 
-            if (tirada == Valor.ALQUILER_TRANSP * 2) toPay = tirada; // Usamos el arg tirada en Carta.java para enviar la cantidad a pagar en transporte
-
-            if (actual.getFortuna() < toPay) {
-                solv = false;
-                System.out.println("No tienes suficiente dinero. Debes hipotecar una propiedad o declararte en bancarrota.");
-            } else {
-                actual.sumarFortuna(-toPay);
-                getDuenho().sumarFortuna(toPay);
-                System.out.println("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");
-                StatsTracker.getInstance().registrarPagoAlquiler(actual, toPay);
-                StatsTracker.getInstance().registrarCobroAlquiler(getDuenho(), toPay);
-                StatsTracker.getInstance().registrarAlquiler(this, toPay);
-            }
-        } else System.out.println("El dueño de esta casilla de transporte es " + getDuenho().getNombre() + " se puede comprar.");
-        return solv;
-    }
-
-    @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {
+        // La casilla es de la banca (se puede comprar)
         if (getDuenho().equals(banca)) {
-            if (solicitante.getFortuna() >= getValor()) {
-                solicitante.sumarFortuna(-getValor());
-                banca.sumarFortuna(getValor());
-                setDuenho(solicitante);
-                solicitante.anhadirPropiedad(this);
-                System.out.println("El jugador " + solicitante.getNombre() + " compra la casilla " + getNombre() + " por " + Valor.formatear(getValor()) + "€. Su fortuna actual es " + Valor.formatear(solicitante.getFortuna()) + "€.");
-            } else {
-                System.out.println("No tienes suficiente dinero para comprar esta casilla.");
-            }
-        } else {
-            System.out.println("Esta casilla no se puede comprar, es de " + getDuenho().getNombre());
+            System.out.println("El dueño de esta casilla de transporte es " + getDuenho().getNombre() + ", se puede comprar.");
+            return true;
         }
+
+        if (getDuenho().equals(actual)) {
+            return true;
+        }
+
+        float toPay = getImpuesto();
+        return this.procesarPago(actual, toPay);
     }
 
     @Override
-    public String infoCasilla() {
-        String info = "{ \n tipo: " + getTipo() + ", \n propietario: " + getDuenho().getNombre() + ", \n valor: " + Valor.formatear(getValor()) + ", \n alquiler: " + getImpuesto() + "\n}";
-        return info;
-    }
+    public String infoCasilla() {return "{ \n tipo: " + getTipo() + ", \n propietario: " + getDuenho().getNombre() + ", \n valor: " + Valor.formatear(getValor()) + ", \n alquiler: " + getImpuesto() + "\n}";}
 
     @Override
-    public String casEnVenta() {
-        return "{\n nombre: " + this.getNombre() +  "\n tipo: " + getTipo() + ", \n valor: " + Valor.formatear(getValor()) + "\n}";
-    }
+    public String casEnVenta() {return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + ", \n valor: " + Valor.formatear(getValor()) + "\n}";}
 
 }
