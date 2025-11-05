@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ComandoArchivo {
-    private Menu menu;
-    private String archivo;
+    private final Menu menu;
+    private final String archivo;
 
     public ComandoArchivo(Menu menu, String archivo) {
         this.menu = menu;
@@ -24,7 +24,8 @@ public class ComandoArchivo {
             while ((linea = br.readLine()) != null) {
                 linea = linea.trim();
                 if (!linea.isEmpty()) { // Ignorar líneas en blanco
-                    if (linea.charAt(0) == '#') continue; // Las líneas que empiezan con # se ignoran, son comentarios para los comandos
+                    if (linea.charAt(0) == '#')
+                        continue; // Las líneas que empiezan con # se ignoran, son comentarios para los comandos
                     System.out.println(linea);
                     menu.analizarComando(linea);
                 }
