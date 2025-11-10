@@ -307,20 +307,12 @@ public class Solar extends PropiedadComprable {
     }
 
     public String getResumenEdificios() { // Renombramos el método para reflejar que devuelve un String
-        Map<String, Integer> contadorEdificios = new HashMap<>();
-        contadorEdificios.put("casa", 0);
-        contadorEdificios.put("hotel", 0);
-        contadorEdificios.put("piscina", 0);
-        contadorEdificios.put("pista_deporte", 0);
-
-        for (Edificio e : this.getEdificios()) {
-            String tipo = e.getTipo().toLowerCase();
-            if (contadorEdificios.containsKey(tipo)) {
-                contadorEdificios.put(tipo, contadorEdificios.get(tipo) + 1);
-            }
+        StringBuilder descripcion = new StringBuilder();
+        for (Edificio e : edificios) {
+            descripcion.append(e.describirEdificio() + ",\n");
         }
 
-        return "{\n" + "  id: " + this.getIdSolar() + ",\n" + "  propietario: " + this.getDuenho().getNombre() + ",\n" + "  casilla: " + this.getNombre() + ",\n" + "  grupo: " + this.getGrupo().getColorGrupo() + ",\n" + "  coste: " + this.getValor() + ",\n" + "}\n";
+        return descripcion.toString();
     }
 
     public int getCantidadEdificioTipo(String tipo) {
