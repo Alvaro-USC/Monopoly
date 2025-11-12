@@ -22,7 +22,7 @@ public abstract class PropiedadComprable extends Casilla {
     public void comprarCasilla(Jugador solicitante, Jugador banca) {
         if (getDuenho().equals(banca)) {
             if (solicitante.getFortuna() >= getValor()) {
-                solicitante.sumarFortuna(-getValor());
+                solicitante.sumarGastos(getValor());
                 banca.sumarFortuna(getValor());
                 setDuenho(solicitante);
                 solicitante.anhadirPropiedad(this);

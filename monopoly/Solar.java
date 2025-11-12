@@ -170,7 +170,7 @@ public class Solar extends PropiedadComprable {
         // Ejecutar Construcción
         Edificio nuevo = new Edificio(tipo, jugador, this, this.getGrupo().getColorGrupo(), coste);
         this.addEdificio(nuevo);
-        jugador.sumarGastos(-coste);
+        jugador.sumarGastos(coste);
 
         // Actualizar Stats (Singleton)
         StatsTracker.getInstance().asegurarJugador(jugador);
@@ -216,7 +216,7 @@ public class Solar extends PropiedadComprable {
             return "No tienes suficiente dinero (" + Valor.formatear(cantidad) + "€) para deshipotecar esta propiedad.";
         }
 
-        jugador.sumarFortuna(-cantidad);
+        jugador.sumarGastos(cantidad);
         this.setHipotecada(false);
 
         return "Se deshipoteca " + this.getNombre() + " pagando " + Valor.formatear(cantidad) + "€.";

@@ -124,7 +124,7 @@ public class Carta {
 
             case PAGAR:
                 if (actual.getFortuna() >= cantidad) {
-                    actual.sumarFortuna(-cantidad);
+                    actual.sumarGastos(cantidad);
                     // Lo paga a la banca
                     tablero.getBanca().sumarFortuna(cantidad);
                     StatsTracker.getInstance().registrarPagoImpuesto(actual, cantidad);
