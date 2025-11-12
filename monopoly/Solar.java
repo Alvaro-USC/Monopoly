@@ -170,7 +170,7 @@ public class Solar extends PropiedadComprable {
         // Ejecutar Construcción
         Edificio nuevo = new Edificio(tipo, jugador, this, this.getGrupo().getColorGrupo(), coste);
         this.addEdificio(nuevo);
-        jugador.sumarFortuna(-coste);
+        jugador.sumarGastos(-coste);
 
         // Actualizar Stats (Singleton)
         StatsTracker.getInstance().asegurarJugador(jugador);

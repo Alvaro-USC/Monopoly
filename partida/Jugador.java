@@ -75,6 +75,7 @@ public class Jugador {
     //Parámetro: valor a añadir a los gastos del jugador (será el precio de un solar, impuestos pagados...).
     public void sumarGastos(float valor) {
         gastos += valor;
+        fortuna -= valor;
     }
 
     /*Método para establecer al jugador en la cárcel.
