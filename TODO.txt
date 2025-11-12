@@ -1,5 +1,3 @@
-El método listarEdificios(String grupoFiltro) retorna los valores de casillas de grupos sin edificios (ejemplo de ejecución: comandos comandos3.txt, listar edificios azul)
-
 Refactorizar Menu.java, hay que leer bien el Menu.java qué clases y funciones primogénitas nos dieron, porque esas no se pueden tocar.
 El resto sí, la idea es dejar en Menu.java esas esenciales puestas por los profesores, y crear una clase Comando.java que solo tenga
 la función ejecutar, y después, en una carpeta Comandos, metemos las clases que creamos para cada comando que implementamos en la forma
