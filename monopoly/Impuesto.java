@@ -15,7 +15,7 @@ public class Impuesto extends Casilla {
             solv = false;
             System.out.println("No eres solvente, vas a estar en negativo.");
         }
-        actual.sumarFortuna(-toPay);
+        actual.sumarGastos(toPay);
         Casilla parking = getTablero().encontrar_casilla("Parking");
         parking.sumarValor(toPay);
         System.out.println("El jugador paga " + Valor.formatear(toPay) + "€ en impuestos, que se depositan en el Parking.");

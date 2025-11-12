@@ -84,7 +84,7 @@ public abstract class Casilla {
             System.out.println("No tienes suficiente dinero. Debes hipotecar una propiedad o declararte en bancarrota.\nVas a estar en negativo.");
         }
 
-        actual.sumarFortuna(-toPay);
+        actual.sumarGastos(toPay);
         getDuenho().sumarFortuna(toPay);
 
         System.out.println("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");

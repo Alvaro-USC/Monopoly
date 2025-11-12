@@ -356,7 +356,7 @@ public class Menu {
                             System.out.println("No puedes pagar para salir, declara bancarrota o vende propiedades e hipotecar.\nVas a estar en negativo.");
                         }
 
-                        current.sumarFortuna(-Valor.SALIR_CARCEL);
+                        current.sumarGastos(Valor.SALIR_CARCEL);
                         banca.sumarFortuna(Valor.SALIR_CARCEL);
                         current.setEnCarcel(false);
                         current.getAvatar().moverAvatar(tablero.getPosiciones(), tirada);
@@ -431,7 +431,7 @@ public class Menu {
             if (current.getFortuna() >= Valor.SALIR_CARCEL) {
                 System.out.println("No tienes suficiente dinero. Vende propiedades e hipoteca.\nVas a estar en negativo.");
             }
-            current.sumarFortuna(-Valor.SALIR_CARCEL);
+            current.sumarGastos(Valor.SALIR_CARCEL);
             banca.sumarFortuna(Valor.SALIR_CARCEL);
             current.setEnCarcel(false);
             System.out.println(current.getNombre() + " paga 500.000€ y sale de la cárcel. Puede lanzar los dados.");
