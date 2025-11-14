@@ -145,7 +145,7 @@ public class Carta {
                 // Paga a cada jugador
                 for (Jugador otro : todosJugadores) {
                     if (otro.equals(actual)) continue;
-                    actual.sumarFortuna(-porCada);
+                    actual.sumarGastos(porCada);
                     otro.sumarFortuna(porCada);
                     StatsTracker.getInstance().registrarPagoEntreJugadores(actual, otro, porCada);
                 }
@@ -161,7 +161,7 @@ public class Carta {
                         // no forzamos; dejamos que los jugadores gestionen su liquidez
                         continue;
                     }
-                    otro.sumarFortuna(-porCadaCobrar);
+                    otro.sumarGastos(porCadaCobrar);
                     actual.sumarFortuna(porCadaCobrar);
                     StatsTracker.getInstance().registrarPagoEntreJugadores(otro, actual, porCadaCobrar);
                 }
