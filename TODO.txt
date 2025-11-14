@@ -1,3 +1,10 @@
+Dentro de Casilla.java, en el caso de mover a casillas, existen varias cuestiones. La primera de ellas es que no se aplica correctamente
+el pago de 2M€ al pasar por la casilla de salida. Se podría simplemente mover el avatar del jugador con la cantidad si la función de
+moverAvatar gestiona esta suma, o se debe añadir manualmente. Asimismo, el uso (posActual +/- movimiento +/- todas.size()) % todas.size()
+es redundante ya que a +/- b +/- c mod c = a +/- b, por lo tanto estamos haciendo una suma que no aporta nada. El método de encontrar la
+siguiente casilla de transporte podría ser refactorizado ya que podría ser encapsulado y simplificado en un método en casilla
+"buscarSiguienteJugador()", pero esto es poco prioritario.
+
 Refactorizar Menu.java, hay que leer bien el Menu.java qué clases y funciones primogénitas nos dieron, porque esas no se pueden tocar.
 El resto sí, la idea es dejar en Menu.java esas esenciales puestas por los profesores, y crear una clase Comando.java que solo tenga
 la función ejecutar, y después, en una carpeta Comandos, metemos las clases que creamos para cada comando que implementamos en la forma
