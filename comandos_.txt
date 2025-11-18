@@ -1,168 +1,79 @@
-crear jugador yago coche
-crear jugador alvaro esfinge
-lanzar dados 5+4
+crear jugador Pedro pelota
+crear jugador Maria coche
+lanzar dados 6+6
+edificar casa
+lanzar dados 6+6
+lanzar dados 5+6
+acabar turno
+lanzar dados 3+3
+comprar Solar3
+edificar piscina
+lanzar dados 1+1
+comprar Solar4
+edificar casa
+lanzar dados 5+6
+acabar turno
+jugador
+lanzar dados 6+6
+comprar Solar19
+lanzar dados 4+4
+edificar casa
+lanzar dados 5+3
+acabar turno
+lanzar dados 6+6
+comprar Solar19
+lanzar dados 6+6
+lanzar dados 4+2
 comprar Solar5
 edificar casa
 edificar casa
 edificar casa
 edificar casa
-edificar hotel
-listar edificios celeste
-estadisticas yago
-hipotecar Solar5
-estadisticas yago
-vender casa Solar 4
-vender hotel Solar5 10
-listar edificios celeste
-hipotecar Solar5
-hipotecar Solar5
-estadisticas yago
-deshipotecar Solar5
-estadisticas yago
-hipotecar Solar5
-listar jugadores
-deshipotecar Solar5
-vender Solar5 casa 3
-vender casa Solar5 2
-estadisticas yago
-ver tablero
-lanzar dados -2+0
-lanzar dados 4+0
-ver tablero
 acabar turno
-estadisticas yago
-estadisticas alvaro
-estadisticas
-lanzar dados 15+15
-estadisticas alvaro
-lanzar dados 1+1
-ver tablero
-lanzar dados 0+1
-acabar turno
-acabar turno
-lanzar dados 0+1
-comprar Solar7
-edificar casa
-edificar casa
-edificar casa
-edificar casa
-estadisticas alvaro
-estadisticas yago
-vender casa Solar7 2
-estadisticas alvaro
-ver tablero
-lanzar dados 15+16
-acabar turno
-acabar turno
-lanzar dados 15+16
-estadisticas alvaro
-ver tablero
-lanzar dados
-acabar turno
-lanzar dados 3+1
-estadisticas alvaro
-estadisticas yago
-acabar turno
-acabar turno
-lanzar dados 1+0
-comprar Solar8
-edificar casa
-edificar casa
-estadisticas yago
-estadisticas alvaro
-acabar turno
-lanzar dados 7+3
-estadisticas yago
-estadisticas
-ver tablero
-acabar turno
-lanzar dados 3+3
-estadisticas yago
-lanzar dados 1+1
-lanzar dados 1+0
-lanzar dados 5+0
-acabar turno
-lanzar dados 1+0
-ver tablero
-acabar turno
-lanzar dados 2+3
-comprar Imp2
-estadisticas
-estadisticas yago
-lanzar dados 3+0
-acabar turno
-lanzar dados 3+2
-comprar Parking
-ver tablero
-acabar turno
-lanzar dados 2+2
-lanzar dados 5+5
-ver tablero
-lanzar dados 1+1
-acabar turno
-lanzar dados 1+1
-lanzar dados 2+1
-acabar turno
-lanzar dados 3+2
-comprar Trans3
-acabar turno
-lanzar dados 2+2
-lanzar dados 2+1
-acabar turno
-lanzar dados 2+1
-comprar Serv2
-ver tablero
-lanzar dados 1+1
-acabar turno
-lanzar dados 3+3
-lanzar dados 2+3
-estadisticas
-estadisticas alvaro
-estadisticas yago
-ver tablero
-listar jugadores
-lanzar dados 7+7
-acabar turno
-ver tablero
-lanzar dados 4+4
+lanzar dados 6+6
+lanzar dados 6+6
 lanzar dados 5+6
 acabar turno
+lanzar dados 4+4
+lanzar dados 2+1
 acabar turno
-ver tablero
-lanzar dados 7+8
+lanzar dados 3+3
+lanzar dados 3+5
 acabar turno
+lanzar dados 6+6
+lanzar dados 6+6
+lanzar dados 3+2
+edificar hotel
+acabar turno
+salir carcel
+lanzar dados 5+5
+lanzar dados 4+5
+acabar turno
+lanzar dados 1+4
 acabar turno
 lanzar dados 1+1
-lanzar dados 7+7
-acabar turno
-acabar turno
-lanzar dados 1+1
-lanzar dados 2+2
-salir carcel
-lanzar dados 6+6
-salir carcel
-lanzar dados 6+6
-lanzar dados 0+0
-lanzar dados 1+1
-salir carcel
-lanzar dados 6+6
-ver tablero
-acabar turno
+comprar Solar18
 lanzar dados 1+2
-listar jugadores
-ver tablero
-lanzar dados 2+3
+comprar Solar20
+edificar casa
+edificar casa
+edificar casa
 acabar turno
-estadisticas alvaro
-lanzar dados 2+3
-lanzar dados
+lanzar dados 5+3
 acabar turno
-lanzar dados 2+3
-estadisticas alvaro
-ver tablero
+listar edificios
+listar edificios azul
 estadisticas
-acabar turno
-salir carcel
+estadisticas Maria
+estadisticas Pedro
+lanzar dados 5+5
 lanzar dados 2+2
-lanzar dados -1+0
-acabar turno
+hipotecar Solar22
+hipotecar Solar20
+vender Solar20
+vender casa Solar20 4
+vender casa Solar20 3
+hipotecar Solar20
+hipotecar Solar19
+deshipotecar Solar18
+deshipotecar Solar19
