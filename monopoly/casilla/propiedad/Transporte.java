@@ -2,9 +2,10 @@ package monopoly.casilla.propiedad;
 
 import monopoly.Valor;
 import monopoly.casilla.Propiedad;
+import monopoly.excepcion.FondosInsuficientesException;
 import partida.Jugador;
 
-public class Transporte extends Propiedad {
+public final class Transporte extends Propiedad {
     public Transporte(String nombre, int posicion, float valor, Jugador duenho) {
         super(nombre, "Transporte", posicion, valor, duenho);
     }
@@ -23,7 +24,12 @@ public class Transporte extends Propiedad {
         }
 
         float toPay = getImpuesto();
-        return this.procesarPago(actual, toPay);
+        try {
+            return this.procesarPago(actual, toPay);
+
+        } catch (FondosInsuficientesException e) {
+            return false;
+        }
     }
 
     @Override
@@ -32,4 +38,13 @@ public class Transporte extends Propiedad {
     @Override
     public String casEnVenta() {return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + ", \n valor: " + Valor.formatear(getValor()) + "\n}";}
 
+    @Override
+    public boolean alquiler() {
+        return getImpuesto() > 0;
+    }
+
+    @Override
+    public float valor() {
+        return getValor();
+    }
 }
