@@ -812,6 +812,7 @@ public class Juego implements Comando {
             proponente.getPropiedades().remove(trato.getPropiedadOferta());
             receptor.getPropiedades().add(trato.getPropiedadOferta());
         }
+
         if (trato.getPropiedadDemanda() != null) {
             trato.getPropiedadDemanda().setDuenho(proponente);
             receptor.getPropiedades().remove(trato.getPropiedadDemanda());
