@@ -7,14 +7,14 @@ import partida.Jugador;
 public abstract class Edificio {
     private final String id;
     private final String tipo; // casa, hotel, piscina, pistaDeDeporte
-    private final Jugador propietario;
+    private Jugador propietario;
     private final Solar solar;
     private final String grupo;
     private final float coste;
 
-    public Edificio(String tipo, Jugador propietario, Solar solar, String grupo, float coste) {
+    public Edificio(String tipo, Solar solar, String grupo, float coste) {
         this.tipo = tipo.toLowerCase();
-        this.propietario = propietario;
+        this.propietario = solar.getDuenho();
         this.solar = solar;
         this.grupo = grupo;
         this.coste = coste;
@@ -45,4 +45,6 @@ public abstract class Edificio {
     public float getCoste() {return coste;}
 
     public Solar getSolar() {return solar;}
+
+    public void setPropietario(Jugador propietario) {this.propietario = propietario;}
 }
