@@ -237,5 +237,9 @@ public abstract class Casilla {
     public Tablero getTablero() {return tablero;}
 
     public void setTablero(Tablero tablero) {this.tablero = tablero;}
+
+    public boolean estarAvatar(Avatar avatar) {
+        return getAvatares().contains(avatar);
+    }
 }
 
