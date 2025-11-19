@@ -2,9 +2,10 @@ package monopoly.casilla.propiedad;
 
 import monopoly.Valor;
 import monopoly.casilla.Propiedad;
+import monopoly.excepcion.FondosInsuficientesException;
 import partida.Jugador;
 
-public class Servicio extends Propiedad {
+public final class Servicio extends Propiedad {
     public Servicio(String nombre, int posicion, float valor, Jugador duenho) {
         super(nombre, "Servicios", posicion, valor, duenho);
     }
@@ -22,7 +23,11 @@ public class Servicio extends Propiedad {
 
         float toPay = 4 * tirada * Valor.FACTOR_SERVICIO;
 
-        return this.procesarPago(actual, toPay);
+        try {
+            return this.procesarPago(actual, toPay);
+        } catch (FondosInsuficientesException e) {
+            return false;
+        }
     }
 
     @Override
@@ -30,4 +35,14 @@ public class Servicio extends Propiedad {
 
     @Override
     public String casEnVenta() {return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + ", \n valor: " + Valor.formatear(getValor()) + "\n}";}
+
+    @Override
+    public boolean alquiler() {
+        return getImpuesto() > 0;
+    }
+
+    @Override
+    public float valor() {
+        return getValor();
+    }
 }
