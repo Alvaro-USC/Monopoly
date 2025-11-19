@@ -1,16 +1,85 @@
-Dentro de Casilla.java, en el caso de mover a casillas, existen varias cuestiones. La primera de ellas es que no se aplica correctamente
-el pago de 2M€ al pasar por la casilla de salida. Se podría simplemente mover el avatar del jugador con la cantidad si la función de
-moverAvatar gestiona esta suma, o se debe añadir manualmente. Asimismo, el uso (posActual +/- movimiento +/- todas.size()) % todas.size()
-es redundante ya que a +/- b +/- c mod c = a +/- b, por lo tanto estamos haciendo una suma que no aporta nada. El método de encontrar la
-siguiente casilla de transporte podría ser refactorizado ya que podría ser encapsulado y simplificado en un método en casilla
-"buscarSiguienteJugador()", pero esto es poco prioritario.
+Al construir 4 Casas, se puede construir un Hotel, y las 4 Casas sencillamente desaparecen en existencia
 
-Refactorizar Menu.java, hay que leer bien el Menu.java qué clases y funciones primogénitas nos dieron, porque esas no se pueden tocar.
-El resto sí, la idea es dejar en Menu.java esas esenciales puestas por los profesores, y crear una clase Comando.java que solo tenga
-la función ejecutar, y después, en una carpeta Comandos, metemos las clases que creamos para cada comando que implementamos en la forma
-de una clase cada una. Así aplicamos la POO, donde cada clase tiene una única responsabilidad, en vez de tener la God Class Menu.java de
-más de un millar de líneas.
+Crear clase Juego con todas las funciones e instancias necesarias para el desarrollo del Monopoly, tiene que estar en Menu.java,
+básicamente prácticamente todo lo de Menu debe meterse en Juego, la lista de jugadores o la instancia del propio tablero.
 
-Cambiar el nombre inglés de muchos métodos y variables para que sea coherente con el resto del código.
+Jerarquía de Casillas, una abstracta de Casilla con métodos y atributos comunes a todas ellas. Segundo nivel clases finales
+Propiedad, Accion, Impuesto, Grupo y Especial, donde Grupo tengan relación de composición con clase Propiedad, un Grupo tiene
+una lista de Propiedades. Tercer nivel de tres tipos de propiedas Solar, Servicio y Transporte; y los tipos de acciones
+Suerte, CajaComunidad y Parking.
 
-Revisar si el resto de funciones de la segunda entrega ya están implementadas o no.
+Casilla debe tener boolean estaAvatar( ) frecuenciaVisita String toString( ). Estas funciones ya las tenemos parcialmente, tenemos un
+getAvatares() el cual devuelve una lista de Avatares, al cual podemos decir getLugar(). frecuanciaVisita será un wrapper del Singleton
+de StatsTracker en esa Casilla. toString otro wrapper a las subclases que tienen Descripción.
+
+En Propiedad se deberán de definir, al menos, los siguientes métodos:
+   • boolean perteneceAJugador(Jugador jugador)
+   • boolean estaHipotecada( )
+   • void hipotecar( )
+   • abstract boolear alquiler( )
+   • abstract float valor( )
+   • void comprar(Jugador jugador)
+
+Lo mismo, tenemos muchos ya definidos en subclases, hay que hacer wrappers.
+
+alquiler y valor son más wrapper de las que ya tenemos implementadas en Solar etc. Solar debe tener void edificar(String tipoEdificio),
+ya lo tenemos
+
+Jerarquía de los Edificios, clases abstracta llamada Edificios con métodos y atributos comunes. Segundo nivel con
+Casa, Hotel, Piscina y PistaDeporte.
+
+Jerarquía de Cartas, raíz de clase Carta con métodos y atributos comunes, y un segundo nivel compuesto de Suerte y CajaComunidad.
+Carta debe tener void accion( )
+
+Jerarquía de excepciones para todos los errores de "no está hipotecada" o "no se puede vender" o "no tienes dinero" o "no eres dueño" etc.
+Se lanza la excepción, y esta es capturada por el bucle principal (Juego.java). Cinco tipos propios de excepciones y con 3 niveles.
+
+Interface Comando con todo los métodos correspondientes a los comandos que puede introducir el usuario (comprar, hipotecar, edificar, listar, etc.).
+Clase Juego implementa interfaz Comando, es decir todos esos métodos, que son los que podrá invocar el usuario.
+
+Interface Consola funcionalidad de imprimir mensajes y de pedir datos. No puede haber ningún System.out.println, excepto:
+public void consola.imprimir(String mensaje)
+public String consola.leer(String descripcion)
+Una implementación de este interfaz,eso es una clase que implemente los métodos leer e imprimir que se llamará ConsolaNormal.
+En esta implementación se imprimirá usando System.out y se leerá utilizando la clase Scanner de Java.
+
+clase Juego tendra un atributo estático del tipo ConsolaNormal para que los métodos de imprimir y leer se puedan invocar
+desde cualquier clase del programa sin tener que instanciar continuamente dicha clase
+
+NUEVA FUNCIONALIDAD: proponer trato entre SOLO DOS jugadores, estos casos:
+• Cambiar <propiedad_1> por <propiedad_2>
+• Cambiar <propiedad_1> por <cantidad_dinero>
+• Cambiar <cantidad_dinero> por <propiedad_1>
+• Cambiar <propiedad_1> por <propiedad_2> y <cantidad_dinero>
+• Cambiar <propiedad_1> y <cantidad_dinero> por <propiedad_2>
+
+trato Maria: cambiar (Solar1, Solar14 y 300000)
+María, ¿te doy Solar1 y tú me das Solar14 y 300000€?
+
+Hay que lanzar expeción si los jugadores no son propietarios, o no existe, o no tiene dinero
+
+trato Maria: cambiar (Solar1, Solar14 y 300000)
+No se puede proponer el trato: Solar14 no pertenece a Maria.
+
+Aceptar trato: solo se puede hacer en el turno del jugador al cual se le ha propuesto, entonces las acciones indicadas solo se
+aplican en el turno del jugador que debe aceptar
+
+Al cambiar de turno, automáticamente se deben mostrar los tratos que se la han ofrecido disponibles, así durante su turno puede decidir si acepta o no
+aceptar trato20
+Se ha aceptado el siguiente trato con Luis: le doy Solar14 y Luis me da Solar10.
+aceptar trato14
+El trato no puede ser aceptado: Maria no dispone de 300000€.
+
+Listar tratos que se la han propuesto a un jugador, solo los suyos, no los que se han propuestos a otros
+
+tratos
+{
+jugadorPropone: Manuel,
+trato: cambiar (Solar14, Solar10)
+},
+{
+jugadorPropone: Pedro,
+trato: cambiar (Solar14, Solar10)
+}
+
+Eliminar trato: que se ha propuesto y no ha sido aceptado, solo el que lo ha propuesto puede eliminar

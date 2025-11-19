@@ -59,21 +59,6 @@ edificar casa
 edificar casa
 edificar casa
 acabar turno
-lanzar dados 5+3
+lanzar dados 4+2
 acabar turno
-listar edificios
-listar edificios azul
-estadisticas
-estadisticas Maria
-estadisticas Pedro
-lanzar dados 5+5
-lanzar dados 2+2
-hipotecar Solar22
-hipotecar Solar20
-vender Solar20
-vender casa Solar20 4
-vender casa Solar20 3
-hipotecar Solar20
-hipotecar Solar19
-deshipotecar Solar18
-deshipotecar Solar19
+
