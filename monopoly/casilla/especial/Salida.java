@@ -14,9 +14,6 @@ public class Salida extends Casilla {
     }
 
     @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {System.out.println("Esta casilla no se puede comprar.");}
-
-    @Override
     public String infoCasilla() {return "{ \n tipo: " + getTipo() + "\n}";}
 
     @Override
