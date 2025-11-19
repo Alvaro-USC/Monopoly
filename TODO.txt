@@ -1,6 +1,3 @@
-Crear clase Juego con todas las funciones e instancias necesarias para el desarrollo del Monopoly, tiene que estar en Menu.java,
-básicamente prácticamente todo lo de Menu debe meterse en Juego, la lista de jugadores o la instancia del propio tablero.
-
 Jerarquía de Casillas, una abstracta de Casilla con métodos y atributos comunes a todas ellas. Segundo nivel clases finales
 Propiedad, Accion, Impuesto, Grupo y Especial, donde Grupo tengan relación de composición con clase Propiedad, un Grupo tiene
 una lista de Propiedades. Tercer nivel de tres tipos de propiedas Solar, Servicio y Transporte; y los tipos de acciones
