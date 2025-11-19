@@ -195,10 +195,10 @@ public final class Solar extends Propiedad {
 
     private Edificio getEdificio(Jugador jugador, String tipo, float coste) {
         return switch (tipo) {
-            case "casa" -> new Casa(jugador, this, this.getGrupo().getColorGrupo(), coste);
-            case "hotel" -> new Hotel(jugador, this, this.getGrupo().getColorGrupo(), coste);
-            case "piscina" -> new Piscina(jugador, this, this.getGrupo().getColorGrupo(), coste);
-            default -> new PistaDeporte(jugador, this, this.getGrupo().getColorGrupo(), coste);
+            case "casa" -> new Casa(this, this.getGrupo().getColorGrupo(), coste);
+            case "hotel" -> new Hotel(this, this.getGrupo().getColorGrupo(), coste);
+            case "piscina" -> new Piscina(this, this.getGrupo().getColorGrupo(), coste);
+            default -> new PistaDeporte(this, this.getGrupo().getColorGrupo(), coste);
         };
     }
 
@@ -418,4 +418,13 @@ public final class Solar extends Propiedad {
     public float valor() {
         return getValor();
     }
+
+    public void setDuenho(Jugador duenho) {
+        this.duenho = duenho;
+        for (Edificio e : edificios) {
+            e.setPropietario(duenho);
+        }
+    }
+
+
 }
