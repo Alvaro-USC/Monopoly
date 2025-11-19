@@ -1,3 +1,8 @@
 package monopoly.excepcion;
 
-public class AccionInvalidaException {}
+// Errores relacionados con la acción del jugador
+public class AccionInvalidaException extends MonopolyException {
+    public AccionInvalidaException(String mensaje) {
+        super(mensaje);
+    }
+}
