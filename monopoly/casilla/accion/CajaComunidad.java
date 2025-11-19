@@ -1,21 +1,17 @@
 package monopoly.casilla.accion;
 
-import monopoly.casilla.Casilla;
+import monopoly.casilla.Accion;
 import partida.Jugador;
 
-public class CajaComunidad extends Casilla {
+public class CajaComunidad extends Accion {
     public CajaComunidad(int posicion, Jugador duenho) {
-        super("Caja", "CajaComunidad", posicion, duenho);
+        super("Caja", posicion, duenho);
     }
 
     @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
         return true;
     }
-
-
-    @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {System.out.println("Esta casilla no se puede comprar.");}
 
     @Override
     public String infoCasilla() {return "{ \n tipo: " + getTipo() + "\n}";}
@@ -24,5 +20,4 @@ public class CajaComunidad extends Casilla {
     public String casEnVenta() {
         return "";
     }
-
 }
