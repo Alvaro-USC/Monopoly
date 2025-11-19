@@ -1,21 +1,21 @@
 package monopoly.casilla.propiedad;
 
-import monopoly.edificio.Edificio;
+import monopoly.edificio.*;
 import monopoly.StatsTracker;
 import monopoly.Valor;
 import monopoly.casilla.Casilla;
 import monopoly.casilla.Propiedad;
+import monopoly.excepcion.*;
 import partida.Jugador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Solar extends Propiedad {
+public final class Solar extends Propiedad {
 
     private final ArrayList<Edificio> edificios = new ArrayList<>();
     int idSolar;
-    private boolean hipotecada = false;
 
     public Solar(String nombre, int posicion, float valor, Jugador duenho, float hipoteca, float impuesto) {
         super(nombre, "Solar", posicion, valor, duenho);
@@ -41,7 +41,11 @@ public class Solar extends Propiedad {
         }
 
         float toPay = this.calcularAlquiler();
-        return this.procesarPago(actual, toPay);
+        try {
+            return this.procesarPago(actual, toPay);
+        } catch (FondosInsuficientesException e) {
+            return false;
+        }
     }
 
     @Override
@@ -100,24 +104,24 @@ public class Solar extends Propiedad {
         return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + "," + g + " \n valor: " + getValor() + "\n}";
     }
 
-    public String construirEdificio(Jugador jugador, String tipo) {
+    public String edificar(Jugador jugador, String tipo) throws PropiedadNoPerteneceException, PropiedadYaHipotecadaException, EdificacionIlegalException, AccionInvalidaException {
         // Validar Propiedad
         if (!this.getDuenho().equals(jugador)) {
-            return "No eres el propietario de " + this.getNombre();
+            throw new PropiedadNoPerteneceException(this.getNombre());
         }
 
         // Validar Hipoteca (ni esta ni ninguna del grupo)
         if (this.isHipotecada()) {
-            return "No se puede edificar en una propiedad hipotecada.";
+            throw new PropiedadYaHipotecadaException();
         }
         if (this.getGrupo() != null) {
             for (Casilla c : this.getGrupo().getMiembros()) {
                 if (c instanceof Solar s && s.isHipotecada()) {
-                    return "No se puede edificar en este grupo mientras haya propiedades hipotecadas.";
+                    throw new EdificacionIlegalException();
                 }
             }
         } else {
-            return "Error: Este solar no pertenece a ningún grupo.";
+            throw new EdificacionIlegalException("Error: Este solar no pertenece a ningún grupo.");
         }
 
         // Contar edificios existentes
@@ -127,55 +131,41 @@ public class Solar extends Propiedad {
         int pistas = this.getCantidadEdificioTipo("pista_deporte");
 
         // Determinar Coste
-        float coste;
-        switch (tipo.toLowerCase()) {
-            case "casa":
-                coste = Valor.PRECIO_EDIFICIOS[this.idSolar][0];
-                break;
-            case "hotel":
-                coste = Valor.PRECIO_EDIFICIOS[this.idSolar][1];
-                break;
-            case "piscina":
-                coste = Valor.PRECIO_EDIFICIOS[this.idSolar][2];
-                break;
-            case "pista_deporte":
-                coste = Valor.PRECIO_EDIFICIOS[this.idSolar][3];
-                break;
-            default:
-                return "Tipo de edificio no válido. Use casa, hotel, piscina o pista_deporte.";
-        }
-
-        // Validar Fortuna
-        if (jugador.getFortuna() < coste) {
-            return "La fortuna de " + jugador.getNombre() + " no es suficiente para edificar un " + tipo + ".";
-        }
+        float coste = getCoste(jugador, tipo);
 
         // Validar Reglas de Construcción
         switch (tipo.toLowerCase()) {
             case "casa":
-                if (casas >= 4) return "No se puede edificar más de 4 casas en " + this.getNombre();
-                if (hoteles >= 1) return "No se puede edificar casas en " + this.getNombre() + " puesto a que ya hay un hotel";
+                if (casas >= 4)
+                    throw new AccionInvalidaException("No se puede edificar más de 4 casas en " + this.getNombre());
+                if (hoteles >= 1)
+                    throw new AccionInvalidaException("No se puede edificar casas en " + this.getNombre() + " puesto a que ya hay un hotel");
                 break;
             case "hotel":
-                if (casas < 4) return "No se puede edificar un hotel en " + this.getNombre() + " sin 4 casas previas";
-                if (hoteles >= 1) return "Ya hay un hotel construido en " + this.getNombre();
+                if (casas < 4)
+                    throw new AccionInvalidaException("No se puede edificar un hotel en " + this.getNombre() + " sin 4 casas previas");
+                if (hoteles >= 1)
+                    throw new AccionInvalidaException("Ya hay un hotel construido en " + this.getNombre());
                 edificios.clear();
                 break;
             case "piscina":
-                if (hoteles < 1) return "No se puede edificar una piscina en " + this.getNombre() + " sin un hotel";
-                if (piscinas >= 1) return "Ya hay una pisicina construida en " + this.getNombre();
+                if (hoteles < 1)
+                    throw new AccionInvalidaException("No se puede edificar una piscina en " + this.getNombre() + " sin un hotel");
+                if (piscinas >= 1)
+                    throw new AccionInvalidaException("Ya hay una pisicina construida en " + this.getNombre());
                 break;
             case "pista_deporte":
                 if (hoteles < 1)
-                    return "No se puede edificar una pista de deporte en " + this.getNombre() + " sin un hotel";
+                    throw new AccionInvalidaException("No se puede edificar una pista de deporte en " + this.getNombre() + " sin un hotel");
                 if (piscinas < 1)
-                    return "No se puede edificar una pista de deporte en " + this.getNombre() + " sin una piscina";
-                if (pistas >= 1) return "Ya hay una pista de deporte construida en " + this.getNombre();
+                    throw new AccionInvalidaException("No se puede edificar una pista de deporte en " + this.getNombre() + " sin una piscina");
+                if (pistas >= 1)
+                    throw new AccionInvalidaException("Ya hay una pista de deporte construida en " + this.getNombre());
                 break;
         }
 
         // Ejecutar Construcción
-        Edificio nuevo = new Edificio(tipo, jugador, this, this.getGrupo().getColorGrupo(), coste);
+        Edificio nuevo = getEdificio(jugador, tipo, coste);
         this.addEdificio(nuevo);
         jugador.sumarGastos(coste);
 
@@ -186,17 +176,43 @@ public class Solar extends Propiedad {
         return "Se ha edificado un " + tipo + " en " + this.getNombre() + ". La fortuna de " + jugador.getNombre() + " se reduce en " + Valor.formatear(coste) + "€.";
     }
 
-    public String hipotecarPropiedad(Jugador jugador) {
+    private float getCoste(Jugador jugador, String tipo) throws EdificacionIlegalException, FondosInsuficientesException {
+        float coste = switch (tipo.toLowerCase()) {
+            case "casa" -> Valor.PRECIO_EDIFICIOS[this.idSolar][0];
+            case "hotel" -> Valor.PRECIO_EDIFICIOS[this.idSolar][1];
+            case "piscina" -> Valor.PRECIO_EDIFICIOS[this.idSolar][2];
+            case "pista_deporte" -> Valor.PRECIO_EDIFICIOS[this.idSolar][3];
+            default ->
+                    throw new EdificacionIlegalException("Tipo de edificio no válido. Use casa, hotel, piscina o pista_deporte.");
+        };
+
+        // Validar Fortuna
+        if (jugador.getFortuna() < coste) {
+            throw new FondosInsuficientesException(tipo);
+        }
+        return coste;
+    }
+
+    private Edificio getEdificio(Jugador jugador, String tipo, float coste) {
+        return switch (tipo) {
+            case "casa" -> new Casa(jugador, this, this.getGrupo().getColorGrupo(), coste);
+            case "hotel" -> new Hotel(jugador, this, this.getGrupo().getColorGrupo(), coste);
+            case "piscina" -> new Piscina(jugador, this, this.getGrupo().getColorGrupo(), coste);
+            default -> new PistaDeporte(jugador, this, this.getGrupo().getColorGrupo(), coste);
+        };
+    }
+
+    public String hipotecar(Jugador jugador) throws PropiedadYaHipotecadaException, PropiedadNoPerteneceException {
         if (!this.getDuenho().equals(jugador)) {
-            return "No eres el propietario de " + this.getNombre();
+            throw new PropiedadNoPerteneceException(this.getNombre());
         }
 
         if (this.isHipotecada()) {
-            return "La propiedad ya está hipotecada.";
+            throw new PropiedadYaHipotecadaException();
         }
 
         if (!this.getEdificios().isEmpty()) {
-            return "Debes vender todos los edificios antes de hipotecar " + this.getNombre();
+            throw new PropiedadYaHipotecadaException();
         }
 
         float cantidad = this.calcularValorHipoteca(); // Ya tienes este método
@@ -206,21 +222,21 @@ public class Solar extends Propiedad {
         return "Se hipoteca " + this.getNombre() + " por " + Valor.formatear(cantidad) + "€.";
     }
 
-    public String deshipotecarPropiedad(Jugador jugador) {
+    public String deshipotecar(Jugador jugador) throws FondosInsuficientesException, PropiedadNoPerteneceException, PropiedadNoHipotecadaException {
         // El propietario (jugador) se infiere de this.getDuenho()
         if (!this.getDuenho().equals(jugador)) {
-            return "No eres el propietario de " + this.getNombre();
+            throw new PropiedadNoPerteneceException(this.getNombre());
         }
 
         if (!this.isHipotecada()) {
-            return "La propiedad no está hipotecada.";
+            throw new PropiedadNoHipotecadaException();
         }
 
         // El coste de deshipotecar es el valor de la hipoteca
         float cantidad = this.calcularValorHipoteca();
 
         if (jugador.getFortuna() < cantidad) {
-            return "No tienes suficiente dinero (" + Valor.formatear(cantidad) + "€) para deshipotecar esta propiedad.";
+            throw new FondosInsuficientesException(cantidad);
         }
 
         jugador.sumarGastos(cantidad);
@@ -229,20 +245,33 @@ public class Solar extends Propiedad {
         return "Se deshipoteca " + this.getNombre() + " pagando " + Valor.formatear(cantidad) + "€.";
     }
 
-    public String venderEdificios(Jugador jugador, String tipo, int cantidad) {
+    public String venderEdificios(Jugador jugador, String tipo, int cantidad) throws PropiedadNoPerteneceException, AccionInvalidaException {
         if (!this.getDuenho().equals(jugador)) {
-            return "No eres el propietario de " + this.getNombre();
+            throw new PropiedadNoPerteneceException(this.getNombre());
         }
 
         int disponibles = this.getCantidadEdificioTipo(tipo.toLowerCase());
 
         if (disponibles == 0) {
-            return "No hay edificios de tipo " + tipo + " en " + this.getNombre();
+            throw new AccionInvalidaException("No hay edificios de tipo " + tipo + " en " + this.getNombre());
         }
 
         int vender = Math.min(disponibles, cantidad);
 
         // Calcular precio de venta
+        float totalGanado = getTotalGanado(tipo, vender);
+
+        this.eliminarEdificios(tipo, vender);
+        jugador.sumarFortuna(totalGanado);
+
+        // Actualizar Stats
+        StatsTracker.getInstance().asegurarJugador(jugador);
+        StatsTracker.getInstance().byPlayer.get(jugador.getNombre()).addDineroInvertido(-totalGanado);
+
+        return "Vendidas " + vender + " " + tipo + "(s) en " + this.getNombre() + " por " + Valor.formatear(totalGanado) + "€.";
+    }
+
+    private float getTotalGanado(String tipo, int vender) throws AccionInvalidaException {
         float precioVentaUnitario;
         int col = switch (tipo.toLowerCase()) {
             case "casa" -> 0;
@@ -253,21 +282,12 @@ public class Solar extends Propiedad {
         };
 
         if (col == -1) {
-            return "Tipo de edificio no válido: " + tipo;
+            throw new AccionInvalidaException("Tipo de edificio no válido: " + tipo);
         }
 
         precioVentaUnitario = Valor.PRECIO_EDIFICIOS[this.idSolar][col];
 
-        float totalGanado = vender * precioVentaUnitario;
-
-        this.eliminarEdificios(tipo, vender);
-        jugador.sumarFortuna(totalGanado);
-
-        // Actualizar Stats
-        StatsTracker.getInstance().asegurarJugador(jugador);
-        StatsTracker.getInstance().byPlayer.get(jugador.getNombre()).addDineroInvertido(-totalGanado);
-
-        return "Vendidas " + vender + " " + tipo + "(s) en " + this.getNombre() + " por " + Valor.formatear(totalGanado) + "€.";
+        return vender * precioVentaUnitario;
     }
 
     public Map<String, Integer> getSumaAlquileresPorTipo() {
@@ -316,7 +336,7 @@ public class Solar extends Propiedad {
     public String getResumenEdificios() { // Renombramos el método para reflejar que devuelve un String
         StringBuilder descripcion = new StringBuilder();
         for (Edificio e : edificios) {
-            descripcion.append(e.describirEdificio() + ",\n");
+            descripcion.append(e.describirEdificio()).append(",\n");
         }
 
         return descripcion.toString();
@@ -362,8 +382,6 @@ public class Solar extends Propiedad {
         }
     }
 
-    public boolean isHipotecada() {return hipotecada;}
-
     public void setHipotecada(boolean h) {this.hipotecada = h;}
 
     public ArrayList<Edificio> getEdificios() {return edificios;}
@@ -390,4 +408,14 @@ public class Solar extends Propiedad {
     }
 
     public int getIdSolar() {return idSolar;}
+
+    @Override
+    public boolean alquiler() {
+        return getImpuesto() > 0;
+    }
+
+    @Override
+    public float valor() {
+        return getValor();
+    }
 }
