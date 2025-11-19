@@ -149,10 +149,12 @@ public class Solar extends PropiedadComprable {
         switch (tipo.toLowerCase()) {
             case "casa":
                 if (casas >= 4) return "No se puede edificar más de 4 casas en " + this.getNombre();
+                if (hoteles >= 1) return "No se puede edificar casas en " + this.getNombre() + " puesto a que ya hay un hotel";
                 break;
             case "hotel":
                 if (casas < 4) return "No se puede edificar un hotel en " + this.getNombre() + " sin 4 casas previas";
                 if (hoteles >= 1) return "Ya hay un hotel construido en " + this.getNombre();
+                edificios.clear();
                 break;
             case "piscina":
                 if (hoteles < 1) return "No se puede edificar una piscina en " + this.getNombre() + " sin un hotel";
