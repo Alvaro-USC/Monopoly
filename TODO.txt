@@ -1,5 +1,3 @@
-Al construir 4 Casas, se puede construir un Hotel, y las 4 Casas sencillamente desaparecen en existencia
-
 Crear clase Juego con todas las funciones e instancias necesarias para el desarrollo del Monopoly, tiene que estar en Menu.java,
 básicamente prácticamente todo lo de Menu debe meterse en Juego, la lista de jugadores o la instancia del propio tablero.
 
