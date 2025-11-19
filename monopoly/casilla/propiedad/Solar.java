@@ -4,14 +4,14 @@ import monopoly.edificio.Edificio;
 import monopoly.StatsTracker;
 import monopoly.Valor;
 import monopoly.casilla.Casilla;
-import monopoly.casilla.PropiedadComprable;
+import monopoly.casilla.Propiedad;
 import partida.Jugador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Solar extends PropiedadComprable {
+public class Solar extends Propiedad {
 
     private final ArrayList<Edificio> edificios = new ArrayList<>();
     int idSolar;

@@ -10,9 +10,9 @@ import partida.Jugador;
  * Clase intermedia abstracta que agrupa toda la lógica común
  * de las casillas que se pueden comprar (Solares, Transportes, Servicios).
  */
-public abstract class PropiedadComprable extends Casilla {
+public abstract class Propiedad extends Casilla {
 
-    public PropiedadComprable(String nombre, String tipo, int posicion, float valor, Jugador duenho) {
+    public Propiedad(String nombre, String tipo, int posicion, float valor, Jugador duenho) {
         super(nombre, tipo, posicion, valor, duenho);
     }
 

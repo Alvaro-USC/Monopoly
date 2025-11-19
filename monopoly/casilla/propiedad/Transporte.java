@@ -1,10 +1,10 @@
 package monopoly.casilla.propiedad;
 
 import monopoly.Valor;
-import monopoly.casilla.PropiedadComprable;
+import monopoly.casilla.Propiedad;
 import partida.Jugador;
 
-public class Transporte extends PropiedadComprable {
+public class Transporte extends Propiedad {
     public Transporte(String nombre, int posicion, float valor, Jugador duenho) {
         super(nombre, "Transporte", posicion, valor, duenho);
     }
