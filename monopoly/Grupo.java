@@ -1,16 +1,17 @@
 package monopoly;
 
 import monopoly.casilla.Casilla;
+import monopoly.casilla.Propiedad;
 import monopoly.casilla.propiedad.Solar;
 import monopoly.edificio.Edificio;
 import partida.Jugador;
 
 import java.util.ArrayList;
 
-public class Grupo {
+public class Grupo extends Casilla {
 
     //Atributos
-    private final ArrayList<Casilla> miembros; //Casillas miembros del grupo.
+    private final ArrayList<Propiedad> miembros; //Casillas miembros del grupo.
     private String colorGrupo; //Nombre del color del grupo (e.g., "rosa")
     private int numCasillas; //Número de casillas del grupo.
 
@@ -22,7 +23,7 @@ public class Grupo {
     /*Constructor para cuando el grupo está formado por DOS CASILLAS:
      * Requiere como parámetros las dos casillas miembro y el color del grupo.
      */
-    public Grupo(Casilla cas1, Casilla cas2, String colorGrupo) {
+    public Grupo(Propiedad cas1, Propiedad cas2, String colorGrupo) {
         this();
         this.anhadirCasilla(cas1);
         this.anhadirCasilla(cas2);
@@ -35,7 +36,7 @@ public class Grupo {
     /*Constructor para cuando el grupo está formado por TRES CASILLAS:
      * Requiere como parámetros las tres casillas miembro y el color del grupo.
      */
-    public Grupo(Casilla cas1, Casilla cas2, Casilla cas3, String colorGrupo) {
+    public Grupo(Propiedad cas1, Propiedad cas2, Propiedad cas3, String colorGrupo) {
         this();
         this.anhadirCasilla(cas1);
         this.anhadirCasilla(cas2);
@@ -47,10 +48,16 @@ public class Grupo {
         cas3.setGrupo(this);
     }
 
+    // Grupo no es una casilla evaluable, es un agrupador de casillas
+    @Override
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
+        return false;
+    }
+
     /* Método que añade una casilla al array de casillas miembro de un grupo.
      * Parámetro: casilla que se quiere añadir.
      */
-    public void anhadirCasilla(Casilla miembro) {
+    public void anhadirCasilla(Propiedad miembro) {
         miembros.add(miembro);
     }
 
@@ -60,7 +67,7 @@ public class Grupo {
      */
     public boolean esDuenhoGrupo(Jugador jugador) {
         int count = 0;
-        for (Casilla c : miembros) {
+        for (Propiedad c : miembros) {
             if (c.getDuenho().equals(jugador)) {
                 count++;
             }
@@ -84,13 +91,13 @@ public class Grupo {
         };
     }
 
-    public ArrayList<Casilla> getMiembros() {
+    public ArrayList<Propiedad> getMiembros() {
         return miembros;
     }
 
     public String getDescripcionGrupo() {
         StringBuilder r = new StringBuilder();
-        for (Casilla casilla : miembros) {
+        for (Propiedad casilla : miembros) {
             if (casilla instanceof Solar s) {
                 r.append("{\n");
                 r.append(" propiedad: ").append(s.getNombre());
