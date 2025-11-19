@@ -1,6 +1,6 @@
 Jerarquía de Casillas, una abstracta de Casilla con métodos y atributos comunes a todas ellas. Segundo nivel clases finales
 Propiedad, Accion, Impuesto, Grupo y Especial, donde Grupo tengan relación de composición con clase Propiedad, un Grupo tiene
-una lista de Propiedades. Tercer nivel de tres tipos de propiedas Solar, Servicio y Transporte; y los tipos de acciones
+una lista de Propiedades. Tercer nivel de tres tipos de propiedades: Solar, Servicio y Transporte; y los tipos de acciones
 Suerte, CajaComunidad y Parking.
 
 Casilla debe tener boolean estaAvatar( ) frecuenciaVisita String toString( ). Estas funciones ya las tenemos parcialmente, tenemos un
@@ -15,28 +15,11 @@ En Propiedad se deberán de definir, al menos, los siguientes métodos:
    • abstract float valor( )
    • void comprar(Jugador jugador)
 
-Lo mismo, tenemos muchos ya definidos en subclases, hay que hacer wrappers.
-
-alquiler y valor son más wrapper de las que ya tenemos implementadas en Solar etc. Solar debe tener void edificar(String tipoEdificio),
-ya lo tenemos
-
 Jerarquía de los Edificios, clases abstracta llamada Edificios con métodos y atributos comunes. Segundo nivel con
 Casa, Hotel, Piscina y PistaDeporte.
 
 Jerarquía de Cartas, raíz de clase Carta con métodos y atributos comunes, y un segundo nivel compuesto de Suerte y CajaComunidad.
 Carta debe tener void accion( )
-
-Jerarquía de excepciones para todos los errores de "no está hipotecada" o "no se puede vender" o "no tienes dinero" o "no eres dueño" etc.
-Se lanza la excepción, y esta es capturada por el bucle principal (Juego.java). Cinco tipos propios de excepciones y con 3 niveles.
-
-Interface Comando con todo los métodos correspondientes a los comandos que puede introducir el usuario (comprar, hipotecar, edificar, listar, etc.).
-Clase Juego implementa interfaz Comando, es decir todos esos métodos, que son los que podrá invocar el usuario.
-
-Interface Consola funcionalidad de imprimir mensajes y de pedir datos. No puede haber ningún System.out.println, excepto:
-public void consola.imprimir(String mensaje)
-public String consola.leer(String descripcion)
-Una implementación de este interfaz,eso es una clase que implemente los métodos leer e imprimir que se llamará ConsolaNormal.
-En esta implementación se imprimirá usando System.out y se leerá utilizando la clase Scanner de Java.
 
 clase Juego tendra un atributo estático del tipo ConsolaNormal para que los métodos de imprimir y leer se puedan invocar
 desde cualquier clase del programa sin tener que instanciar continuamente dicha clase
@@ -80,3 +63,7 @@ trato: cambiar (Solar14, Solar10)
 Eliminar trato: que se ha propuesto y no ha sido aceptado, solo el que lo ha propuesto puede eliminar
 
 Revisar si tiene sentido que Grupo sea público, y que Casilla.procesarPago() sea público.
+
+Revisar los println y los tipos datos de return o si ha de ser void en los métodos que mandan implementar.
+
+Revisar todo lo que se exige en la Entrega 3
