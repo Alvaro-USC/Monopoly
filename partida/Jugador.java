@@ -4,6 +4,7 @@ import monopoly.casilla.Casilla;
 import monopoly.edificio.Edificio;
 import monopoly.casilla.propiedad.Solar;
 import monopoly.Valor;
+import monopoly.excepcion.AccionInvalidaException;
 
 import java.util.ArrayList;
 
@@ -46,7 +47,7 @@ public class Jugador {
         // Crear avatar con validación
         try {
             this.avatar = new Avatar(tipoAvatar, this, avCreados);
-        } catch (IllegalArgumentException e) {
+        } catch (AccionInvalidaException e) {
             this.avatar = null; // No se crea el jugador si el avatar no es válido
         }
         this.estadisticas = new PlayerStats();
