@@ -1,13 +1,13 @@
 package monopoly.casilla.especial;
 
 import monopoly.Valor;
-import monopoly.casilla.Casilla;
+import monopoly.casilla.Especial;
 import partida.Avatar;
 import partida.Jugador;
 
-public class Parking extends Casilla {
+public class Parking extends Especial {
     public Parking(int posicion, Jugador duenho) {
-        super("Parking", "Especial", posicion, duenho);
+        super("Parking", posicion, duenho);
         setValor(0f);
     }
 
@@ -19,11 +19,6 @@ public class Parking extends Casilla {
         System.out.println("El jugador recibe " + Valor.formatear(bote) + "€.");
         monopoly.StatsTracker.getInstance().registrarPremioBote(actual, bote);
         return true;
-    }
-
-    @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {
-        System.out.println("Esta casilla no se puede comprar, es de " + getDuenho().getNombre());
     }
 
     @Override
