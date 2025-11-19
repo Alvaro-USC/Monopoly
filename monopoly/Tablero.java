@@ -2,6 +2,7 @@ package monopoly;
 
 import monopoly.casilla.Casilla;
 import monopoly.casilla.Impuesto;
+import monopoly.casilla.Propiedad;
 import monopoly.casilla.accion.CajaComunidad;
 import monopoly.casilla.accion.Suerte;
 import monopoly.casilla.especial.Carcel;
@@ -11,6 +12,7 @@ import monopoly.casilla.especial.Salida;
 import monopoly.casilla.propiedad.Servicio;
 import monopoly.casilla.propiedad.Solar;
 import monopoly.casilla.propiedad.Transporte;
+import monopoly.excepcion.AccionInvalidaException;
 import partida.Jugador;
 
 import java.util.ArrayList;
@@ -30,10 +32,14 @@ public class Tablero {
             this.posiciones.add(new ArrayList<>());
         }
         this.grupos = new HashMap<>();
-        this.generarCasillas();
+        try {
+            this.generarCasillas();
+        } catch (AccionInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    private void generarCasillas() {
+    private void generarCasillas() throws AccionInvalidaException {
         // Obtener las listas de los lados (para legibilidad) ---
         ArrayList<Casilla> ladoSur = this.posiciones.get(0);
         ArrayList<Casilla> ladoOeste = this.posiciones.get(1);
@@ -119,28 +125,28 @@ public class Tablero {
 
         // Crear grupos
         // Esta lógica funciona perfectamente ahora que todas las casillas están creadas.
-        Grupo gMarron = new Grupo(encontrar_casilla("Solar1"), encontrar_casilla("Solar2"), "marron");
+        Grupo gMarron = new Grupo(obtenerPropiedad("Solar1"), obtenerPropiedad("Solar2"), "marron");
         grupos.put("marron", gMarron);
 
-        Grupo gCeleste = new Grupo(encontrar_casilla("Solar3"), encontrar_casilla("Solar4"), encontrar_casilla("Solar5"), "celeste");
+        Grupo gCeleste = new Grupo(obtenerPropiedad("Solar3"), obtenerPropiedad("Solar4"), obtenerPropiedad("Solar5"), "celeste");
         grupos.put("celeste", gCeleste);
 
-        Grupo gRosa = new Grupo(encontrar_casilla("Solar6"), encontrar_casilla("Solar7"), encontrar_casilla("Solar8"), "rosa");
+        Grupo gRosa = new Grupo(obtenerPropiedad("Solar6"), obtenerPropiedad("Solar7"), obtenerPropiedad("Solar8"), "rosa");
         grupos.put("rosa", gRosa);
 
-        Grupo gNaranja = new Grupo(encontrar_casilla("Solar9"), encontrar_casilla("Solar10"), encontrar_casilla("Solar11"), "naranja");
+        Grupo gNaranja = new Grupo(obtenerPropiedad("Solar9"), obtenerPropiedad("Solar10"), obtenerPropiedad("Solar11"), "naranja");
         grupos.put("naranja", gNaranja);
 
-        Grupo gRojo = new Grupo(encontrar_casilla("Solar12"), encontrar_casilla("Solar13"), encontrar_casilla("Solar14"), "rojo");
+        Grupo gRojo = new Grupo(obtenerPropiedad("Solar12"), obtenerPropiedad("Solar13"), obtenerPropiedad("Solar14"), "rojo");
         grupos.put("rojo", gRojo);
 
-        Grupo gAmarillo = new Grupo(encontrar_casilla("Solar15"), encontrar_casilla("Solar16"), encontrar_casilla("Solar17"), "amarillo");
+        Grupo gAmarillo = new Grupo(obtenerPropiedad("Solar15"), obtenerPropiedad("Solar16"), obtenerPropiedad("Solar17"), "amarillo");
         grupos.put("amarillo", gAmarillo);
 
-        Grupo gVerde = new Grupo(encontrar_casilla("Solar18"), encontrar_casilla("Solar19"), encontrar_casilla("Solar20"), "verde");
+        Grupo gVerde = new Grupo(obtenerPropiedad("Solar18"), obtenerPropiedad("Solar19"), obtenerPropiedad("Solar20"), "verde");
         grupos.put("verde", gVerde);
 
-        Grupo gAzul = new Grupo(encontrar_casilla("Solar21"), encontrar_casilla("Solar22"), "azul");
+        Grupo gAzul = new Grupo(obtenerPropiedad("Solar21"), obtenerPropiedad("Solar22"), "azul");
         grupos.put("azul", gAzul);
     }
 
@@ -159,13 +165,9 @@ public class Tablero {
             String resultado = rep.toString().replaceAll("\u001B\\[\\d+m", "");
             nChars = resultado.length();
             if (contador == 0) {
-                for (int i = 0; i < 9 - nChars; i++) {
-                    rep.append(" ");
-                }
+                rep.append(" ".repeat(Math.max(0, 9 - nChars)));
             } else if (contador > 0) {
-                for (int i = 0; i < 7 - nChars; i++) {
-                    rep.append(" ");
-                }
+                rep.append(" ".repeat(Math.max(0, 7 - nChars)));
             }
 
             sb.append("┃").append(rep);
@@ -187,9 +189,7 @@ public class Tablero {
             nChars = resultado.length();
 
             if (nChars < 9) {
-                for (int j = 0; j < 9 - nChars; j++) {
-                    leftRep.append(" ");
-                }
+                leftRep.append(" ".repeat(9 - nChars));
             } else if (i < 7) {
                 if (!leftRep.toString().contains("&")) leftRep.append("   ");
 
@@ -202,9 +202,7 @@ public class Tablero {
             resultado = rightRep.toString().replaceAll("\u001B\\[\\d+m", "");
             nChars = resultado.length();
             if (nChars < 8) {
-                for (int j = 0; j < 8 - nChars; j++) {
-                    rightRep.append(" ");
-                }
+                rightRep.append(" ".repeat(8 - nChars));
             } else {
                 if (!rightRep.toString().contains("&")) rightRep.append(" ");
 
@@ -227,14 +225,10 @@ public class Tablero {
             nChars = resultado.length();
 
             if (contador == 0) {
-                for (int i = 0; i < 9 - nChars; i++) {
-                    rep.append(" ");
-                }
+                rep.append(" ".repeat(Math.max(0, 9 - nChars)));
             } else if (contador > 0) {
                 if (nChars < 7) {
-                    for (int i = 0; i < 7 - nChars; i++) {
-                        rep.append(" ");
-                    }
+                    rep.append(" ".repeat(7 - nChars));
                 } else {
                     if (!rep.toString().contains("&")) rep.append(" ");
                 }
@@ -263,6 +257,18 @@ public class Tablero {
         }
         return null;
     }
+
+    public Propiedad obtenerPropiedad(String nombre) throws AccionInvalidaException {
+        Casilla c = encontrar_casilla(nombre);
+        if (c == null) {
+            throw new AccionInvalidaException("No existe la casilla: " + nombre);
+        }
+        if (!(c instanceof Propiedad)) {
+            throw new AccionInvalidaException("La casilla " + nombre + " no es una Propiedad.");
+        }
+        return (Propiedad) c;
+    }
+
 
     public ArrayList<ArrayList<Casilla>> getPosiciones() {
         return posiciones;
