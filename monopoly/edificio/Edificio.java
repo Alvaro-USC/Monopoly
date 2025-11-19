@@ -4,7 +4,7 @@ import monopoly.Valor;
 import monopoly.casilla.propiedad.Solar;
 import partida.Jugador;
 
-public class Edificio {
+public abstract class Edificio {
     private final String id;
     private final String tipo; // casa, hotel, piscina, pistaDeDeporte
     private final Jugador propietario;
@@ -32,15 +32,8 @@ public class Edificio {
     }
 
     public String describirEdificio() {
-        StringBuilder descripcion = new StringBuilder("{\n");
-        descripcion.append(" id: " + id);
-        descripcion.append("\n proprietario: " + propietario.getNombre());
-        descripcion.append("\n casilla: " + solar.getNombre());
-        descripcion.append("\n grupo: " + grupo);
-        descripcion.append("\n coste: " + coste);
-        descripcion.append("\n}");
 
-        return descripcion.toString();
+        return "{\n" + " id: " + id + "\n proprietario: " + propietario.getNombre() + "\n casilla: " + solar.getNombre() + "\n grupo: " + grupo + "\n coste: " + coste + "\n}";
     }
 
     public String toString() {return "{ \n id: " + id + ", \n propietario: " + propietario.getNombre() + ", \n casilla: " + solar.getNombre() + ", \n grupo: " + grupo + ", \n coste: " + Valor.formatear(coste) + " \n}";}
