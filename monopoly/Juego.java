@@ -15,7 +15,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Menu {
+public class Juego {
 
     //Atributos
     private final ArrayList<Jugador> jugadores; //Jugadores de la partida.
@@ -36,7 +36,7 @@ public class Menu {
     private boolean solvente; //Booleano para comprobar si el jugador que tiene el turno es solvente, es decir, si ha pagado sus deudas.
     private boolean partidaIniciada;
 
-    public Menu(String archivoComandos) {
+    public Juego(String archivoComandos) {
         jugadores = new ArrayList<>();
         avatares = new ArrayList<>();
         lanzamientos = 0;
@@ -64,7 +64,7 @@ public class Menu {
         iniciarBucleComandos();
     }
 
-    public Menu() {
+    public Juego() {
         jugadores = new ArrayList<>();
         avatares = new ArrayList<>();
         lanzamientos = 0;

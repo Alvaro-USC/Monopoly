@@ -5,11 +5,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ComandoArchivo {
-    private final Menu menu;
+    private final Juego juego;
     private final String archivo;
 
-    public ComandoArchivo(Menu menu, String archivo) {
-        this.menu = menu;
+    public ComandoArchivo(Juego juego, String archivo) {
+        this.juego = juego;
         this.archivo = archivo;
     }
 
@@ -27,7 +27,7 @@ public class ComandoArchivo {
                     if (linea.charAt(0) == '#')
                         continue; // Las líneas que empiezan con # se ignoran, son comentarios para los comandos
                     System.out.println(linea);
-                    menu.analizarComando(linea);
+                    juego.analizarComando(linea);
                 }
             }
             System.out.println("Procesamiento del archivo de comandos completado.");
