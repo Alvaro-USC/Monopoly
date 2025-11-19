@@ -1,8 +1,8 @@
 package partida;
 
-import monopoly.Casilla;
-import monopoly.Edificio;
-import monopoly.Solar;
+import monopoly.casilla.Casilla;
+import monopoly.edificio.Edificio;
+import monopoly.casilla.propiedad.Solar;
 import monopoly.Valor;
 
 import java.util.ArrayList;

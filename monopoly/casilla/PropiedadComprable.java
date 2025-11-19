@@ -1,7 +1,9 @@
 // CREAR NUEVO ARCHIVO: PropiedadComprable.java
 
-package monopoly; // O tu paquete 'partida'
+package monopoly.casilla; // O tu paquete 'partida'
 
+import monopoly.StatsTracker;
+import monopoly.Valor;
 import partida.Jugador;
 
 /**

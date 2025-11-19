@@ -1,4 +1,3 @@
 package monopoly.excepcion;
 
-public class PropiedadNoPerteneceException {
-}
+public class PropiedadNoPerteneceException {}

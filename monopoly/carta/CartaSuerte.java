@@ -1,4 +1,3 @@
 package monopoly.carta;
 
-public class CartaSuerte {
-}
+public class CartaSuerte {}

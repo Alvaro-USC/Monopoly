@@ -1,4 +1,3 @@
 package monopoly.excepcion;
 
-public class TratoInvalidoException {
-}
+public class TratoInvalidoException {}

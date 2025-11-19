@@ -1,5 +1,6 @@
-package monopoly;
+package monopoly.casilla.especial;
 
+import monopoly.Valor;
 import monopoly.casilla.Casilla;
 import partida.Avatar;
 import partida.Jugador;

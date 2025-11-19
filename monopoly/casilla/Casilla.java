@@ -1,5 +1,9 @@
-package monopoly;
+package monopoly.casilla;
 
+import monopoly.Grupo;
+import monopoly.StatsTracker;
+import monopoly.Tablero;
+import monopoly.Valor;
 import partida.Avatar;
 import partida.Jugador;
 
@@ -76,7 +80,7 @@ public abstract class Casilla {
     //Método utilizado para eliminar un avatar del array de avatares en casilla.
     public void eliminarAvatar(Avatar av) {avatares.remove(av);}
 
-    protected boolean procesarPago(Jugador actual, float toPay) {
+    public boolean procesarPago(Jugador actual, float toPay) {
         boolean solv = true; // Asumimos solvencia inicial
 
         if (actual.getFortuna() < toPay) {

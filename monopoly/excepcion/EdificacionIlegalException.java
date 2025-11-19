@@ -1,4 +1,3 @@
 package monopoly.excepcion;
 
-public class EdificacionIlegalException {
-}
+public class EdificacionIlegalException {}

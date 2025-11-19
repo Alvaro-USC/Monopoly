@@ -1,5 +1,8 @@
-package monopoly;
+package monopoly.carta;
 
+import monopoly.StatsTracker;
+import monopoly.Tablero;
+import monopoly.Valor;
 import monopoly.casilla.Casilla;
 import partida.Jugador;
 

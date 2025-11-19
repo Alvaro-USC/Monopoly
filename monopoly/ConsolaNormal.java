@@ -1,4 +1,3 @@
 package monopoly;
 
-public class ConsolaNormal {
-}
+public class ConsolaNormal {}

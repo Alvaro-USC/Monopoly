@@ -1,5 +1,10 @@
 package monopoly;
 
+import monopoly.carta.Carta;
+import monopoly.casilla.Casilla;
+import monopoly.casilla.accion.CajaComunidad;
+import monopoly.casilla.accion.Suerte;
+import monopoly.casilla.propiedad.Solar;
 import partida.Avatar;
 import partida.Dado;
 import partida.Jugador;

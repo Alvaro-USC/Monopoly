@@ -1,4 +1,3 @@
 package monopoly.excepcion;
 
-public class PropiedadYaHipotecadaException {
-}
+public class PropiedadYaHipotecadaException {}

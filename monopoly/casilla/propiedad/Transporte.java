@@ -1,5 +1,6 @@
-package monopoly;
+package monopoly.casilla.propiedad;
 
+import monopoly.Valor;
 import monopoly.casilla.PropiedadComprable;
 import partida.Jugador;
 

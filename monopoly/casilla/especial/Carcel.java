@@ -1,4 +1,4 @@
-package monopoly;
+package monopoly.casilla.especial;
 
 import monopoly.casilla.Casilla;
 import partida.Avatar;

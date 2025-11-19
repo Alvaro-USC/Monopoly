@@ -83,3 +83,5 @@ trato: cambiar (Solar14, Solar10)
 }
 
 Eliminar trato: que se ha propuesto y no ha sido aceptado, solo el que lo ha propuesto puede eliminar
+
+Revisar si tiene sentido que Grupo sea público, y que Casilla.procesarPago() sea público.

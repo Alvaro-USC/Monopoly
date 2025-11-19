@@ -1,4 +1,3 @@
 package monopoly.trato;
 
-public class Trato {
-}
+public class Trato {}

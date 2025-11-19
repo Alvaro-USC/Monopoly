@@ -1,5 +1,6 @@
-package monopoly;
+package monopoly.casilla;
 
+import monopoly.Valor;
 import partida.Jugador;
 
 public class Impuesto extends Casilla {

@@ -1,4 +1,3 @@
 package monopoly;
 
-public class Comando {
-}
+public class Comando {}

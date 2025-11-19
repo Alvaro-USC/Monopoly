@@ -1,5 +1,8 @@
 package monopoly;
 
+import monopoly.casilla.Casilla;
+import monopoly.casilla.propiedad.Solar;
+import monopoly.edificio.Edificio;
 import partida.Jugador;
 import partida.PlayerStats;
 

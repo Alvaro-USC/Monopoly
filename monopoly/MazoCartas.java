@@ -1,5 +1,7 @@
 package monopoly;
 
+import monopoly.carta.Carta;
+
 import java.util.ArrayList;
 
 /**

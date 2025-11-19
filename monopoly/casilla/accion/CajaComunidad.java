@@ -1,4 +1,4 @@
-package monopoly;
+package monopoly.casilla.accion;
 
 import monopoly.casilla.Casilla;
 import partida.Jugador;

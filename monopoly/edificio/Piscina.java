@@ -1,4 +1,3 @@
 package monopoly.edificio;
 
-public class Piscina {
-}
+public class Piscina {}

@@ -1,5 +1,16 @@
 package monopoly;
 
+import monopoly.casilla.Casilla;
+import monopoly.casilla.Impuesto;
+import monopoly.casilla.accion.CajaComunidad;
+import monopoly.casilla.accion.Suerte;
+import monopoly.casilla.especial.Carcel;
+import monopoly.casilla.especial.IrCarcel;
+import monopoly.casilla.especial.Parking;
+import monopoly.casilla.especial.Salida;
+import monopoly.casilla.propiedad.Servicio;
+import monopoly.casilla.propiedad.Solar;
+import monopoly.casilla.propiedad.Transporte;
 import partida.Jugador;
 
 import java.util.ArrayList;

@@ -1,5 +1,8 @@
-package monopoly;
+package monopoly.casilla.propiedad;
 
+import monopoly.edificio.Edificio;
+import monopoly.StatsTracker;
+import monopoly.Valor;
 import monopoly.casilla.Casilla;
 import monopoly.casilla.PropiedadComprable;
 import partida.Jugador;

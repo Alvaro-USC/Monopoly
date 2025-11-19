@@ -1,5 +1,6 @@
-package monopoly;
+package monopoly.edificio;
 
+import monopoly.Valor;
 import monopoly.casilla.propiedad.Solar;
 import partida.Jugador;
 

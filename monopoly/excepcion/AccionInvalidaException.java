@@ -1,4 +1,3 @@
 package monopoly.excepcion;
 
-public class AccionInvalidaException {
-}
+public class AccionInvalidaException {}
