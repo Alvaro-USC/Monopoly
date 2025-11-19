@@ -21,9 +21,9 @@ public class StatsTracker {
     // visitas por casilla (clave: nombre casilla)
     private final Map<String, Integer> visits = new HashMap<>();
     // alquiler recolectado por casilla
-    private final Map<String, Float> rentCollected = new HashMap<>();
+    private final Map<String, Float> alquilerRecibido = new HashMap<>();
     // alquiler recolectado por grupo (color)
-    private final Map<String, Float> rentByGroup = new HashMap<>();
+    private final Map<String, Float> alquilerPorGrupo = new HashMap<>();
     // vueltas por jugador
     private final Map<String, Integer> laps = new HashMap<>();
     private final ArrayList<Jugador> jugadores = new ArrayList<>();
@@ -70,10 +70,10 @@ public class StatsTracker {
 
     public void registrarAlquiler(Casilla c, float amount) {
         if (c == null) return;
-        rentCollected.put(c.getNombre(), rentCollected.getOrDefault(c.getNombre(), 0f) + amount);
+        alquilerRecibido.put(c.getNombre(), alquilerRecibido.getOrDefault(c.getNombre(), 0f) + amount);
         if (c.getGrupo() != null) {
             String color = c.getGrupo().getColorGrupo();
-            rentByGroup.put(color, rentByGroup.getOrDefault(color, 0f) + amount);
+            alquilerPorGrupo.put(color, alquilerPorGrupo.getOrDefault(color, 0f) + amount);
         }
     }
 
@@ -126,6 +126,16 @@ public class StatsTracker {
         return "{\n" + "  dineroInvertido: " + Valor.formatear(s.getDineroInvertido()) + ",\n" + "  pagoTasasEImpuestos: " + Valor.formatear(s.getPagoTasasEImpuestos()) + ",\n" + "  pagoDeAlquileres: " + Valor.formatear(s.getPagoDeAlquileres()) + ",\n" + "  cobroDeAlquileres: " + Valor.formatear(s.getCobroDeAlquileres()) + ",\n" + "  pasarPorSalida: " + Valor.formatear(s.getPasarPorSalida()) + " (" + Valor.formatear(s.getPasarPorSalida() / Valor.SUMA_VUELTA) + " vuelta(s))" + ",\n" + "  premiosBote: " + Valor.formatear(s.getPremiosBote()) + ",\n" + "  vecesEnLaCarcel: " + Valor.formatear(s.getVecesEnLaCarcel()) + "\n" + "}";
     }
 
+    public int frecuenciaVisitada(String nombreCasilla) {
+        int maxVisitas = -1;
+        for (Map.Entry<String, Integer> e : visits.entrySet()) {
+            if (e.getKey().equals(nombreCasilla)) {
+                maxVisitas = e.getValue();
+            }
+        }
+        return maxVisitas;
+    }
+
     public String reporteGlobal(ArrayList<Jugador> jugadores, Tablero tablero) {
         // casilla más visitada
         String casillaMasVisitada = null;
@@ -140,7 +150,7 @@ public class StatsTracker {
         // casilla más rentable
         String casillaMasRentable = null;
         float maxRent = -1f;
-        for (Map.Entry<String, Float> e : rentCollected.entrySet()) {
+        for (Map.Entry<String, Float> e : alquilerRecibido.entrySet()) {
             if (e.getValue() > maxRent) {
                 maxRent = e.getValue();
                 casillaMasRentable = e.getKey();
@@ -150,7 +160,7 @@ public class StatsTracker {
         // grupo más rentable
         String grupoMasRentable = null;
         float maxGrupo = -1f;
-        for (Map.Entry<String, Float> e : rentByGroup.entrySet()) {
+        for (Map.Entry<String, Float> e : alquilerPorGrupo.entrySet()) {
             if (e.getValue() > maxGrupo) {
                 maxGrupo = e.getValue();
                 grupoMasRentable = e.getKey();
