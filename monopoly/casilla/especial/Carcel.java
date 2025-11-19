@@ -15,9 +15,6 @@ public class Carcel extends Casilla {
     }
 
     @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {System.out.println("Esta casilla no se puede comprar.");}
-
-    @Override
     public String infoCasilla() {
         String info = "{ \n tipo: " + getTipo();
         info += ", \n salir: 500.000"; // Cantidad a pagar para salir de cárcel
