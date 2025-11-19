@@ -14,12 +14,12 @@ public abstract class Casilla {
 
     private final ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
     protected boolean hipotecada = false;
+    protected Jugador duenho; //Dueño de la casilla (por defecto sería la banca).
     //Atributos:
     private String tipo;
     private String nombre; //Nombre de la casilla
     private float valor; //Valor de esa casilla (en la mayoría será valor de compra, en la casilla parking se usará como el bote).
     private int posicion; //Posición que ocupa la casilla en el tablero (entero entre 1 y 40).
-    private Jugador duenho; //Dueño de la casilla (por defecto sería la banca).
     private Grupo grupo; //Grupo al que pertenece la casilla (si es solar).
     private float impuesto; //Cantidad a pagar por caer en la casilla: el alquiler en solares/servicios/transportes o impuestos.
     private float hipoteca; //Valor otorgado por hipotecar una casilla
