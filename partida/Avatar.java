@@ -2,34 +2,11 @@ package partida;
 
 import monopoly.casilla.Casilla;
 import monopoly.Valor;
+import monopoly.excepcion.AccionInvalidaException;
 
 import java.util.ArrayList;
 
 public class Avatar {
-    // Enumeración de avatares válidos
-    public enum TipoAvatar {
-        COCHE("Coche"), ESFINGE("Esfinge"), SOMBRERO("Sombrero"), PELOTA("Pelota");
-
-        private final String nombre;
-
-        TipoAvatar(String nombre) {
-            this.nombre = nombre;
-        }
-
-        // Método para obtener TipoAvatar a partir del nombre
-        public static TipoAvatar fromString(String nombre) {
-            for (TipoAvatar tipo : TipoAvatar.values()) {
-                if (tipo.getNombre().equalsIgnoreCase(nombre)) {
-                    return tipo;
-                }
-            }
-            return null;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-    }
     //Atributos
     private String id; //Identificador: una letra generada aleatoriamente.
     private TipoAvatar tipo; //Sombrero, Esfinge, Pelota, Coche
@@ -38,17 +15,17 @@ public class Avatar {
     //Constructor vacío
     public Avatar() {}
 
-    /*Constructor principal. Requiere éstos parámetros:
+    /*Constructor principal. Requiere estos parámetros:
      * Tipo del avatar, jugador al que pertenece, lugar en el que estará ubicado, y un arraylist con los
      * avatares creados (usado para crear un ID distinto del de los demás avatares).
      */
-    public Avatar(String tipoAvatar, Jugador jugador, ArrayList<Avatar> avCreados) {
+    public Avatar(String tipoAvatar, Jugador jugador, ArrayList<Avatar> avCreados) throws AccionInvalidaException {
         this.jugador = jugador;
         generarId(avCreados);
         // Validación del tipo de avatar
         TipoAvatar tipoValidado = TipoAvatar.fromString(tipoAvatar);
         if (tipoValidado == null) {
-            throw new IllegalArgumentException();
+            throw new AccionInvalidaException("tipoAvatar inválido.");
         }
         this.tipo = tipoValidado;
         this.lugar = null; // Inicialmente sin posición
@@ -60,7 +37,7 @@ public class Avatar {
      * - Un entero que indica el numero de casillas a moverse (será el valor sacado en la tirada de los dados).
      * EN ESTA VERSIÓN SUPONEMOS QUE valorTirada siempre es positivo.
      */
-    public void moverAvatar(ArrayList<ArrayList<Casilla>> casillas, int valorTirada) {
+    public void moverAvatar(ArrayList<ArrayList<Casilla>> casillas, int valorTirada) throws AccionInvalidaException {
         int currentPos = (this.lugar != null) ? this.lugar.getPosicion() : 1; // Si null, empieza en Salida (posición 1)
         int newPos = (currentPos + valorTirada) % 40;
         if (newPos == 0) newPos = 40;
@@ -86,7 +63,7 @@ public class Avatar {
             newLugar.anhadirAvatar(this);
             this.lugar = newLugar;
         } else {
-            throw new IllegalStateException("No se encontró una casilla válida para la posición " + newPos);
+            throw new AccionInvalidaException("No se encontró una casilla válida para la posición " + newPos);
         }
     }
 
@@ -151,5 +128,30 @@ public class Avatar {
             newLugar.anhadirAvatar(this);
         }
         this.lugar = newLugar;
+    }
+
+    // Enumeración de avatares válidos
+    public enum TipoAvatar {
+        COCHE("Coche"), ESFINGE("Esfinge"), SOMBRERO("Sombrero"), PELOTA("Pelota");
+
+        private final String nombre;
+
+        TipoAvatar(String nombre) {
+            this.nombre = nombre;
+        }
+
+        // Método para obtener TipoAvatar a partir del nombre
+        public static TipoAvatar fromString(String nombre) {
+            for (TipoAvatar tipo : TipoAvatar.values()) {
+                if (tipo.getNombre().equalsIgnoreCase(nombre)) {
+                    return tipo;
+                }
+            }
+            return null;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
     }
 }
