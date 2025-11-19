@@ -25,9 +25,6 @@ public class Impuesto extends Casilla {
     }
 
     @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {System.out.println("Esta casilla no se puede comprar.");}
-
-    @Override
     public String infoCasilla() {return "{ \n tipo: " + getTipo() + ", \n apagar: " + Valor.formatear(getImpuesto()) + "\n}";}
 
     @Override
