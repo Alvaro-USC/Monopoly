@@ -4,25 +4,6 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public final class Valor {
-
-    // la clase Valor es una clase de utilidad estática, un contenedor de datos, no se debe instanciar
-    // ES UN SINGLETON
-    private Valor() {
-        throw new IllegalStateException("Singleton. Clase de utilidad. No instanciar.");
-    }
-    private static final NumberFormat FORMATO_MILES;
-
-    static {
-        // Inicialización estática
-        FORMATO_MILES = NumberFormat.getInstance(Locale.forLanguageTag("es-ES"));
-        FORMATO_MILES.setMaximumFractionDigits(0); // Cero decimales
-        FORMATO_MILES.setMinimumFractionDigits(0); // Asegura que no haya ".0"
-    }
-
-    public static String formatear(float cantidad) {
-        return FORMATO_MILES.format(cantidad);
-    }
-
     //Se incluyen una serie de constantes útiles para no repetir valores.
     public static final float FORTUNA_BANCA = Float.MAX_VALUE; // Cantidad que tiene inicialmente la Banca (ilimitada)
     public static final float FORTUNA_INICIAL = 15_000_000f; // Cantidad que recibe cada jugador al comenzar la partida
@@ -44,24 +25,32 @@ public final class Valor {
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
 
+    private static final NumberFormat FORMATO_MILES;
+
+    static {
+        // Inicialización estática
+        FORMATO_MILES = NumberFormat.getInstance(Locale.forLanguageTag("es-ES"));
+        FORMATO_MILES.setMaximumFractionDigits(0); // Cero decimales
+        FORMATO_MILES.setMinimumFractionDigits(0); // Asegura que no haya ".0"
+    }
+
+    // la clase Valor es una clase de utilidad estática, un contenedor de datos, no se debe instanciar
+    // ES UN SINGLETON
+    private Valor() {
+        throw new IllegalStateException("Singleton. Clase de utilidad. No instanciar.");
+    }
+
+    public static String formatear(float cantidad) {
+        return FORMATO_MILES.format(cantidad);
+    }
+
     // El índice 0 corresponde a Solar1, el índice 21 a Solar22.
     // --- Precios de compra e Hipoteca de Solares (Apéndice I) ---
-    public static final float[] PRECIO_SOLAR = {
-            600_000f, 600_000f, 1_000_000f, 1_000_000f, 1_200_000f, 1_400_000f, 1_400_000f, 1_600_000f,
-            1_800_000f, 1_800_000f, 2_200_000f, 2_200_000f, 2_200_000f, 2_400_000f, 2_600_000f, 2_600_000f,
-            2_800_000f, 3_000_000f, 3_000_000f, 3_200_000f, 3_500_000f, 4_000_000f
-    };
-
-    public static final float[] HIPOTECA_SOLAR = {
-            300_000f, 300_000f, 500_000f, 500_000f, 600_000f, 700_000f, 700_000f, 800_000f,
-            900_000f, 900_000f, 1_000_000f, 1_100_000f, 1_100_000f, 1_200_000f, 1_300_000f, 1_300_000f,
-            1_400_000f, 1_500_000f, 1_500_000f, 1_600_000f, 1_750_000f, 2_000_000f
-    };
-
+    public static final float[] PRECIO_SOLAR = {600_000f, 600_000f, 1_000_000f, 1_000_000f, 1_200_000f, 1_400_000f, 1_400_000f, 1_600_000f, 1_800_000f, 1_800_000f, 2_200_000f, 2_200_000f, 2_200_000f, 2_400_000f, 2_600_000f, 2_600_000f, 2_800_000f, 3_000_000f, 3_000_000f, 3_200_000f, 3_500_000f, 4_000_000f};
+    public static final float[] HIPOTECA_SOLAR = {300_000f, 300_000f, 500_000f, 500_000f, 600_000f, 700_000f, 700_000f, 800_000f, 900_000f, 900_000f, 1_000_000f, 1_100_000f, 1_100_000f, 1_200_000f, 1_300_000f, 1_300_000f, 1_400_000f, 1_500_000f, 1_500_000f, 1_600_000f, 1_750_000f, 2_000_000f};
     // --- Precios de Construcción de Edificios (Apéndice I) ---
     // Columna: [0=casa, 1=hotel, 2=piscina, 3=pistaDeporte]
-    public static final float[][] PRECIO_EDIFICIOS = {
-            {500_000f, 500_000f, 100_000f, 200_000f}, // Solar1 a Solar5 (Grupos Marrón, Celeste)
+    public static final float[][] PRECIO_EDIFICIOS = {{500_000f, 500_000f, 100_000f, 200_000f}, // Solar1 a Solar5 (Grupos Marrón, Celeste)
             {500_000f, 500_000f, 100_000f, 200_000f}, // Solar2
             {500_000f, 500_000f, 100_000f, 200_000f}, // Solar3
             {500_000f, 500_000f, 100_000f, 200_000f}, // Solar4
@@ -84,19 +73,12 @@ public final class Valor {
             {2_000_000f, 2_000_000f, 400_000f, 800_000f}, // Solar21
             {2_000_000f, 2_000_000f, 400_000f, 800_000f}  // Solar22
     };
-
     // --- Alquileres de Solar y Edificios (Apéndice I/II) ---
     // Se usa como la renta base de la casilla sin edificios
-    public static final float[] ALQUILER_BASE = {
-            20_000f, 40_000f, 60_000f, 60_000f, 80_000f, 100_000f, 100_000f, 120_000f,
-            140_000f, 140_000f, 160_000f, 180_000f, 180_000f, 200_000f, 220_000f, 220_000f,
-            240_000f, 260_000f, 260_000f, 280_000f, 350_000f, 500_000f
-    };
-
+    public static final float[] ALQUILER_BASE = {20_000f, 40_000f, 60_000f, 60_000f, 80_000f, 100_000f, 100_000f, 120_000f, 140_000f, 140_000f, 160_000f, 180_000f, 180_000f, 200_000f, 220_000f, 220_000f, 240_000f, 260_000f, 260_000f, 280_000f, 350_000f, 500_000f};
     // Columna: [0=casa, 1=hotel, 2=piscina, 3=pistaDeporte]
     // La suma del alquiler del solar es ALQUILER_BASE + (suma de estos valores por edificio)
-    public static final float[][] ALQUILER_EDIFICIOS = {
-            {400_000f, 2_500_000f, 500_000f, 500_000f}, // Solar1
+    public static final float[][] ALQUILER_EDIFICIOS = {{400_000f, 2_500_000f, 500_000f, 500_000f}, // Solar1
             {800_000f, 4_500_000f, 900_000f, 900_000f}, // Solar2
             {1_000_000f, 5_500_000f, 1_100_000f, 1_100_000f}, // Solar3
             {1_000_000f, 5_500_000f, 1_100_000f, 1_100_000f}, // Solar4
