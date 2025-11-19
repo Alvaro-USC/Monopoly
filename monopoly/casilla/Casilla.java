@@ -4,6 +4,7 @@ import monopoly.Grupo;
 import monopoly.StatsTracker;
 import monopoly.Tablero;
 import monopoly.Valor;
+import monopoly.excepcion.FondosInsuficientesException;
 import partida.Avatar;
 import partida.Jugador;
 
@@ -12,8 +13,9 @@ import java.util.ArrayList;
 public abstract class Casilla {
 
     private final ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
+    protected boolean hipotecada = false;
     //Atributos:
-    private String tipo; //Tipo de casilla (Solar, Especial, Transporte, Servicios, Comunidad, Suerte y Impuesto).
+    private String tipo;
     private String nombre; //Nombre de la casilla
     private float valor; //Valor de esa casilla (en la mayoría será valor de compra, en la casilla parking se usará como el bote).
     private int posicion; //Posición que ocupa la casilla en el tablero (entero entre 1 y 40).
@@ -80,12 +82,12 @@ public abstract class Casilla {
     //Método utilizado para eliminar un avatar del array de avatares en casilla.
     public void eliminarAvatar(Avatar av) {avatares.remove(av);}
 
-    public boolean procesarPago(Jugador actual, float toPay) {
+    public boolean procesarPago(Jugador actual, float toPay) throws FondosInsuficientesException {
         boolean solv = true; // Asumimos solvencia inicial
 
         if (actual.getFortuna() < toPay) {
             solv = false;
-            System.out.println("No tienes suficiente dinero. Debes hipotecar una propiedad o declararte en bancarrota.\nVas a estar en negativo.");
+            throw new FondosInsuficientesException(" / procesar este pago. Debes hipotecar una propiedad o declararte en bancarrota.\nVas a estar en negativo.");
         }
 
         actual.sumarGastos(toPay);
@@ -108,11 +110,6 @@ public abstract class Casilla {
      * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
      * en caso de no cumplirlas.*/
     public abstract boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada);
-
-    /*Método usado para comprar una casilla determinada. Parámetros:
-     * - Jugador que solicita la compra de la casilla.
-     * - Banca del monopoly (es el dueño de las casillas no compradas aún).*/
-    public abstract void comprarCasilla(Jugador solicitante, Jugador banca);
 
     /*Método para añadir valor a una casilla. Utilidad:
      * - Sumar valor a la casilla de parking.
@@ -205,7 +202,7 @@ public abstract class Casilla {
     // Getters y setters adicionales
     public String getNombre() {return nombre;}
 
-    public String getTipo() {return tipo;}
+    public String getTipo() {return this.getClass().getSimpleName();}
 
     public float getValor() {return valor;}
 
@@ -238,8 +235,26 @@ public abstract class Casilla {
 
     public void setTablero(Tablero tablero) {this.tablero = tablero;}
 
+    // TODO: a lo mejor hay que hacer solo un isEmpty(), que la función no tome parámetros
     public boolean estarAvatar(Avatar avatar) {
-        return getAvatares().contains(avatar);
+        return this.getAvatares().contains(avatar);
+    }
+
+    public int frecuenciaVisita(StatsTracker stats) {
+        return stats.frecuenciaVisitada(this.getNombre());
+    }
+
+    @Override
+    public String toString() {
+        return this.infoCasilla();
+    }
+
+    public boolean isHipotecada() {
+        return hipotecada;
+    }
+
+    private void setHipotecada(boolean hipotecada) {
+        this.hipotecada = hipotecada;
     }
 }
 
