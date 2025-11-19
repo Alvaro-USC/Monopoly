@@ -61,4 +61,8 @@ edificar casa
 acabar turno
 lanzar dados 4+2
 acabar turno
-
+trato Maria: cambiar (Solar20, Solar4)
+acabar turno
+listar edificios
+aceptar trato1
+listar edificios
