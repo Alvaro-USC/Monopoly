@@ -1,9 +1,9 @@
-// CREAR NUEVO ARCHIVO: PropiedadComprable.java
-
-package monopoly.casilla; // O tu paquete 'partida'
+package monopoly.casilla;
 
 import monopoly.StatsTracker;
 import monopoly.Valor;
+import monopoly.excepcion.FondosInsuficientesException;
+import monopoly.excepcion.PropiedadNoPerteneceException;
 import partida.Jugador;
 
 /**
@@ -17,11 +17,10 @@ public abstract class Propiedad extends Casilla {
     }
 
     /**
-     * Este método implementa el 'comprarCasilla' abstracto de Casilla.
+     * Este método implementa el 'comprar' abstracto de Casilla.
      * Ahora, Solar, Transporte y Servicio heredarán ESTA implementación.
      */
-    @Override
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {
+    public void comprar(Jugador solicitante, Jugador banca) throws PropiedadNoPerteneceException, FondosInsuficientesException {
         if (getDuenho().equals(banca)) {
             if (solicitante.getFortuna() >= getValor()) {
                 solicitante.sumarGastos(getValor());
@@ -34,11 +33,24 @@ public abstract class Propiedad extends Casilla {
                 StatsTracker.getInstance().byPlayer.get(solicitante.getNombre()).addDineroInvertido(getValor());
 
             } else {
-                System.out.println("No tienes suficiente dinero para comprar esta casilla.");
+                // Fondos insuficientes
+                throw new FondosInsuficientesException(getNombre());
             }
         } else {
-            // Un mensaje genérico para todas las propiedades compradas
-            System.out.println("Esta casilla no se puede comprar, es de " + getDuenho().getNombre());
+            // La propiedad ya pertenece a otro jugador
+            throw new PropiedadNoPerteneceException(getNombre());
         }
     }
+
+    public boolean perteneceAJugador(Jugador jugador) {
+        return this.getDuenho().getNombre().equals(jugador.getNombre());
+    }
+
+    public boolean estaHipotecada() {return isHipotecada();}
+
+    public void hipotecar() {this.hipotecada = true;}
+
+    public abstract boolean alquiler();
+
+    public abstract float valor();
 }
