@@ -109,11 +109,9 @@ public final class Solar extends Propiedad {
         return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + "," + g + " \n valor: " + getValor() + "\n}";
     }
 
-    public void edificar(Jugador jugador, String tipo) throws PropiedadNoPerteneceException, PropiedadYaHipotecadaException, EdificacionIlegalException, AccionInvalidaException {
+    public void edificar(String tipo) throws PropiedadNoPerteneceException, PropiedadYaHipotecadaException, EdificacionIlegalException, AccionInvalidaException {
         // Validar Propiedad
-        if (!this.getDuenho().equals(jugador)) {
-            throw new PropiedadNoPerteneceException(this.getNombre());
-        }
+        Jugador jugador = this.getDuenho();
 
         // Validar Hipoteca (ni esta ni ninguna del grupo)
         if (this.estaHipotecada()) {

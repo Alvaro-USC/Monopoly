@@ -541,7 +541,10 @@ public class Juego implements Comando {
 
 
         try {
-            solar.edificar(current, tipo);
+            if (!solar.getDuenho().equals(current)) {
+                throw new PropiedadNoPerteneceException(current.getNombre());
+            }
+            solar.edificar(tipo);
         } catch (PropiedadYaHipotecadaException | PropiedadNoPerteneceException | EdificacionIlegalException |
                  AccionInvalidaException e) {
             String resultado = e.getMessage();
