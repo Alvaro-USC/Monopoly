@@ -25,6 +25,7 @@ public class Juego implements Comando {
 
     // Atributo estático para la consola (accesible desde otras clases)
     public static Consola consola = new ConsolaNormal();
+    private static Juego instancia;
 
     //Atributos
     private final ArrayList<Jugador> jugadores;
@@ -47,6 +48,7 @@ public class Juego implements Comando {
     private boolean partidaIniciada;
 
     public Juego(String archivoComandos) {
+        instancia = this;
         jugadores = new ArrayList<>();
         avatares = new ArrayList<>();
         lanzamientos = 0;
@@ -73,6 +75,7 @@ public class Juego implements Comando {
     }
 
     public Juego() {
+        instancia = this;
         jugadores = new ArrayList<>();
         avatares = new ArrayList<>();
         lanzamientos = 0;
@@ -91,6 +94,17 @@ public class Juego implements Comando {
         consola.imprimir("Bienvenido a MonopolyETSE. Introduce un comando (ejemplo: 'crear jugador' o 'salir' para terminar).");
 
         iniciarBucleComandos();
+    }
+
+    public static Juego getInstance() throws AccionInvalidaException {
+        if (instancia == null) {
+            throw new AccionInvalidaException("El juego no ha sido inicializado todavía.");
+        }
+        return instancia;
+    }
+
+    public Jugador getBanca() {
+        return banca;
     }
 
     // Método que contiene el bucle de comandos usando la Consola
@@ -461,7 +475,7 @@ public class Juego implements Comando {
                 throw new CasillaNoComprableException("La casilla " + nombre + " no se puede comprar.");
             }
 
-            propiedad.comprar(current, banca);
+            propiedad.comprar(current);
         } catch (AccionInvalidaException | CasillaNoComprableException | PropiedadNoPerteneceException e) {
             consola.imprimir("Error: " + e.getMessage());
         }
