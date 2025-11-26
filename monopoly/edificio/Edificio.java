@@ -21,18 +21,9 @@ public abstract class Edificio {
         this.id = generarId(tipo);
     }
 
-    private String generarId(String tipo) {
-        return switch (tipo.toLowerCase()) {
-            case "casa" -> "casa-" + (solar.getCantidadEdificioTipo("casa") + 1);
-            case "hotel" -> "hotel-" + (solar.getCantidadEdificioTipo("hotel") + 1);
-            case "piscina" -> "piscina-" + (solar.getCantidadEdificioTipo("piscina") + 1);
-            case "pista_deporte" -> "pista_deporte-" + (solar.getCantidadEdificioTipo("pista_deporte") + 1);
-            default -> "";
-        };
-    }
+    protected abstract String generarId(String tipo);
 
     public String describirEdificio() {
-
         return "{\n" + " id: " + id + "\n proprietario: " + propietario.getNombre() + "\n casilla: " + solar.getNombre() + "\n grupo: " + grupo + "\n coste: " + coste + "\n}";
     }
 
