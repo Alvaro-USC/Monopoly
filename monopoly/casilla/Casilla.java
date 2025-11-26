@@ -240,8 +240,8 @@ public abstract class Casilla {
         return this.getAvatares().contains(avatar);
     }
 
-    public int frecuenciaVisita(StatsTracker stats) {
-        return stats.frecuenciaVisitada(this.getNombre());
+    public int frecuenciaVisita() {
+        return StatsTracker.getInstance().frecuenciaVisitada(this.getNombre());
     }
 
     @Override
