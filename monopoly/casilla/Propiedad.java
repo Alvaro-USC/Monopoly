@@ -1,7 +1,9 @@
 package monopoly.casilla;
 
+import monopoly.Juego;
 import monopoly.StatsTracker;
 import monopoly.Valor;
+import monopoly.excepcion.AccionInvalidaException;
 import monopoly.excepcion.FondosInsuficientesException;
 import monopoly.excepcion.PropiedadNoPerteneceException;
 import partida.Jugador;
@@ -20,7 +22,8 @@ public abstract class Propiedad extends Casilla {
      * Este método implementa el 'comprar' abstracto de Casilla.
      * Ahora, Solar, Transporte y Servicio heredarán ESTA implementación.
      */
-    public void comprar(Jugador solicitante, Jugador banca) throws PropiedadNoPerteneceException, FondosInsuficientesException {
+    public void comprar(Jugador solicitante) throws PropiedadNoPerteneceException, AccionInvalidaException {
+        Jugador banca = Juego.getInstance().getBanca();
         if (getDuenho().equals(banca)) {
             if (solicitante.getFortuna() >= getValor()) {
                 solicitante.sumarGastos(getValor());
