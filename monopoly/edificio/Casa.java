@@ -1,7 +1,6 @@
 package monopoly.edificio;
 
 import monopoly.casilla.propiedad.Solar;
-import partida.Jugador;
 
 public final class Casa extends Edificio {
 
