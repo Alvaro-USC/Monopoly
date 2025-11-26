@@ -3,6 +3,8 @@ package monopoly.casilla;
 import monopoly.Valor;
 import partida.Jugador;
 
+import static monopoly.Juego.consola;
+
 public class Impuesto extends Casilla {
     public Impuesto(String nombre, int posicion, float impuesto, Jugador duenho) {
         super(nombre, posicion, impuesto, duenho);
@@ -14,12 +16,12 @@ public class Impuesto extends Casilla {
         float toPay = getImpuesto();
         if (actual.getFortuna() < toPay) {
             solv = false;
-            System.out.println("No eres solvente, vas a estar en negativo.");
+            consola.imprimir("No eres solvente, vas a estar en negativo.");
         }
         actual.sumarGastos(toPay);
         Casilla parking = getTablero().encontrar_casilla("Parking");
         parking.sumarValor(toPay);
-        System.out.println("El jugador paga " + Valor.formatear(toPay) + "€ en impuestos, que se depositan en el Parking.");
+        consola.imprimir("El jugador paga " + Valor.formatear(toPay) + "€ en impuestos, que se depositan en el Parking.");
         monopoly.StatsTracker.getInstance().registrarPagoImpuesto(actual, toPay);
         return solv;
     }

@@ -5,6 +5,8 @@ import monopoly.casilla.Propiedad;
 import monopoly.excepcion.FondosInsuficientesException;
 import partida.Jugador;
 
+import static monopoly.Juego.consola;
+
 public final class Servicio extends Propiedad {
     public Servicio(String nombre, int posicion, float valor, Jugador duenho) {
         super(nombre, "Servicios", posicion, valor, duenho);
@@ -13,7 +15,7 @@ public final class Servicio extends Propiedad {
     @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
         if (getDuenho().equals(banca)) {
-            System.out.println("Esta casilla (" + getNombre() + ") pertenece a la banca y se puede comprar.");
+            consola.imprimir("Esta casilla (" + getNombre() + ") pertenece a la banca y se puede comprar.");
             return true;
         }
 

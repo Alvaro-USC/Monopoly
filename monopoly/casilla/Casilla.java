@@ -10,6 +10,8 @@ import partida.Jugador;
 
 import java.util.ArrayList;
 
+import static monopoly.Juego.consola;
+
 public abstract class Casilla {
 
     private final ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
@@ -88,7 +90,7 @@ public abstract class Casilla {
         actual.sumarGastos(toPay);
         getDuenho().sumarFortuna(toPay);
 
-        System.out.println("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");
+        consola.imprimir("Se han pagado " + Valor.formatear(toPay) + " € de alquiler.");
 
         // 'this' se refiere a la instancia de la subclase (Solar, Transporte, etc.)
         StatsTracker.getInstance().registrarPagoAlquiler(actual, toPay);

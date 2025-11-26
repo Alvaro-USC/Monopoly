@@ -8,6 +8,8 @@ import partida.Jugador;
 
 import java.util.ArrayList;
 
+import static monopoly.Juego.consola;
+
 public class CartaCajaComunidad extends Carta {
 
     public CartaCajaComunidad(int id, String descripcion, TipoAccion accion, float cantidad, String destino) {
@@ -16,7 +18,7 @@ public class CartaCajaComunidad extends Carta {
 
     @Override
     public void accion(Jugador actual, Tablero tablero, ArrayList<Jugador> todosJugadores) {
-        System.out.println("Carta: " + descripcion);
+        consola.imprimir("Carta: " + descripcion);
         switch (accion) {
             case MOVER_A:
                 ArrayList<ArrayList<Casilla>> lados = tablero.getPosiciones();
@@ -34,7 +36,7 @@ public class CartaCajaComunidad extends Carta {
 
                     actual.getAvatar().setLugar(destinoRetro);
                     destinoRetro.anhadirAvatar(actual.getAvatar());
-                    System.out.println("Retrocedes " + retroceso + " casillas hasta " + destinoRetro.getNombre() + ".");
+                    consola.imprimir("Retrocedes " + retroceso + " casillas hasta " + destinoRetro.getNombre() + ".");
                     StatsTracker.getInstance().registrarVisita(destinoRetro);
                     destinoRetro.evaluarCasilla(actual, tablero.getBanca(), 0);
                 } else {
@@ -42,7 +44,7 @@ public class CartaCajaComunidad extends Carta {
                     // movimiento absoluto
                     Casilla destinoCasilla = tablero.encontrar_casilla(destino);
                     if (destinoCasilla == null) {
-                        System.out.println("La casilla destino '" + destino + "' no existe.");
+                        consola.imprimir("La casilla destino '" + destino + "' no existe.");
                         return;
                     }
                     Casilla lugarAnterior = actual.getAvatar().getLugar();
@@ -54,7 +56,7 @@ public class CartaCajaComunidad extends Carta {
                     }
                     actual.getAvatar().setLugar(destinoCasilla);
                     destinoCasilla.anhadirAvatar(actual.getAvatar());
-                    System.out.println("Avanzas hasta " + destinoCasilla.getNombre() + ".");
+                    consola.imprimir("Avanzas hasta " + destinoCasilla.getNombre() + ".");
                     destinoCasilla.evaluarCasilla(actual, tablero.getBanca(), 0);
                     if (pasoPorSalida && !destino.equalsIgnoreCase("Solar1")) {
                         actual.sumarFortuna(Valor.SUMA_VUELTA);
@@ -68,13 +70,13 @@ public class CartaCajaComunidad extends Carta {
             case IR_A_CARCEL:
                 actual.encarcelar(tablero.getPosiciones());
                 StatsTracker.getInstance().registrarEncarcelamiento(actual);
-                System.out.println("Vas directo a la cárcel.");
+                consola.imprimir("Vas directo a la cárcel.");
                 break;
 
             case COBRAR:
                 actual.sumarFortuna(cantidad);
                 StatsTracker.getInstance().registrarPremioBote(actual, cantidad);
-                System.out.println("Recibes " + Valor.formatear(cantidad) + "€.");
+                consola.imprimir("Recibes " + Valor.formatear(cantidad) + "€.");
                 break;
 
             case PAGAR:
@@ -83,9 +85,9 @@ public class CartaCajaComunidad extends Carta {
                     // Lo paga a la banca
                     tablero.getBanca().sumarFortuna(cantidad);
                     StatsTracker.getInstance().registrarPagoImpuesto(actual, cantidad);
-                    System.out.println("Pagas " + Valor.formatear(cantidad) + "€.");
+                    consola.imprimir("Pagas " + Valor.formatear(cantidad) + "€.");
                 } else {
-                    System.out.println("No tienes suficiente dinero para pagar " + Valor.formatear(cantidad) + "€. Debes hipotecar propiedades.");
+                    consola.imprimir("No tienes suficiente dinero para pagar " + Valor.formatear(cantidad) + "€. Debes hipotecar propiedades.");
                 }
                 break;
 
@@ -93,7 +95,7 @@ public class CartaCajaComunidad extends Carta {
                 float porCada = cantidad;
                 float totalPagar = porCada * (todosJugadores.size() - 1);
                 if (actual.getFortuna() < totalPagar) {
-                    System.out.println("No tienes suficiente dinero para pagar a cada jugador " + Valor.formatear(porCada) + "€. Debes hipotecar propiedades.");
+                    consola.imprimir("No tienes suficiente dinero para pagar a cada jugador " + Valor.formatear(porCada) + "€. Debes hipotecar propiedades.");
                     // no se realiza pago
                     return;
                 }
@@ -104,7 +106,7 @@ public class CartaCajaComunidad extends Carta {
                     otro.sumarFortuna(porCada);
                     StatsTracker.getInstance().registrarPagoEntreJugadores(actual, otro, porCada);
                 }
-                System.out.println("Has pagado " + Valor.formatear(porCada) + "€ a cada jugador.");
+                consola.imprimir("Has pagado " + Valor.formatear(porCada) + "€ a cada jugador.");
                 break;
 
             case COBRAR_DE_CADA:
@@ -112,7 +114,7 @@ public class CartaCajaComunidad extends Carta {
                 for (Jugador otro : todosJugadores) {
                     if (otro.equals(actual)) continue;
                     if (otro.getFortuna() < porCadaCobrar) {
-                        System.out.println(otro.getNombre() + " no tiene suficiente para pagar " + Valor.formatear(porCadaCobrar) + "€ a " + actual.getNombre() + ". Debe hipotecar.");
+                        consola.imprimir(otro.getNombre() + " no tiene suficiente para pagar " + Valor.formatear(porCadaCobrar) + "€ a " + actual.getNombre() + ". Debe hipotecar.");
                         // no forzamos; dejamos que los jugadores gestionen su liquidez
                         continue;
                     }
@@ -120,11 +122,11 @@ public class CartaCajaComunidad extends Carta {
                     actual.sumarFortuna(porCadaCobrar);
                     StatsTracker.getInstance().registrarPagoEntreJugadores(otro, actual, porCadaCobrar);
                 }
-                System.out.println("Has cobrado " + Valor.formatear(porCadaCobrar) + "€ a cada jugador (si han podido).");
+                consola.imprimir("Has cobrado " + Valor.formatear(porCadaCobrar) + "€ a cada jugador (si han podido).");
                 break;
 
             default:
-                System.out.println("Carta sin acción definida.");
+                consola.imprimir("Carta sin acción definida.");
         }
     }
 }

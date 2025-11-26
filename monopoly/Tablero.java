@@ -18,6 +18,8 @@ import partida.Jugador;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static monopoly.Juego.consola;
+
 public class Tablero {
     // Atributos.
     private final ArrayList<ArrayList<Casilla>> posiciones; // Posiciones del tablero: se define como un arraylist de arraylists de casillas (uno por cada lado del tablero).
@@ -35,7 +37,7 @@ public class Tablero {
         try {
             this.generarCasillas();
         } catch (AccionInvalidaException e) {
-            System.out.println(e.getMessage());
+            consola.imprimir(e.getMessage());
         }
     }
 

@@ -5,6 +5,8 @@ import monopoly.casilla.Especial;
 import partida.Avatar;
 import partida.Jugador;
 
+import static monopoly.Juego.consola;
+
 public class Parking extends Especial {
     public Parking(int posicion, Jugador duenho) {
         super("Parking", posicion, duenho);
@@ -16,7 +18,7 @@ public class Parking extends Especial {
         float bote = getValor();
         actual.sumarFortuna(bote);
         setValor(0);
-        System.out.println("El jugador recibe " + Valor.formatear(bote) + "€.");
+        consola.imprimir("El jugador recibe " + Valor.formatear(bote) + "€.");
         monopoly.StatsTracker.getInstance().registrarPremioBote(actual, bote);
         return true;
     }

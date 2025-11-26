@@ -8,6 +8,8 @@ import monopoly.excepcion.FondosInsuficientesException;
 import monopoly.excepcion.PropiedadNoPerteneceException;
 import partida.Jugador;
 
+import static monopoly.Juego.consola;
+
 /**
  * Clase intermedia abstracta que agrupa toda la lógica común
  * de las casillas que se pueden comprar (Solares, Transportes, Servicios).
@@ -30,7 +32,7 @@ public abstract class Propiedad extends Casilla {
                 banca.sumarFortuna(getValor());
                 setDuenho(solicitante);
                 solicitante.anhadirPropiedad(this);
-                System.out.println("El jugador " + solicitante.getNombre() + " compra la casilla " + getNombre() + " por " + Valor.formatear(getValor()) + "€. Su fortuna actual es " + Valor.formatear(solicitante.getFortuna()) + "€.");
+                consola.imprimir("El jugador " + solicitante.getNombre() + " compra la casilla " + getNombre() + " por " + Valor.formatear(getValor()) + "€. Su fortuna actual es " + Valor.formatear(solicitante.getFortuna()) + "€.");
 
                 StatsTracker.getInstance().asegurarJugador(solicitante);
                 StatsTracker.getInstance().byPlayer.get(solicitante.getNombre()).addDineroInvertido(getValor());

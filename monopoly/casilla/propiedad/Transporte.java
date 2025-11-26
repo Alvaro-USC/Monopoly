@@ -5,6 +5,8 @@ import monopoly.casilla.Propiedad;
 import monopoly.excepcion.FondosInsuficientesException;
 import partida.Jugador;
 
+import static monopoly.Juego.consola;
+
 public final class Transporte extends Propiedad {
     public Transporte(String nombre, int posicion, float valor, Jugador duenho) {
         super(nombre, "Transporte", posicion, valor, duenho);
@@ -15,7 +17,7 @@ public final class Transporte extends Propiedad {
 
         // La casilla es de la banca (se puede comprar)
         if (getDuenho().equals(banca)) {
-            System.out.println("El dueño de esta casilla de transporte es " + getDuenho().getNombre() + ", se puede comprar.");
+            consola.imprimir("El dueño de esta casilla de transporte es " + getDuenho().getNombre() + ", se puede comprar.");
             return true;
         }
 

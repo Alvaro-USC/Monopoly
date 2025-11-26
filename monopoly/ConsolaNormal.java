@@ -2,6 +2,8 @@ package monopoly;
 
 import java.util.Scanner;
 
+import static monopoly.Juego.consola;
+
 public class ConsolaNormal implements Consola {
     private final Scanner scanner;
 

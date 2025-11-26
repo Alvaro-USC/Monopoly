@@ -3,6 +3,8 @@ package monopoly.casilla.especial;
 import monopoly.casilla.Casilla;
 import partida.Jugador;
 
+import static monopoly.Juego.consola;
+
 public class IrCarcel extends Casilla {
     public IrCarcel(int posicion, Jugador duenho) {
         super("IrCarcel", "Especial", posicion, duenho);
@@ -19,7 +21,7 @@ public class IrCarcel extends Casilla {
         carcel.anhadirAvatar(actual.getAvatar());
         actual.setEnCarcel(true);
         actual.setTiradasCarcel(0);
-        System.out.println("El avatar se coloca en la casilla de Carcel.");
+        consola.imprimir("El avatar se coloca en la casilla de Carcel.");
         return true;
     }
 

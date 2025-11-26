@@ -928,7 +928,8 @@ public class Juego implements Comando {
             }
         }
         if (count > 0) {
-            consola.imprimir("TIENES " + count + " TRATOS PENDIENTES. Escribe 'tratos' para verlos.");
+            consola.imprimir("TIENES " + count + " TRATOS PENDIENTES.");
+            listarTratos();
         }
     }
 }
