@@ -236,7 +236,7 @@ public abstract class Casilla {
     public void setTablero(Tablero tablero) {this.tablero = tablero;}
 
     // TODO: a lo mejor hay que hacer solo un isEmpty(), que la función no tome parámetros
-    public boolean estarAvatar(Avatar avatar) {
+    public boolean estaAvatar(Avatar avatar) {
         return this.getAvatares().contains(avatar);
     }
 
