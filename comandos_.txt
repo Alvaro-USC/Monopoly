@@ -1,3 +1,4 @@
+comandos comandos_.txt
 crear jugador Pedro pelota
 crear jugador Maria coche
 lanzar dados 6+6
@@ -65,4 +66,20 @@ trato Maria: cambiar (Solar20, Solar4)
 acabar turno
 listar edificios
 aceptar trato1
+listar edificios
+tratos
+eliminar trato1
+trato Pedro: Cambiar(Solar5,Solar4)
+tratos
+acabar turno
+tratos
+acabar turno
+eliminar trato2
+tratos
+acabar turno
+tratos
+acabar turno
+trato Pedro: Cambiar(Solar5,Solar4)
+acabar turno
+aceptar trato3
 listar edificios
