@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static monopoly.Juego.consola;
+
 public class ComandoArchivo {
     private final Juego juego;
     private final String archivo;
@@ -15,7 +17,7 @@ public class ComandoArchivo {
 
     public void procesarComandos() {
         if (archivo == null) {
-            System.out.println("No se proporcionó un archivo de comandos. Iniciando modo interactivo.");
+            consola.imprimir("No se proporcionó un archivo de comandos. Iniciando modo interactivo.");
             return;
         }
 
@@ -26,14 +28,14 @@ public class ComandoArchivo {
                 if (!linea.isEmpty()) { // Ignorar líneas en blanco
                     if (linea.charAt(0) == '#')
                         continue; // Las líneas que empiezan con # se ignoran, son comentarios para los comandos
-                    System.out.println(linea);
+                    consola.imprimir(linea);
                     juego.analizarComando(linea);
                 }
             }
-            System.out.println("Procesamiento del archivo de comandos completado.");
+            consola.imprimir("Procesamiento del archivo de comandos completado.");
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo " + archivo + ": \n" + e.getMessage());
-            System.err.println("Iniciando modo interactivo como respaldo...");
+            consola.imprimir("Error al leer el archivo " + archivo + ": \n" + e.getMessage());
+            consola.imprimir("Iniciando modo interactivo como respaldo...");
         }
     }
 }

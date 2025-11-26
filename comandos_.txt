@@ -1,4 +1,3 @@
-comandos comandos_.txt
 crear jugador Pedro pelota
 crear jugador Maria coche
 lanzar dados 6+6
