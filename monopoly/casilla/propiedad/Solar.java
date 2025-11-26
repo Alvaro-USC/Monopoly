@@ -1,6 +1,8 @@
 package monopoly.casilla.propiedad;
 
 import monopoly.edificio.*;
+import monopoly.ConsolaNormal;
+import monopoly.Juego;
 import monopoly.StatsTracker;
 import monopoly.Valor;
 import monopoly.casilla.Casilla;
@@ -8,6 +10,7 @@ import monopoly.casilla.Propiedad;
 import monopoly.excepcion.*;
 import partida.Jugador;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,7 +107,7 @@ public final class Solar extends Propiedad {
         return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + "," + g + " \n valor: " + getValor() + "\n}";
     }
 
-    public String edificar(Jugador jugador, String tipo) throws PropiedadNoPerteneceException, PropiedadYaHipotecadaException, EdificacionIlegalException, AccionInvalidaException {
+    public void edificar(Jugador jugador, String tipo) throws PropiedadNoPerteneceException, PropiedadYaHipotecadaException, EdificacionIlegalException, AccionInvalidaException {
         // Validar Propiedad
         if (!this.getDuenho().equals(jugador)) {
             throw new PropiedadNoPerteneceException(this.getNombre());
@@ -173,7 +176,7 @@ public final class Solar extends Propiedad {
         StatsTracker.getInstance().asegurarJugador(jugador);
         StatsTracker.getInstance().byPlayer.get(jugador.getNombre()).addDineroInvertido(coste);
 
-        return "Se ha edificado un " + tipo + " en " + this.getNombre() + ". La fortuna de " + jugador.getNombre() + " se reduce en " + Valor.formatear(coste) + "€.";
+        Juego.consola.imprimir("Se ha edificado un " + tipo + " en " + this.getNombre() + ". La fortuna de " + jugador.getNombre() + " se reduce en " + Valor.formatear(coste) + "€.");
     }
 
     private float getCoste(Jugador jugador, String tipo) throws EdificacionIlegalException, FondosInsuficientesException {

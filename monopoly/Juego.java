@@ -524,15 +524,13 @@ public class Juego implements Comando {
             consola.imprimir("No se puede edificar en esta casilla. Estás en " + actual.getNombre());
             return;
         }
-
-        String resultado;
+        
         try {
-            resultado = solar.edificar(current, tipo);
+            solar.edificar(current, tipo);
         } catch (PropiedadYaHipotecadaException | PropiedadNoPerteneceException | EdificacionIlegalException |
                  AccionInvalidaException e) {
             resultado = e.getMessage();
         }
-        consola.imprimir(resultado);
     }
 
     @Override
