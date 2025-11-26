@@ -109,7 +109,7 @@ public class Jugador {
         for (Casilla c : this.getPropiedades()) {
             props.append(c.getNombre()).append(", ");
             if (c instanceof Solar s) { // Java 14+ pattern matching
-                if (s.isHipotecada()) {
+                if (s.estaHipotecada()) {
                     hipos.append(s.getNombre()).append(", ");
                 }
                 for (Edificio e : s.getEdificios()) {

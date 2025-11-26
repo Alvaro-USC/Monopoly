@@ -114,10 +114,8 @@ public class Tablero {
                 // Configuración adicional que no se podía hacer en el constructor
                 if (c instanceof Transporte) {
                     c.setImpuesto(Valor.ALQUILER_TRANSP);
-                    c.setHipoteca(Valor.VALOR_TRANSP_SERV / 2); // Hipoteca es la mitad
                 }
                 if (c instanceof Servicio) {
-                    c.setHipoteca(Valor.VALOR_TRANSP_SERV / 2); // Hipoteca es la mitad
                     c.setImpuesto(0f); // Se calcula dinámicamente
                 }
             }

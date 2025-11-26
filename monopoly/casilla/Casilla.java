@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public abstract class Casilla {
 
     private final ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
-    protected boolean hipotecada = false;
     protected Jugador duenho; //Dueño de la casilla (por defecto sería la banca).
     //Atributos:
     private String tipo;
@@ -22,7 +21,6 @@ public abstract class Casilla {
     private int posicion; //Posición que ocupa la casilla en el tablero (entero entre 1 y 40).
     private Grupo grupo; //Grupo al que pertenece la casilla (si es solar).
     private float impuesto; //Cantidad a pagar por caer en la casilla: el alquiler en solares/servicios/transportes o impuestos.
-    private float hipoteca; //Valor otorgado por hipotecar una casilla
     private Tablero tablero; // Referencia al tablero
 
     //Constructores:
@@ -41,7 +39,6 @@ public abstract class Casilla {
         this.valor = valor;
         this.duenho = duenho;
         this.impuesto = 0;
-        this.hipoteca = 0;
     }
 
     /*Constructor utilizado para inicializar las casillas de tipo IMPUESTOS.
@@ -55,7 +52,6 @@ public abstract class Casilla {
         this.impuesto = impuesto;
         this.duenho = duenho;
         this.valor = 0;
-        this.hipoteca = 0;
     }
 
     /*Constructor utilizado para crear las otras casillas (Suerte, Caja de comunidad y Especiales):
@@ -69,7 +65,6 @@ public abstract class Casilla {
         this.duenho = duenho;
         this.valor = 0;
         this.impuesto = 0;
-        this.hipoteca = 0;
     }
 
     //Método utilizado para añadir un avatar al array de avatares en casilla.
@@ -225,10 +220,6 @@ public abstract class Casilla {
 
     public void setImpuesto(float impuesto) {this.impuesto = impuesto;}
 
-    public float getHipoteca() {return hipoteca;}
-
-    public void setHipoteca(float hipoteca) {this.hipoteca = hipoteca;}
-
     public ArrayList<Avatar> getAvatares() {return avatares;}
 
     public Tablero getTablero() {return tablero;}
@@ -248,13 +239,4 @@ public abstract class Casilla {
     public String toString() {
         return this.infoCasilla();
     }
-
-    public boolean isHipotecada() {
-        return hipotecada;
-    }
-
-    private void setHipotecada(boolean hipotecada) {
-        this.hipotecada = hipotecada;
-    }
 }
-

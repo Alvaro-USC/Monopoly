@@ -539,14 +539,14 @@ public class Juego implements Comando {
             return;
         }
 
-        String resultado;
+
         try {
-            resultado = solar.edificar(current, tipo);
+            solar.edificar(current, tipo);
         } catch (PropiedadYaHipotecadaException | PropiedadNoPerteneceException | EdificacionIlegalException |
                  AccionInvalidaException e) {
-            resultado = e.getMessage();
+            String resultado = e.getMessage();
+            consola.imprimir(resultado);
         }
-        consola.imprimir(resultado);
     }
 
     @Override
@@ -558,13 +558,13 @@ public class Juego implements Comando {
             consola.imprimir("Solo se pueden hipotecar Solares.");
             return;
         }
-        String resultado;
+
         try {
-            resultado = solar.hipotecar(current);
+            solar.hipotecar(current);
         } catch (PropiedadYaHipotecadaException | PropiedadNoPerteneceException e) {
-            resultado = e.getMessage();
+            String resultado = e.getMessage();
+            consola.imprimir(resultado);
         }
-        consola.imprimir(resultado);
     }
 
     @Override
@@ -577,13 +577,12 @@ public class Juego implements Comando {
             return;
         }
 
-        String resultado;
         try {
-            resultado = solar.deshipotecar(current);
+            solar.deshipotecar(current);
         } catch (FondosInsuficientesException | PropiedadNoHipotecadaException | PropiedadNoPerteneceException e) {
-            resultado = e.getMessage();
+            String resultado = e.getMessage();
+            consola.imprimir(resultado);
         }
-        consola.imprimir(resultado);
     }
 
     @Override
@@ -650,7 +649,7 @@ public class Juego implements Comando {
                 for (Casilla c : propiedadesJugador) {
                     if ((c instanceof Solar s)) {
                         contarSolares++;
-                        if (!s.isHipotecada()) casillasSinHipotecar = true;
+                        if (!s.estaHipotecada()) casillasSinHipotecar = true;
                     }
                 }
                 if (casillasSinHipotecar && (propiedadesJugador.size() == contarSolares)) {

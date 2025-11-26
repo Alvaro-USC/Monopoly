@@ -12,15 +12,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static monopoly.Juego.consola;
+
 public final class Solar extends Propiedad {
 
     private final ArrayList<Edificio> edificios = new ArrayList<>();
+    private boolean hipotecada = false;
+    private float hipoteca;
     int idSolar;
 
     public Solar(String nombre, int posicion, float valor, Jugador duenho, float hipoteca, float impuesto) {
         super(nombre, "Solar", posicion, valor, duenho);
         String numStr = nombre.replaceAll("\\D+", "");
-        setHipoteca(hipoteca);
+        this.hipoteca = hipoteca;
+        this.hipotecada = false;
         setImpuesto(impuesto);
         this.idSolar = Integer.parseInt(numStr) - 1;
     }
@@ -104,19 +109,19 @@ public final class Solar extends Propiedad {
         return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + "," + g + " \n valor: " + getValor() + "\n}";
     }
 
-    public String edificar(Jugador jugador, String tipo) throws PropiedadNoPerteneceException, PropiedadYaHipotecadaException, EdificacionIlegalException, AccionInvalidaException {
+    public void edificar(Jugador jugador, String tipo) throws PropiedadNoPerteneceException, PropiedadYaHipotecadaException, EdificacionIlegalException, AccionInvalidaException {
         // Validar Propiedad
         if (!this.getDuenho().equals(jugador)) {
             throw new PropiedadNoPerteneceException(this.getNombre());
         }
 
         // Validar Hipoteca (ni esta ni ninguna del grupo)
-        if (this.isHipotecada()) {
+        if (this.estaHipotecada()) {
             throw new PropiedadYaHipotecadaException();
         }
         if (this.getGrupo() != null) {
             for (Casilla c : this.getGrupo().getMiembros()) {
-                if (c instanceof Solar s && s.isHipotecada()) {
+                if (c instanceof Solar s && s.estaHipotecada()) {
                     throw new EdificacionIlegalException();
                 }
             }
@@ -173,7 +178,7 @@ public final class Solar extends Propiedad {
         StatsTracker.getInstance().asegurarJugador(jugador);
         StatsTracker.getInstance().byPlayer.get(jugador.getNombre()).addDineroInvertido(coste);
 
-        return "Se ha edificado un " + tipo + " en " + this.getNombre() + ". La fortuna de " + jugador.getNombre() + " se reduce en " + Valor.formatear(coste) + "€.";
+        consola.imprimir("Se ha edificado un " + tipo + " en " + this.getNombre() + ". La fortuna de " + jugador.getNombre() + " se reduce en " + Valor.formatear(coste) + "€.");
     }
 
     private float getCoste(Jugador jugador, String tipo) throws EdificacionIlegalException, FondosInsuficientesException {
@@ -202,12 +207,16 @@ public final class Solar extends Propiedad {
         };
     }
 
-    public String hipotecar(Jugador jugador) throws PropiedadYaHipotecadaException, PropiedadNoPerteneceException {
+    public boolean estaHipotecada() {
+        return hipotecada;
+    }
+
+    public void hipotecar(Jugador jugador) throws PropiedadYaHipotecadaException, PropiedadNoPerteneceException {
         if (!this.getDuenho().equals(jugador)) {
             throw new PropiedadNoPerteneceException(this.getNombre());
         }
 
-        if (this.isHipotecada()) {
+        if (this.estaHipotecada()) {
             throw new PropiedadYaHipotecadaException();
         }
 
@@ -219,16 +228,16 @@ public final class Solar extends Propiedad {
         this.setHipotecada(true);
         jugador.sumarFortuna(cantidad);
 
-        return "Se hipoteca " + this.getNombre() + " por " + Valor.formatear(cantidad) + "€.";
+        consola.imprimir("Se hipoteca " + this.getNombre() + " por " + Valor.formatear(cantidad) + "€.");
     }
 
-    public String deshipotecar(Jugador jugador) throws FondosInsuficientesException, PropiedadNoPerteneceException, PropiedadNoHipotecadaException {
+    public void deshipotecar(Jugador jugador) throws FondosInsuficientesException, PropiedadNoPerteneceException, PropiedadNoHipotecadaException {
         // El propietario (jugador) se infiere de this.getDuenho()
         if (!this.getDuenho().equals(jugador)) {
             throw new PropiedadNoPerteneceException(this.getNombre());
         }
 
-        if (!this.isHipotecada()) {
+        if (!this.estaHipotecada()) {
             throw new PropiedadNoHipotecadaException();
         }
 
@@ -241,8 +250,7 @@ public final class Solar extends Propiedad {
 
         jugador.sumarGastos(cantidad);
         this.setHipotecada(false);
-
-        return "Se deshipoteca " + this.getNombre() + " pagando " + Valor.formatear(cantidad) + "€.";
+        consola.imprimir("Se deshipoteca " + this.getNombre() + " pagando " + Valor.formatear(cantidad) + "€.");
     }
 
     public String venderEdificios(Jugador jugador, String tipo, int cantidad) throws PropiedadNoPerteneceException, AccionInvalidaException {
