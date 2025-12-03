@@ -26,12 +26,5 @@ public class Impuesto extends Casilla {
         return solv;
     }
 
-    @Override
     public String infoCasilla() {return "{ \n tipo: " + getTipo() + ", \n apagar: " + Valor.formatear(getImpuesto()) + "\n}";}
-
-    @Override
-    public String casEnVenta() {
-        return "";
-    }
-
 }

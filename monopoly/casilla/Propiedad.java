@@ -51,6 +51,8 @@ public abstract class Propiedad extends Casilla {
         return this.getDuenho().getNombre().equals(jugador.getNombre());
     }
 
+    public abstract String casEnVenta();
+
     public abstract boolean alquiler();
 
     public abstract float valor();

@@ -10,7 +10,6 @@ public class IrCarcel extends Casilla {
         super("IrCarcel", "Especial", posicion, duenho);
     }
 
-    @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
         Casilla carcel = getTablero().encontrar_casilla("Carcel");
         Casilla lugarAnterior = actual.getAvatar().getLugar();
@@ -25,12 +24,5 @@ public class IrCarcel extends Casilla {
         return true;
     }
 
-    @Override
     public String infoCasilla() {return "{ \n tipo: " + getTipo() + "\n}";}
-
-    @Override
-    public String casEnVenta() {
-        return "";
-    }
-
 }

@@ -197,7 +197,6 @@ public class Juego implements Comando {
             listarVenta();
         } else if (cmdLower.startsWith("listar enventa") && partes.length == 3) {
             listarVenta(partes[2]);
-            verTablero();
         } else if (comando.equalsIgnoreCase("acabar turno")) {
             if (partidaIniciada) acabarTurno();
             else consola.imprimir("No se ha iniciado la partida.");
@@ -504,8 +503,8 @@ public class Juego implements Comando {
         StringBuilder s = new StringBuilder();
         for (ArrayList<Casilla> lado : tablero.getPosiciones()) {
             for (Casilla c : lado) {
-                if ((c.getTipo().equals("Solar") || c.getTipo().equals("Transporte") || c.getTipo().equals("Servicios")) && c.getDuenho().equals(banca)) {
-                    s.append(c.casEnVenta()).append(",\n");
+                if ((c instanceof Propiedad) && c.getDuenho().equals(banca)) {
+                    s.append(((Propiedad) c).casEnVenta()).append(",\n");
                 }
             }
         }
@@ -517,8 +516,8 @@ public class Juego implements Comando {
         StringBuilder s = new StringBuilder();
         for (ArrayList<Casilla> lado : tablero.getPosiciones()) {
             for (Casilla c : lado) {
-                if ((c.getTipo().equals("Solar") || c.getTipo().equals("Transporte") || c.getTipo().equals("Servicios")) && c.getDuenho().equals(banca)) {
-                    String dato = c.casEnVenta(grupoBuscado);
+                if ((c instanceof Solar) && c.getDuenho().equals(banca)) {
+                    String dato = ((Solar) c).casEnVenta(grupoBuscado);
                     if (!dato.isEmpty()) {
                         consola.imprimir(dato);
                         s.append(dato).append(",\n");

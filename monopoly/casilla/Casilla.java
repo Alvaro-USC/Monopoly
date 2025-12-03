@@ -118,60 +118,7 @@ public abstract class Casilla {
 
     /*Método para mostrar información sobre una casilla.
      * Devuelve una cadena con información específica de cada tipo de casilla.*/
-    public String infoCasilla() {
-        String info = "{ \n tipo: " + tipo;
-        switch (tipo) {
-            case "Solar" ->
-                    info += ", \n grupo: " + (grupo != null ? grupo.getColorGrupo() : "") + ", \n propietario: " + duenho.getNombre() + ", \n valor: " + Valor.formatear(valor) + ", \n alquiler: " + Valor.formatear(impuesto);
-
-            // Añadir valores de edificios en futuras partes
-            case "Impuesto" -> info += ", \n apagar: " + Valor.formatear(impuesto);
-            case "Especial" -> {
-                if (nombre.equals("Parking")) {
-                    info += ", \n bote: " + Valor.formatear(valor);
-                    StringBuilder jugs = new StringBuilder();
-                    for (Avatar a : avatares) {
-                        jugs.append(a.getJugador().getNombre()).append(", ");
-                    }
-                    if (jugs.toString().endsWith(", ")) jugs = new StringBuilder(jugs.substring(0, jugs.length() - 2));
-                    info += ", \n jugadores: [" + jugs + "]";
-                } else if (nombre.equals("Carcel")) {
-                    info += ", \n salir: 500.000";
-                    StringBuilder jugs = new StringBuilder();
-                    for (Avatar a : avatares) {
-                        jugs.append("[").append(a.getJugador().getNombre()).append(",").append(a.getJugador().getTiradasCarcel()).append("] ");
-                    }
-                    info += ", \n jugadores: " + jugs;
-                }
-            }
-        }
-        info += "\n}";
-        return info;
-    }
-
-    /* Método para mostrar información de una casilla en venta.
-     * Valor devuelto: texto con esa información.
-     */
-    public String casEnVenta() {
-        if (tipo.equals("Solar") || tipo.equals("Transporte") || tipo.equals("Servicios")) {
-            String g = (grupo != null ? " \ngrupo: " + grupo.getColorGrupo() + "," : "");
-            return "{ \n nombre: " + this.getNombre() + "\ntipo: " + tipo + "," + g + " \n valor: " + valor + "\n}";
-        }
-        return "";
-    }
-
-    public String casEnVenta(String grupoBuscado) {
-        if (tipo.equals("Solar") || tipo.equals("Transporte") || tipo.equals("Servicios")) {
-            String g = "";
-            String colorGr = (grupo != null ? grupo.getColorGrupo() : "");
-
-            if (colorGr.equals(grupoBuscado)) {
-                g += (grupo != null ? " \ngrupo: " + colorGr : "");
-                return "{ \n nombre: " + this.getNombre() + "\n tipo: " + tipo + "," + g + " \n valor: " + Valor.formatear(valor) + "\n}";
-            }
-        }
-        return "";
-    }
+    public abstract String infoCasilla();
 
     public String representacionColoreada() {
         String rep = nombre;

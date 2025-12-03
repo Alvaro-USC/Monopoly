@@ -53,7 +53,6 @@ public final class Solar extends Propiedad {
         }
     }
 
-    @Override
     public String infoCasilla() {
         StringBuilder info = new StringBuilder("{ \n tipo: " + getTipo());
         info.append(", \n grupo: ").append(getGrupo() != null ? getGrupo().getColorGrupo() : "").append(", \n propietario: ").append(getDuenho().getNombre()).append(", \n valor: ").append(Valor.formatear(getValor())).append(", \n alquiler: ").append(Valor.formatear(getImpuesto()));
@@ -103,10 +102,22 @@ public final class Solar extends Propiedad {
         return info.toString();
     }
 
-    @Override
     public String casEnVenta() {
         String g = (getGrupo() != null ? " grupo: " + getGrupo().getColorGrupo() + "," : "");
         return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + "," + g + " \n valor: " + getValor() + "\n}";
+    }
+
+    public String casEnVenta(String grupoBuscado) {
+        String g = "";
+        String colorGr = (this.getGrupo() != null ? this.getGrupo().getColorGrupo() : "");
+
+        if (colorGr.equals(grupoBuscado)) {
+            g += (this.getGrupo() != null ? " \nthis.getGrupo(): " + colorGr : "");
+            return "{ \n nombre: " + this.getNombre() + "\n this.getTipo(): " + this.getTipo() + "," + g + " \n valor: " + Valor.formatear(this.getValor()) + "\n}";
+        }
+        else {
+            return "";
+        }
     }
 
     public void edificar(String tipo) throws PropiedadNoPerteneceException, PropiedadYaHipotecadaException, EdificacionIlegalException, AccionInvalidaException {

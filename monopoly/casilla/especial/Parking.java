@@ -13,7 +13,6 @@ public class Parking extends Especial {
         setValor(0f);
     }
 
-    @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
         float bote = getValor();
         actual.sumarFortuna(bote);
@@ -23,7 +22,6 @@ public class Parking extends Especial {
         return true;
     }
 
-    @Override
     public String infoCasilla() {
         String info = "{ \n tipo: " + getTipo();
         info += ", \n bote: " + getValor();
@@ -36,10 +34,4 @@ public class Parking extends Especial {
         info += "\n}";
         return info;
     }
-
-    @Override
-    public String casEnVenta() {
-        return "";
-    }
-
 }
