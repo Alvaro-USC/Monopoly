@@ -8,7 +8,7 @@ import partida.Jugador;
 
 import java.util.ArrayList;
 
-public class Grupo extends Casilla {
+public class Grupo {
 
     //Atributos
     private final ArrayList<Propiedad> miembros; //Casillas miembros del grupo.
@@ -49,7 +49,6 @@ public class Grupo extends Casilla {
     }
 
     // Grupo no es una casilla evaluable, es un agrupador de casillas
-    @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
         return false;
     }
