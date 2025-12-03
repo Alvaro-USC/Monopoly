@@ -57,54 +57,54 @@ public class Tablero {
         // Poblar LADO SUR (Pos 11 a 1, Solares 0-4)
         // Se añaden en orden inverso para que 'Salida' sea la última (índice 10)
         ladoSur.add(carcel); // 11
-        ladoSur.add(new Solar("Solar5", 10, Valor.PRECIO_SOLAR[4], this.banca, Valor.HIPOTECA_SOLAR[4], Valor.ALQUILER_BASE[4]));
-        ladoSur.add(new Solar("Solar4", 9, Valor.PRECIO_SOLAR[3], this.banca, Valor.HIPOTECA_SOLAR[3], Valor.ALQUILER_BASE[3]));
+        ladoSur.add(new Solar("Solar5", 10, Valor.PRECIO_SOLAR[4], this.banca, Valor.ALQUILER_BASE[4]));
+        ladoSur.add(new Solar("Solar4", 9, Valor.PRECIO_SOLAR[3], this.banca, Valor.ALQUILER_BASE[3]));
         ladoSur.add(new Suerte(8, this.banca));
-        ladoSur.add(new Solar("Solar3", 7, Valor.PRECIO_SOLAR[2], this.banca, Valor.HIPOTECA_SOLAR[2], Valor.ALQUILER_BASE[2]));
+        ladoSur.add(new Solar("Solar3", 7, Valor.PRECIO_SOLAR[2], this.banca, Valor.ALQUILER_BASE[2]));
         ladoSur.add(new Transporte("Trans1", 6, Valor.VALOR_TRANSP_SERV, this.banca));
         ladoSur.add(new Impuesto("Imp1", 5, Valor.IMPUESTO, this.banca));
-        ladoSur.add(new Solar("Solar2", 4, Valor.PRECIO_SOLAR[1], this.banca, Valor.HIPOTECA_SOLAR[1], Valor.ALQUILER_BASE[1]));
+        ladoSur.add(new Solar("Solar2", 4, Valor.PRECIO_SOLAR[1], this.banca, Valor.ALQUILER_BASE[1]));
         ladoSur.add(new CajaComunidad(3, this.banca));
-        ladoSur.add(new Solar("Solar1", 2, Valor.PRECIO_SOLAR[0], this.banca, Valor.HIPOTECA_SOLAR[0], Valor.ALQUILER_BASE[0]));
+        ladoSur.add(new Solar("Solar1", 2, Valor.PRECIO_SOLAR[0], this.banca, Valor.ALQUILER_BASE[0]));
         ladoSur.add(salida); // 1
 
         // Poblar LADO OESTE (Pos 11 a 21, Solares 5-10)
         ladoOeste.add(carcel); // 11 (compartida)
-        ladoOeste.add(new Solar("Solar6", 12, Valor.PRECIO_SOLAR[5], this.banca, Valor.HIPOTECA_SOLAR[5], Valor.ALQUILER_BASE[5]));
+        ladoOeste.add(new Solar("Solar6", 12, Valor.PRECIO_SOLAR[5], this.banca, Valor.ALQUILER_BASE[5]));
         ladoOeste.add(new Servicio("Serv1", 13, Valor.VALOR_TRANSP_SERV, this.banca));
-        ladoOeste.add(new Solar("Solar7", 14, Valor.PRECIO_SOLAR[6], this.banca, Valor.HIPOTECA_SOLAR[6], Valor.ALQUILER_BASE[6]));
-        ladoOeste.add(new Solar("Solar8", 15, Valor.PRECIO_SOLAR[7], this.banca, Valor.HIPOTECA_SOLAR[7], Valor.ALQUILER_BASE[7]));
+        ladoOeste.add(new Solar("Solar7", 14, Valor.PRECIO_SOLAR[6], this.banca, Valor.ALQUILER_BASE[6]));
+        ladoOeste.add(new Solar("Solar8", 15, Valor.PRECIO_SOLAR[7], this.banca, Valor.ALQUILER_BASE[7]));
         ladoOeste.add(new Transporte("Trans2", 16, Valor.VALOR_TRANSP_SERV, this.banca));
-        ladoOeste.add(new Solar("Solar9", 17, Valor.PRECIO_SOLAR[8], this.banca, Valor.HIPOTECA_SOLAR[8], Valor.ALQUILER_BASE[8]));
+        ladoOeste.add(new Solar("Solar9", 17, Valor.PRECIO_SOLAR[8], this.banca, Valor.ALQUILER_BASE[8]));
         ladoOeste.add(new CajaComunidad(18, this.banca));
-        ladoOeste.add(new Solar("Solar10", 19, Valor.PRECIO_SOLAR[9], this.banca, Valor.HIPOTECA_SOLAR[9], Valor.ALQUILER_BASE[9]));
-        ladoOeste.add(new Solar("Solar11", 20, Valor.PRECIO_SOLAR[10], this.banca, Valor.HIPOTECA_SOLAR[10], Valor.ALQUILER_BASE[10]));
+        ladoOeste.add(new Solar("Solar10", 19, Valor.PRECIO_SOLAR[9], this.banca, Valor.ALQUILER_BASE[9]));
+        ladoOeste.add(new Solar("Solar11", 20, Valor.PRECIO_SOLAR[10], this.banca, Valor.ALQUILER_BASE[10]));
         ladoOeste.add(parking); // 21
 
         // Poblar LADO NORTE (Pos 21 a 31, Solares 11-16)
         ladoNorte.add(parking); // 21 (compartida)
-        ladoNorte.add(new Solar("Solar12", 22, Valor.PRECIO_SOLAR[11], this.banca, Valor.HIPOTECA_SOLAR[11], Valor.ALQUILER_BASE[11]));
+        ladoNorte.add(new Solar("Solar12", 22, Valor.PRECIO_SOLAR[11], this.banca, Valor.ALQUILER_BASE[11]));
         ladoNorte.add(new Suerte(23, this.banca));
-        ladoNorte.add(new Solar("Solar13", 24, Valor.PRECIO_SOLAR[12], this.banca, Valor.HIPOTECA_SOLAR[12], Valor.ALQUILER_BASE[12]));
-        ladoNorte.add(new Solar("Solar14", 25, Valor.PRECIO_SOLAR[13], this.banca, Valor.HIPOTECA_SOLAR[13], Valor.ALQUILER_BASE[13]));
+        ladoNorte.add(new Solar("Solar13", 24, Valor.PRECIO_SOLAR[12], this.banca, Valor.ALQUILER_BASE[12]));
+        ladoNorte.add(new Solar("Solar14", 25, Valor.PRECIO_SOLAR[13], this.banca, Valor.ALQUILER_BASE[13]));
         ladoNorte.add(new Transporte("Trans3", 26, Valor.VALOR_TRANSP_SERV, this.banca));
-        ladoNorte.add(new Solar("Solar15", 27, Valor.PRECIO_SOLAR[14], this.banca, Valor.HIPOTECA_SOLAR[14], Valor.ALQUILER_BASE[14]));
-        ladoNorte.add(new Solar("Solar16", 28, Valor.PRECIO_SOLAR[15], this.banca, Valor.HIPOTECA_SOLAR[15], Valor.ALQUILER_BASE[15]));
+        ladoNorte.add(new Solar("Solar15", 27, Valor.PRECIO_SOLAR[14], this.banca, Valor.ALQUILER_BASE[14]));
+        ladoNorte.add(new Solar("Solar16", 28, Valor.PRECIO_SOLAR[15], this.banca, Valor.ALQUILER_BASE[15]));
         ladoNorte.add(new Servicio("Serv2", 29, Valor.VALOR_TRANSP_SERV, this.banca));
-        ladoNorte.add(new Solar("Solar17", 30, Valor.PRECIO_SOLAR[16], this.banca, Valor.HIPOTECA_SOLAR[16], Valor.ALQUILER_BASE[16]));
+        ladoNorte.add(new Solar("Solar17", 30, Valor.PRECIO_SOLAR[16], this.banca, Valor.ALQUILER_BASE[16]));
         ladoNorte.add(irCarcel); // 31
 
         // Poblar LADO ESTE (Pos 31 a 1, Solares 17-21)
         ladoEste.add(irCarcel); // 31 (compartida)
-        ladoEste.add(new Solar("Solar18", 32, Valor.PRECIO_SOLAR[17], this.banca, Valor.HIPOTECA_SOLAR[17], Valor.ALQUILER_BASE[17]));
-        ladoEste.add(new Solar("Solar19", 33, Valor.PRECIO_SOLAR[18], this.banca, Valor.HIPOTECA_SOLAR[18], Valor.ALQUILER_BASE[18]));
+        ladoEste.add(new Solar("Solar18", 32, Valor.PRECIO_SOLAR[17], this.banca, Valor.ALQUILER_BASE[17]));
+        ladoEste.add(new Solar("Solar19", 33, Valor.PRECIO_SOLAR[18], this.banca, Valor.ALQUILER_BASE[18]));
         ladoEste.add(new CajaComunidad(34, this.banca));
-        ladoEste.add(new Solar("Solar20", 35, Valor.PRECIO_SOLAR[19], this.banca, Valor.HIPOTECA_SOLAR[19], Valor.ALQUILER_BASE[19]));
+        ladoEste.add(new Solar("Solar20", 35, Valor.PRECIO_SOLAR[19], this.banca, Valor.ALQUILER_BASE[19]));
         ladoEste.add(new Transporte("Trans4", 36, Valor.VALOR_TRANSP_SERV, this.banca));
         ladoEste.add(new Suerte(37, this.banca));
-        ladoEste.add(new Solar("Solar21", 38, Valor.PRECIO_SOLAR[20], this.banca, Valor.HIPOTECA_SOLAR[20], Valor.ALQUILER_BASE[20]));
+        ladoEste.add(new Solar("Solar21", 38, Valor.PRECIO_SOLAR[20], this.banca, Valor.ALQUILER_BASE[20]));
         ladoEste.add(new Impuesto("Imp2", 39, Valor.IMPUESTO, this.banca));
-        ladoEste.add(new Solar("Solar22", 40, Valor.PRECIO_SOLAR[21], this.banca, Valor.HIPOTECA_SOLAR[21], Valor.ALQUILER_BASE[21]));
+        ladoEste.add(new Solar("Solar22", 40, Valor.PRECIO_SOLAR[21], this.banca, Valor.ALQUILER_BASE[21]));
         ladoEste.add(salida); // 1 (compartida)
 
         // Asignar tableros a casillas y configurar Transportes/Servicios

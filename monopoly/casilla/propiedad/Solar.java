@@ -17,14 +17,13 @@ import static monopoly.Juego.consola;
 public final class Solar extends Propiedad {
 
     private final ArrayList<Edificio> edificios = new ArrayList<>();
-    private boolean hipotecada = false;
-    private float hipoteca;
+    private boolean hipotecada;
+    private final float hipoteca = getValor() / 2;
     int idSolar;
 
-    public Solar(String nombre, int posicion, float valor, Jugador duenho, float hipoteca, float impuesto) {
+    public Solar(String nombre, int posicion, float valor, Jugador duenho, float impuesto) {
         super(nombre, "Solar", posicion, valor, duenho);
         String numStr = nombre.replaceAll("\\D+", "");
-        this.hipoteca = hipoteca;
         this.hipotecada = false;
         setImpuesto(impuesto);
         this.idSolar = Integer.parseInt(numStr) - 1;
@@ -233,7 +232,7 @@ public final class Solar extends Propiedad {
             throw new PropiedadYaHipotecadaException();
         }
 
-        float cantidad = this.calcularValorHipoteca(); // Ya tienes este método
+        float cantidad = this.hipoteca; // Ya tienes este método
         this.setHipotecada(true);
         jugador.sumarFortuna(cantidad);
 
@@ -251,7 +250,7 @@ public final class Solar extends Propiedad {
         }
 
         // El coste de deshipotecar es el valor de la hipoteca
-        float cantidad = this.calcularValorHipoteca();
+        float cantidad = this.hipoteca;
 
         if (jugador.getFortuna() < cantidad) {
             throw new FondosInsuficientesException(cantidad);
@@ -414,8 +413,6 @@ public final class Solar extends Propiedad {
             }
         }
     }
-
-    public float calcularValorHipoteca() {return getValor() / 2;}
 
     public int contarEdificiosTipo(String tipo) {
         int c = 0;

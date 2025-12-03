@@ -47,7 +47,6 @@ public final class Valor {
     // El índice 0 corresponde a Solar1, el índice 21 a Solar22.
     // --- Precios de compra e Hipoteca de Solares (Apéndice I) ---
     public static final float[] PRECIO_SOLAR = {600_000f, 600_000f, 1_000_000f, 1_000_000f, 1_200_000f, 1_400_000f, 1_400_000f, 1_600_000f, 1_800_000f, 1_800_000f, 2_200_000f, 2_200_000f, 2_200_000f, 2_400_000f, 2_600_000f, 2_600_000f, 2_800_000f, 3_000_000f, 3_000_000f, 3_200_000f, 3_500_000f, 4_000_000f};
-    public static final float[] HIPOTECA_SOLAR = {300_000f, 300_000f, 500_000f, 500_000f, 600_000f, 700_000f, 700_000f, 800_000f, 900_000f, 900_000f, 1_000_000f, 1_100_000f, 1_100_000f, 1_200_000f, 1_300_000f, 1_300_000f, 1_400_000f, 1_500_000f, 1_500_000f, 1_600_000f, 1_750_000f, 2_000_000f};
     // --- Precios de Construcción de Edificios (Apéndice I) ---
     // Columna: [0=casa, 1=hotel, 2=piscina, 3=pistaDeporte]
     public static final float[][] PRECIO_EDIFICIOS = {{500_000f, 500_000f, 100_000f, 200_000f}, // Solar1 a Solar5 (Grupos Marrón, Celeste)
