@@ -9,12 +9,10 @@ public class Carcel extends Casilla {
         super("Carcel", "Especial", posicion, duenho);
     }
 
-    @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
         return true;
     }
 
-    @Override
     public String infoCasilla() {
         String info = "{ \n tipo: " + getTipo();
         info += ", \n salir: 500.000"; // Cantidad a pagar para salir de cárcel
@@ -26,10 +24,4 @@ public class Carcel extends Casilla {
         info += "\n}";
         return info;
     }
-
-    @Override
-    public String casEnVenta() {
-        return "";
-    }
-
 }

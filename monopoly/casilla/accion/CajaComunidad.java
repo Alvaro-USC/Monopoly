@@ -8,16 +8,9 @@ public class CajaComunidad extends Accion {
         super("Caja", posicion, duenho);
     }
 
-    @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
         return true;
     }
 
-    @Override
     public String infoCasilla() {return "{ \n tipo: " + getTipo() + "\n}";}
-
-    @Override
-    public String casEnVenta() {
-        return "";
-    }
 }

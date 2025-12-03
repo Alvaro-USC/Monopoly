@@ -34,10 +34,8 @@ public final class Transporte extends Propiedad {
         }
     }
 
-    @Override
     public String infoCasilla() {return "{ \n tipo: " + getTipo() + ", \n propietario: " + getDuenho().getNombre() + ", \n valor: " + Valor.formatear(getValor()) + ", \n alquiler: " + getImpuesto() + "\n}";}
 
-    @Override
     public String casEnVenta() {return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + ", \n valor: " + Valor.formatear(getValor()) + "\n}";}
 
     @Override
