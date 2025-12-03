@@ -140,7 +140,7 @@ public class CartaSuerte extends Carta {
                     if (otro.equals(actual)) continue;
                     if (otro.getFortuna() < porCadaCobrar) {
                         consola.imprimir(otro.getNombre() + " no tiene suficiente para pagar " + Valor.formatear(porCadaCobrar) + "€ a " + actual.getNombre() + ". Debe hipotecar.");
-                        // no forzamos; dejamos que los jugadores gestionen su liquidez
+                        // no forzamos, dejamos que los jugadores gestionen su liquidez
                         continue;
                     }
                     otro.sumarGastos(porCadaCobrar);

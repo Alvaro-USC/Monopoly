@@ -54,7 +54,9 @@ public final class Solar extends Propiedad {
 
     public String infoCasilla() {
         StringBuilder info = new StringBuilder("{ \n tipo: " + getTipo());
-        info.append(", \n grupo: ").append(getGrupo() != null ? getGrupo().getColorGrupo() : "").append(", \n propietario: ").append(getDuenho().getNombre()).append(", \n valor: ").append(Valor.formatear(getValor())).append(", \n alquiler: ").append(Valor.formatear(getImpuesto()));
+        info.append(", \n grupo: ").append(getGrupo() != null ? getGrupo().getColorGrupo() : "")
+                .append(", \n propietario: ").append(getDuenho().getNombre()).append(", \n valor: ")
+                .append(Valor.formatear(getValor())).append(", \n alquiler: ").append(Valor.formatear(getImpuesto()));
 
         if (hipotecada) {
             info.append(", \n hipotecada: sí");
@@ -94,7 +96,12 @@ public final class Solar extends Propiedad {
                         break;
                 }
             }
-            info.append(", \n valor casa: ").append(Valor.formatear(valorCasa)).append(", \n valor hotel: ").append(Valor.formatear(valorHotel)).append(", \n valor piscina: ").append(Valor.formatear(valorPiscina)).append(", \n valor pista de deporte: ").append(Valor.formatear(valorPista)).append(", \n alquiler casa: ").append(Valor.formatear(alquilerCasa)).append(", \n alquiler hotel: ").append(Valor.formatear(alquilerHotel)).append(", \n alquiler piscina: ").append(Valor.formatear(alquilerPiscina)).append(", \n alquiler pista de deporte: ").append(Valor.formatear(alquilerPista));
+            info.append(", \n valor casa: ").append(Valor.formatear(valorCasa)).append(", \n valor hotel: ")
+                    .append(Valor.formatear(valorHotel)).append(", \n valor piscina: ").append(Valor.formatear(valorPiscina))
+                    .append(", \n valor pista de deporte: ").append(Valor.formatear(valorPista)).append(", \n alquiler casa: ")
+                    .append(Valor.formatear(alquilerCasa)).append(", \n alquiler hotel: ").append(Valor.formatear(alquilerHotel))
+                    .append(", \n alquiler piscina: ").append(Valor.formatear(alquilerPiscina))
+                    .append(", \n alquiler pista de deporte: ").append(Valor.formatear(alquilerPista));
         }
 
         info.append("\n}");
@@ -232,7 +239,7 @@ public final class Solar extends Propiedad {
             throw new PropiedadYaHipotecadaException();
         }
 
-        float cantidad = this.hipoteca; // Ya tienes este método
+        float cantidad = this.hipoteca;
         this.setHipotecada(true);
         jugador.sumarFortuna(cantidad);
 
@@ -349,7 +356,7 @@ public final class Solar extends Propiedad {
         return (int) (alquileresPorTipo.values().stream().mapToInt(Integer::intValue).sum() + this.getImpuesto());
     }
 
-    public String getResumenEdificios() { // Renombramos el método para reflejar que devuelve un String
+    public String getResumenEdificios() {
         StringBuilder descripcion = new StringBuilder();
         for (Edificio e : edificios) {
             descripcion.append(e.describirEdificio()).append(",\n");
@@ -370,7 +377,7 @@ public final class Solar extends Propiedad {
 
     public String getEdificiosFaltantesDescripcion() {
 
-        // Contar edificios construidos (Lógica de conteo copiada del método original)
+        // Contar edificios construidos
         Map<String, Integer> contadorEdificios = new HashMap<>();
         contadorEdificios.put("casa", this.getCantidadEdificioTipo("casa"));
         contadorEdificios.put("hotel", this.getCantidadEdificioTipo("hotel"));
@@ -391,7 +398,7 @@ public final class Solar extends Propiedad {
         if (pistasFaltan > 0) faltan.append(pistasFaltan).append(" pista(s) de deporte, ");
 
         if (!faltan.isEmpty()) {
-            faltan.setLength(faltan.length() - 2); // Eliminar el ", " final
+            faltan.setLength(faltan.length() - 2);
             return "Aún se pueden construir " + faltan;
         } else {
             return "";
