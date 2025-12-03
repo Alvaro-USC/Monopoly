@@ -7,10 +7,10 @@ import partida.Jugador;
 public abstract class Edificio {
     private final String id;
     private final String tipo; // casa, hotel, piscina, pistaDeDeporte
-    private Jugador propietario;
     private final Solar solar;
     private final String grupo;
     private final float coste;
+    private Jugador propietario;
 
     public Edificio(String tipo, Solar solar, String grupo, float coste) {
         this.tipo = tipo.toLowerCase();

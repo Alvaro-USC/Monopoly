@@ -17,9 +17,9 @@ import static monopoly.Juego.consola;
 public final class Solar extends Propiedad {
 
     private final ArrayList<Edificio> edificios = new ArrayList<>();
-    private boolean hipotecada;
     private final float hipoteca = getValor() / 2;
     int idSolar;
+    private boolean hipotecada;
 
     public Solar(String nombre, int posicion, float valor, Jugador duenho, float impuesto) {
         super(nombre, "Solar", posicion, valor, duenho);
@@ -54,9 +54,7 @@ public final class Solar extends Propiedad {
 
     public String infoCasilla() {
         StringBuilder info = new StringBuilder("{ \n tipo: " + getTipo());
-        info.append(", \n grupo: ").append(getGrupo() != null ? getGrupo().getColorGrupo() : "")
-                .append(", \n propietario: ").append(getDuenho().getNombre()).append(", \n valor: ")
-                .append(Valor.formatear(getValor())).append(", \n alquiler: ").append(Valor.formatear(getImpuesto()));
+        info.append(", \n grupo: ").append(getGrupo() != null ? getGrupo().getColorGrupo() : "").append(", \n propietario: ").append(getDuenho().getNombre()).append(", \n valor: ").append(Valor.formatear(getValor())).append(", \n alquiler: ").append(Valor.formatear(getImpuesto()));
 
         if (hipotecada) {
             info.append(", \n hipotecada: sí");
@@ -96,21 +94,33 @@ public final class Solar extends Propiedad {
                         break;
                 }
             }
-            info.append(", \n valor casa: ").append(Valor.formatear(valorCasa)).append(", \n valor hotel: ")
-                    .append(Valor.formatear(valorHotel)).append(", \n valor piscina: ").append(Valor.formatear(valorPiscina))
-                    .append(", \n valor pista de deporte: ").append(Valor.formatear(valorPista)).append(", \n alquiler casa: ")
-                    .append(Valor.formatear(alquilerCasa)).append(", \n alquiler hotel: ").append(Valor.formatear(alquilerHotel))
-                    .append(", \n alquiler piscina: ").append(Valor.formatear(alquilerPiscina))
-                    .append(", \n alquiler pista de deporte: ").append(Valor.formatear(alquilerPista));
+            info.append(", \n valor casa: ").append(Valor.formatear(valorCasa)).append(", \n valor hotel: ").append(Valor.formatear(valorHotel)).append(", \n valor piscina: ").append(Valor.formatear(valorPiscina)).append(", \n valor pista de deporte: ").append(Valor.formatear(valorPista)).append(", \n alquiler casa: ").append(Valor.formatear(alquilerCasa)).append(", \n alquiler hotel: ").append(Valor.formatear(alquilerHotel)).append(", \n alquiler piscina: ").append(Valor.formatear(alquilerPiscina)).append(", \n alquiler pista de deporte: ").append(Valor.formatear(alquilerPista));
         }
 
         info.append("\n}");
         return info.toString();
     }
 
+    public void setDuenho(Jugador duenho) {
+        this.duenho = duenho;
+        for (Edificio e : edificios) {
+            e.setPropietario(duenho);
+        }
+    }
+
     public String casEnVenta() {
         String g = (getGrupo() != null ? " grupo: " + getGrupo().getColorGrupo() + "," : "");
         return "{\n nombre: " + this.getNombre() + "\n tipo: " + getTipo() + "," + g + " \n valor: " + getValor() + "\n}";
+    }
+
+    @Override
+    public boolean alquiler() {
+        return getImpuesto() > 0;
+    }
+
+    @Override
+    public float valor() {
+        return getValor();
     }
 
     public String casEnVenta(String grupoBuscado) {
@@ -120,8 +130,7 @@ public final class Solar extends Propiedad {
         if (colorGr.equals(grupoBuscado)) {
             g += (this.getGrupo() != null ? " \nthis.getGrupo(): " + colorGr : "");
             return "{ \n nombre: " + this.getNombre() + "\n this.getTipo(): " + this.getTipo() + "," + g + " \n valor: " + Valor.formatear(this.getValor()) + "\n}";
-        }
-        else {
+        } else {
             return "";
         }
     }
@@ -429,23 +438,6 @@ public final class Solar extends Propiedad {
     }
 
     public int getIdSolar() {return idSolar;}
-
-    @Override
-    public boolean alquiler() {
-        return getImpuesto() > 0;
-    }
-
-    @Override
-    public float valor() {
-        return getValor();
-    }
-
-    public void setDuenho(Jugador duenho) {
-        this.duenho = duenho;
-        for (Edificio e : edificios) {
-            e.setPropietario(duenho);
-        }
-    }
 
 
 }

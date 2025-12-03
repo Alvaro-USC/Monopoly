@@ -9,15 +9,6 @@ import java.util.ArrayList;
  * Representa una carta con ID, descripción y acción ejecutable.
  */
 public abstract class Carta {
-    public enum TipoAccion {
-        MOVER_A,        // mover a casilla (posible cobrar salida)
-        IR_A_CARCEL, COBRAR,         // cobrar cantidad
-        PAGAR,          // pagar cantidad
-        PAGAR_A_CADA,   // pagar a cada jugador
-        COBRAR_DE_CADA, // cobrar de cada jugador
-        NINGUNA
-    }
-
     protected final int id;
     protected final String descripcion;
     protected final TipoAccion accion;
@@ -41,4 +32,13 @@ public abstract class Carta {
      * y se deja que el jugador use los comandos disponibles (hipotecar, vender, etc.).
      */
     public abstract void accion(Jugador actual, Tablero tablero, ArrayList<Jugador> todosJugadores);
+
+    public enum TipoAccion {
+        MOVER_A,        // mover a casilla (posible cobrar salida)
+        IR_A_CARCEL, COBRAR,         // cobrar cantidad
+        PAGAR,          // pagar cantidad
+        PAGAR_A_CADA,   // pagar a cada jugador
+        COBRAR_DE_CADA, // cobrar de cada jugador
+        NINGUNA
+    }
 }
