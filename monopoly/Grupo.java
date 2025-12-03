@@ -12,7 +12,7 @@ public class Grupo {
 
     //Atributos
     private final ArrayList<Propiedad> miembros; //Casillas miembros del grupo.
-    private String colorGrupo; //Nombre del color del grupo (e.g., "rosa")
+    private String colorGrupo; //Nombre del color del grupo
     private int numCasillas; //Número de casillas del grupo.
 
     //Constructor vacío.

@@ -178,7 +178,7 @@ public final class Solar extends Propiedad {
         }
 
         // Ejecutar Construcción
-        Edificio nuevo = getEdificio(jugador, tipo, coste);
+        Edificio nuevo = crearEdificio(tipo, coste);
         this.addEdificio(nuevo);
         jugador.sumarGastos(coste);
 
@@ -206,7 +206,7 @@ public final class Solar extends Propiedad {
         return coste;
     }
 
-    private Edificio getEdificio(Jugador jugador, String tipo, float coste) {
+    private Edificio crearEdificio(String tipo, float coste) {
         return switch (tipo) {
             case "casa" -> new Casa(this, this.getGrupo().getColorGrupo(), coste);
             case "hotel" -> new Hotel(this, this.getGrupo().getColorGrupo(), coste);
