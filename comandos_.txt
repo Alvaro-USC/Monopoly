@@ -34,7 +34,6 @@ trato Pedro:  cambiar (Solar12, Solar3)
 eliminar trato2
 describir jugador Pedro
 describir jugador Maria
-jugador
 trato Pedro:  cambiar (Solar12, Solar3 y 100000)
 tratos
 acabar turno
