@@ -51,7 +51,7 @@ public class Trato {
         if (propiedadOferta != null) sb.append(propiedadOferta.getNombre());
         if (propiedadOferta != null && dineroOferta > 0) sb.append(" y ");
         if (dineroOferta > 0)
-            sb.append(Valor.formatear(dineroOferta)); // Asumiendo clase Valor auxiliar o poner número directo
+            sb.append(Valor.formatear(dineroOferta));
 
         sb.append(", ");
 
