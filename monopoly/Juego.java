@@ -875,7 +875,7 @@ public class Juego implements Comando {
                 break;
             }
         }
-        if (!encontrado) throw new AccionInvalidaException("No existe el trato " + idTrato + ".");
+        if (!encontrado) throw new TratoInvalidoException("No existe el trato " + idTrato + ".");
     }
 
     private void procesarCarta(Casilla destinoC, Jugador current, Tablero tablero, ArrayList<Jugador> jugadores) {
