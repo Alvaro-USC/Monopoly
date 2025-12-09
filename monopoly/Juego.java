@@ -759,7 +759,7 @@ public class Juego implements Comando {
             Trato nuevoTrato = new Trato(emisor, receptor, solarOferta, dineroOferta, solarDemanda, dineroDemanda);
             tratos.add(nuevoTrato);
 
-            consola.imprimir(emisor.getNombre() + ", ¿te doy " + ladoOfertaStr + " y tú me das " + ladoDemandaStr + "?");
+            consola.imprimir(receptor.getNombre() + ", ¿te doy " + ladoOfertaStr + " y tú me das " + ladoDemandaStr + "?");
             consola.imprimir("Trato registrado con ID: " + nuevoTrato.getId());
 
         } catch (Exception e) {
@@ -789,7 +789,6 @@ public class Juego implements Comando {
 
         Jugador proponente = trato.getProponente();
         Jugador receptor = trato.getReceptor();
-
         // Validar si el trato sigue siendo válido (propiedades no vendidas, dinero suficiente)
 
         // Validar Propiedades
@@ -839,7 +838,7 @@ public class Juego implements Comando {
             proponente.sumarFortuna(trato.getDineroDemanda());
         }
 
-        consola.imprimir("Se ha aceptado el siguiente trato con " + proponente.getNombre() + ": " + trato.getDescripcion());
+        consola.imprimir("Se ha aceptado el siguiente trato con " + receptor.getNombre() + ": " + trato.getDescripcion());
         tratos.remove(trato);
     }
 
