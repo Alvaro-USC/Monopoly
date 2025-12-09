@@ -724,12 +724,10 @@ public class Juego implements Comando {
             }
         }
         if (receptor == null) {
-            consola.imprimir("El jugador " + nombreReceptor + " no existe.");
-            return;
+            throw new TratoInvalidoException("El jugador " + nombreReceptor + " no existe.");
         }
         if (receptor.equals(emisor)) {
-            consola.imprimir("No puedes proponerte un trato a ti mismo.");
-            return;
+            throw new TratoInvalidoException("No puedes proponerte un trato a ti mismo.");
         }
 
         try {
@@ -746,18 +744,15 @@ public class Juego implements Comando {
             // Validaciones de PROPIEDAD (Solo se chequea pertenencia al proponer, dinero se chequea al aceptar según enunciado, aunque enunciado dice "el que propone no tiene dinero suficiente" lanza excepción)
 
             if (solarOferta != null && !solarOferta.getDuenho().equals(emisor)) {
-                consola.imprimir("No se puede proponer el trato: " + solarOferta.getNombre() + " no pertenece a " + emisor.getNombre() + ".");
-                return;
+                throw new TratoInvalidoException("No se puede proponer el trato: " + solarOferta.getNombre() + " no pertenece a " + emisor.getNombre() + ".");
             }
             if (solarDemanda != null && !solarDemanda.getDuenho().equals(receptor)) {
-                consola.imprimir("No se puede proponer el trato: " + solarDemanda.getNombre() + " no pertenece a " + receptor.getNombre() + ".");
-                return;
+                throw new TratoInvalidoException("No se puede proponer el trato: " + solarDemanda.getNombre() + " no pertenece a " + receptor.getNombre() + ".");
             }
 
             // Validación de dinero del proponente (si ofrece dinero)
             if (dineroOferta > 0 && emisor.getFortuna() < dineroOferta) {
-                consola.imprimir("No se puede proponer el trato: No tienes " + dineroOferta + "€.");
-                return;
+                throw new TratoInvalidoException("No se puede proponer el trato: No tienes " + dineroOferta + "€.");
             }
 
             // Crear y guardar el trato
