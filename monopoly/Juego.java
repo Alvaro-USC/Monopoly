@@ -538,11 +538,33 @@ public class Juego implements Comando {
             return;
         }
 
-
         try {
-            if (!solar.getDuenho().equals(current)) {
-                throw new PropiedadNoPerteneceException(current.getNombre());
+            ArrayList<Grupo> gruposCompletos = new ArrayList<>();
+            for (Casilla c : current.getPropiedades()) {
+                if (c instanceof Solar) {
+                    Solar solarActual = (Solar) c;
+                    Grupo grupo = solarActual.getGrupo();
+
+                    if (gruposCompletos.contains(grupo)) continue;
+                    int contador = 0;
+                    for (Casilla auxiliar : current.getPropiedades()) {
+                        if (auxiliar instanceof Solar) {
+                            Solar s = (Solar) auxiliar;
+                            // Si son del mismo grupo, sumamos 1
+                            if (s.getGrupo().equals(grupo)) {
+                                contador++;
+                            }
+                        }
+                    }
+
+                    if (contador == grupo.getNumCasillas()) { // Suponiendo que getNumCasillas devuelve el total del tablero (ej. 3)
+                        gruposCompletos.add(grupo);
+                    } else {
+                        throw new EdificacionIlegalException("No se puede edificar porque no tienes en propiedad todo el grupo.");
+                    }
+                }
             }
+
             solar.edificar(tipo);
         } catch (PropiedadYaHipotecadaException | PropiedadNoPerteneceException | EdificacionIlegalException |
                  AccionInvalidaException e) {

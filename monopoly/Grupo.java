@@ -48,6 +48,10 @@ public class Grupo {
         cas3.setGrupo(this);
     }
 
+    public int getNumCasillas() {
+        return numCasillas;
+    }
+
     // Grupo no es una casilla evaluable, es un agrupador de casillas
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
         return false;

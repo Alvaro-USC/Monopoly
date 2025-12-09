@@ -32,10 +32,8 @@ comprar Solar12
 aceptar trato1
 trato Pedro:  cambiar (Solar12, Solar3)
 eliminar trato2
-describir jugador Pedro
-describir jugador Maria
 trato Pedro:  cambiar (Solar12, Solar3 y 100000)
-tratos
+listar tratos
 acabar turno
 eliminar trato3
 aceptar trato1
