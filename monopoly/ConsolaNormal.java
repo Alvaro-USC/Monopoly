@@ -2,8 +2,6 @@ package monopoly;
 
 import java.util.Scanner;
 
-import static monopoly.Juego.consola;
-
 public class ConsolaNormal implements Consola {
     private final Scanner scanner;
 
@@ -19,7 +17,7 @@ public class ConsolaNormal implements Consola {
     @Override
     public String leer(String descripcion) {
         if (descripcion != null && !descripcion.isEmpty()) {
-            System.out.print(descripcion + " "); // Añadimos un espacio para estética
+            System.out.print(descripcion + " ");
         }
         return scanner.nextLine().trim();
     }
